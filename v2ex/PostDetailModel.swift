@@ -1,8 +1,8 @@
 //
-//  ArticleModel.swift
+//  PostDetailModel.swift
 //  v2ex
 //
-//  Created by zhenwen on 5/2/15.
+//  Created by zhenwen on 6/8/15.
 //  Copyright (c) 2015 zhenwen. All rights reserved.
 //
 
@@ -10,15 +10,10 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-enum TopicType: Int {
-    case Hot
-    case Latest
-}
+class PostDetailModel: JSONAble {
 
-class ArticleModel: JSONAble {
-    var aid: Int
-    var title: String
-    var url: String, content: String, created: Int
+    var aid: Int, replies: Int, created: Int, last_modified: Int, last_touched: Int
+    var title: String, url: String, content: String, content_rendered: String
     var member: MemberModel, node: NodeModel
     
     init(fromDictionary dictionary: NSDictionary) {
@@ -27,6 +22,10 @@ class ArticleModel: JSONAble {
         self.content = dictionary["content"] as! String //!.stringValue
         self.title = dictionary["title"] as! String //!.stringValue
         self.created = dictionary["created"] as! Int
+        self.last_modified = dictionary["last_modified"] as! Int
+        self.last_touched = dictionary["last_touched"] as! Int
+        self.replies = dictionary["replies"] as! Int
+        self.content_rendered = dictionary["content_rendered"] as! String
         
         self.member = MemberModel(fromDictionary: dictionary["member"] as! NSDictionary)
         self.node = NodeModel(fromDictionary: dictionary["node"] as! NSDictionary)
@@ -36,43 +35,24 @@ class ArticleModel: JSONAble {
         return String.smartDate(Double(self.created))
     }
     
-    
-    override class func fromJSON(json:[String: AnyObject]) -> JSONAble {
-//        let json = JSON(json)
-        return ArticleModel(fromDictionary: json)
-    }
-    
-    static func getArticleList(topicType:TopicType, completionHandler:(obj: NSArray, NSError?)->Void) {
+    static func getPostDetail(postId:Int, completionHandler:(detail: PostDetailModel?, NSError?)->Void) {
         
-        var url = "https://www.v2ex.com/api/topics/"
-        switch topicType {
-        case .Hot:
-            url += "hot.json"
-        case .Latest:
-            url += "latest.json"
-        }
-
-        var result = [ArticleModel]()
+        let url = APIManage.Router.ApiTopic + String(postId)
+        
         Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (_, _, jsonObject, error) -> Void in
             
             if error == nil {
                 let json = JSON(jsonObject!).arrayValue
+                let first = json.first?.dictionaryObject
+                let data = PostDetailModel(fromDictionary: first!)
                 
-                for item in json {
-                    var article = ArticleModel(fromDictionary: item.dictionaryObject!)
-                    result.append(article)
-                }
-                
-                completionHandler(obj: result, nil)
+                completionHandler(detail: data, nil)
             }else{
-                completionHandler(obj: [], error)
+                completionHandler(detail: nil, error)
             }
             
         }
         
     }
     
-    
-    
 }
-

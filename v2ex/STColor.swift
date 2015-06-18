@@ -1,5 +1,5 @@
 //
-//  Color.swift
+//  STColor.swift
 //  v2ex
 //
 //  Created by zhenwen on 5/10/15.

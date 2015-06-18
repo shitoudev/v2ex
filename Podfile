@@ -5,4 +5,5 @@ use_frameworks!
 pod 'Alamofire', '~> 1.2'
 pod 'Kingfisher', '~> 1.3'
 pod 'SwiftyJSON', '~> 2.2.0'
-
+pod 'SnapKit', '~> 0.11'
+pod 'DAKeyboardControl', '~> 2.4.0'
