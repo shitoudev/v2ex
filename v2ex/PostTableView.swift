@@ -97,7 +97,7 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     
     func deselectRow() -> Void {
         if (indexPath != nil) {
-            self.deselectRowAtIndexPath(indexPath, animated: true)
+            deselectRowAtIndexPath(indexPath, animated: true)
         }
     }
     

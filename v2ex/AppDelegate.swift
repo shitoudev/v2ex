@@ -8,6 +8,11 @@
 
 import UIKit
 
+public let _dismissAfter = 1.65
+
+public let v2exUserLoginSuccessNotification = "shitou.v2exUserLoginSuccessNotification"
+public let v2exUserLogoutSuccessNotification = "shitou.v2exUserLogoutSuccessNotification"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -24,6 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.colorWithHexString("#333344")
         
         application.statusBarStyle = UIStatusBarStyle.LightContent
+        
+        if MemberModel.sharedMember.isLogin() {
+            println("登录中")
+        } else {
+            println("未登录")
+        }
+//        MemberModel.sharedMember.removeUserData()
         
         // Override point for customization after application launch.
         return true

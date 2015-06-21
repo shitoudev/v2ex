@@ -47,21 +47,24 @@ class STTextView: UITextView {
         if count(self.text) == 0 && self.placeHolder != nil {
             self.placeHolderTextColor.set()
             
-            self.placeHolder.drawInRect(CGRectInset(rect, 7.0, 5.0), withAttributes: self.placeholderTextAttributes())
+            self.placeHolder.drawInRect(CGRectInset(rect, 7.0, 6.0), withAttributes: self.placeholderTextAttributes())
         }
     }
     
     func configureTextView() -> Void {
 
-        let cornerRadius: CGFloat = 6.0
+        let cornerRadius: CGFloat = 5.0
+        
+        self.scrollEnabled = true
+        self.scrollsToTop = false
         
         self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.layer.cornerRadius = cornerRadius
         self.scrollIndicatorInsets = UIEdgeInsetsMake(cornerRadius, 0.0, cornerRadius, 0.0);
         
-        self.textContainerInset = UIEdgeInsetsMake(4.0, 2.0, 4.0, 2.0);
-        self.contentInset = UIEdgeInsetsMake(1.0, 0.0, 1.0, 0.0);
+        self.textContainerInset = UIEdgeInsetsMake(3.0, 2.0, 3.0, 2.0);
+        self.contentInset = UIEdgeInsetsMake(3.0, 0.0, 3.0, 0.0);
         
         self.backgroundColor = UIColor.whiteColor()
         self.font = UIFont.systemFontOfSize(13)
@@ -96,6 +99,12 @@ class STTextView: UITextView {
     
     func didReceiveTextViewNotification(notification: NSNotification) {
         self.setNeedsDisplay()
+    }
+    
+    // MARK: Lifetime
+    
+    deinit {
+        removeTextViewNotificationObservers()
     }
     
 }

@@ -13,5 +13,6 @@
 #import <libxml/xpath.h>
 
 #import <DAKeyboardControl/DAKeyboardControl.h>
+#import <JDStatusBarNotification/JDStatusBarNotification.h>
 
 #endif

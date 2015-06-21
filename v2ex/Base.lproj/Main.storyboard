@@ -146,7 +146,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="qqS-6v-0iE">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="546"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postContentCellId" rowHeight="118" id="sAc-hW-23n">
@@ -186,7 +186,7 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <state key="normal" title="Button">
-                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -231,16 +231,16 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R5J-Zt-6kz">
-                                <rect key="frame" x="0.0" y="546" width="600" height="54"/>
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pw3-wv-oYS" customClass="STTextView" customModule="v2ex" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="10" width="530" height="34"/>
+                                        <rect key="frame" x="10" y="10" width="530" height="30"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hRZ-mq-XEn">
-                                        <rect key="frame" x="540" y="12" width="60" height="30"/>
+                                        <rect key="frame" x="540" y="10" width="60" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="TLc-or-mFV"/>
                                             <constraint firstAttribute="width" constant="60" id="lqO-Gm-XkZ"/>
@@ -254,8 +254,8 @@
                                 <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="hRZ-mq-XEn" firstAttribute="leading" secondItem="Pw3-wv-oYS" secondAttribute="trailing" id="6s3-Se-ksE"/>
-                                    <constraint firstAttribute="height" constant="54" id="bkn-FJ-czj"/>
-                                    <constraint firstAttribute="bottom" secondItem="hRZ-mq-XEn" secondAttribute="bottom" constant="12" id="eZo-7n-Y9N"/>
+                                    <constraint firstAttribute="height" constant="50" id="bkn-FJ-czj"/>
+                                    <constraint firstAttribute="bottom" secondItem="hRZ-mq-XEn" secondAttribute="bottom" constant="10" id="eZo-7n-Y9N"/>
                                     <constraint firstItem="Pw3-wv-oYS" firstAttribute="leading" secondItem="R5J-Zt-6kz" secondAttribute="leading" constant="10" id="h0q-bd-44t"/>
                                     <constraint firstAttribute="bottom" secondItem="Pw3-wv-oYS" secondAttribute="bottom" constant="10" id="ifv-Dx-WwX"/>
                                     <constraint firstAttribute="trailing" secondItem="hRZ-mq-XEn" secondAttribute="trailing" id="tcK-fR-c7C"/>

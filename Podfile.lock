@@ -1,22 +1,28 @@
 PODS:
   - Alamofire (1.2.3)
   - DAKeyboardControl (2.4.0)
+  - JDStatusBarNotification (1.5.2)
   - Kingfisher (1.4.1)
   - SnapKit (0.12.0)
   - SwiftyJSON (2.2.0)
+  - SwiftyUserDefaults (1.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
   - DAKeyboardControl (~> 2.4.0)
+  - JDStatusBarNotification (~> 1.5.2)
   - Kingfisher (~> 1.3)
   - SnapKit (~> 0.11)
   - SwiftyJSON (~> 2.2.0)
+  - SwiftyUserDefaults (~> 1.1.0)
 
 SPEC CHECKSUMS:
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
   DAKeyboardControl: 9d9bca22a5cc3c1d3cc61e24fbd208c3e84a3d2d
+  JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
   Kingfisher: 962a21cdc2a7b0fa63be3b2c45ea6f180feda535
   SnapKit: 00c388aa3bf1944c1b55472f31e841f75bd83882
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+  SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
 
 COCOAPODS: 0.37.2

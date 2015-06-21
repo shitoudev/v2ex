@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import JDStatusBarNotification
 
 class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -16,7 +17,6 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     @IBOutlet weak var toolbarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
-    var webViewHeight: CGFloat = 0
     var postId: Int!
     var postDetail: PostDetailModel!
     var dataSouce: NSArray! {
@@ -56,30 +56,35 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         self.reloadTableViewData(isPull: false)
         
         let topLayer = CALayer()
-        topLayer.frame = CGRectMake(0, 0, self.toolbarView.width, 0.5)
+        topLayer.frame = CGRectMake(0, 0, toolbarView.width, 0.5)
         topLayer.backgroundColor = UIColor.lightGrayColor().CGColor
-        self.toolbarView.layer.addSublayer(topLayer)
-        
-        let sendButton = self.toolbarView.viewWithTag(11) as! UIButton
+        toolbarView.layer.addSublayer(topLayer)
+
+        let sendButton = toolbarView.viewWithTag(11) as! UIButton
         sendButton.addTarget(self, action: "sendButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        self.view.keyboardTriggerOffset = self.toolbarView.height;
-        self.view.addKeyboardPanningWithActionHandler { (keyboardFrameInView, opening, closing) -> Void in
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addObservers()
+        view.keyboardTriggerOffset = self.toolbarView.height;
+        view.addKeyboardPanningWithActionHandler { (keyboardFrameInView, opening, closing) -> Void in
             self.toolbarBottomConstraint.constant = self.view.height - keyboardFrameInView.origin.y
         }
     }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.addObservers()
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         
         self.removeObservers()
-        self.view.removeKeyboardControl()
+        view.removeKeyboardControl()
+    }
+    
+    deinit {
+        println("deinit call")
     }
     
     
@@ -145,12 +150,12 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     }
     
     func refresh() {
-        self.reloadTableViewData(isPull: true)
+        reloadTableViewData(isPull: true)
     }
     
     func reloadTableViewData(#isPull: Bool) {
         
-        PostDetailModel.getPostDetail(self.postId, completionHandler: { (detail, error) -> Void in
+        PostDetailModel.getPostDetail(postId, completionHandler: { (detail, error) -> Void in
             if error == nil {
                 self.postDetail = detail
                 CommentModel.getComments(self.postId, completionHandler: { (obj, error) -> Void in
@@ -174,29 +179,93 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     }
     
     func postLoaded() {
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
     
     // MARK: button tapped
     @IBAction func userTapped(sender: AnyObject) {
-        self.pushToProfileViewController(self.postDetail.member.username)
+        pushToProfileViewController(self.postDetail.member.username)
     }
     
     func commentUserTapped(sender: AnyObject) {
         let button = sender as! UIButton
         let comment = dataSouce[button.tag] as! CommentModel
 
-        self.pushToProfileViewController(comment.member.username)
+        pushToProfileViewController(comment.member.username)
     }
     
     func pushToProfileViewController(username: String) {
-        let profileViewController = ProfileViewController().allocWithRouterParams(nil)
-        profileViewController.username = username
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+        if username != MemberModel.sharedMember.username {
+            let profileViewController = ProfileViewController().allocWithRouterParams(nil)
+            profileViewController.isMine = false
+            profileViewController.username = username
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        }
     }
     
     func sendButtonTapped(sender: UIButton) {
-        
+        if !MemberModel.sharedMember.isLogin() {
+            let accountViewController = AccountViewController().allocWithRouterParams(nil)
+            presentViewController(UINavigationController(rootViewController: accountViewController), animated: true, completion: { () -> Void in
+                
+            })
+            return
+        }
+        if getTextView().text.isEmpty {
+            return
+        }
+        JDStatusBarNotification.showWithStatus("提交中...", styleName: JDStatusBarStyleDark)
+        JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: UIActivityIndicatorViewStyle.White)
+        // get once code
+        let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
+        let url = APIManage.Router.Post + String(postId) // String(199762)
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil) { (req, resp, str, error) -> Void in
+            
+            if error == nil {
+                let once = APIManage.getOnceStringFromHtmlResponse(str!)
+                if !once.isEmpty {
+                    // submit comment
+                    mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(url, forKey: "Referer")
+                    mgr.request(.POST, url, parameters: ["content":self.getTextView().text, "once":once]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+                        //                        println("args = \(self.getTextView().text + once), str = \(str)")
+                        if (error == nil && str != nil) {
+                            var err: NSError?
+                            let parser = HTMLParser(html: str!, error: &err)
+                            let bodyNode = parser.body
+                            let headNode = parser.head
+                            
+                            if let canonical = headNode?.findChildTagAttr("link", attrName: "rel", attrValue: "canonical") {
+                                // success
+                                self.submitSuccessData()
+                            } else {
+                                var errorStr = "提交失败，错误未捕捉到:["
+                                if let divNode: HTMLNode = bodyNode?.findChildTagAttr("div", attrName: "class", attrValue: "problem") {
+                                    if let liNode = divNode.findChildTag("li") {
+                                        errorStr = liNode.contents
+                                    }
+                                }
+                                JDStatusBarNotification.showWithStatus(errorStr, dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                            }
+                        }else{
+                            JDStatusBarNotification.showWithStatus("提交失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                        }
+                        //                        println("cookies___ = \(mgr.session.configuration.HTTPCookieStorage?.cookies)")
+                    })
+                } else {
+                    JDStatusBarNotification.showWithStatus("once 获取失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                }
+            } else {
+                JDStatusBarNotification.showWithStatus(error!.localizedDescription + "提交失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+            }
+            
+        }
+    }
+    
+    func submitSuccessData() {
+        reloadTableViewData(isPull: false)
+        JDStatusBarNotification.showWithStatus("提交完成:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
+        getTextView().text = ""
+        getTextView().setNeedsDisplay()
     }
     
     // MARK: Key-value observing
@@ -208,19 +277,19 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         
         let dy = newContentSize.height - oldContentSize.height
         
-        self.toolbarHeightConstraint.constant = toolbarHeightConstraint.constant + dy
-        self.view.setNeedsUpdateConstraints()
-        self.view.layoutIfNeeded()
+        toolbarHeightConstraint.constant = toolbarHeightConstraint.constant + dy
+        view.setNeedsUpdateConstraints()
+        view.layoutIfNeeded()
     }
     
     // MARK: Utilities
     
     func addObservers() {
-        self.getTextView().addObserver(self, forKeyPath: "contentSize", options: .Old | .New, context: nil)
+        getTextView().addObserver(self, forKeyPath: "contentSize", options: .Old | .New, context: nil)
     }
     
     func removeObservers() {
-        self.getTextView().removeObserver(self, forKeyPath: "contentSize", context: nil)
+        getTextView().removeObserver(self, forKeyPath: "contentSize", context: nil)
     }
     
     func getTextView() -> STTextView {

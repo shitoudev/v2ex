@@ -40,6 +40,9 @@ class NodeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.addSubview(self.refreshControl)
         
         self.reloadTableViewData(isPull: false)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLogoutSuccessNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLoginSuccessNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -109,6 +112,12 @@ class NodeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.refreshControl.endRefreshing()
             }
         })
+    }
+    
+    // MARK: NSNotification
+    
+    func userStatusChanged(notification: NSNotification) {
+        reloadTableViewData(isPull: false)
     }
     
 }

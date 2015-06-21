@@ -45,6 +45,14 @@ class APIManage: Manager {
         static var Signin: String {
             return APIManage.baseURLString + "signin"
         }
+        
+        static var Post: String {
+            return APIManage.baseURLString + "t/"
+        }
+        
+        static var Member: String {
+            return APIManage.baseURLString + "member/"
+        }
     }
 
     internal static let sharedManager: Manager = {
@@ -54,8 +62,28 @@ class APIManage: Manager {
         configuration.HTTPCookieStorage = cookiesStorage
         configuration.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicy.Always
         configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-        
+       
         return Manager(configuration: configuration)
     }()
+    
+    /**
+    获取once
+    
+    :param: respStr 返回的 html string
+    
+    :returns: once string
+    */
+    static func getOnceStringFromHtmlResponse(respStr: String) -> String {
+        var once = ""
+        var err: NSError?
+        let parser = HTMLParser(html: respStr, error: &err)
+        
+        let bodyNode = parser.body
+        if let onceNode = bodyNode?.findChildTagAttr("input", attrName: "name", attrValue: "once") {
+            once = onceNode.getAttributeNamed("value")
+        }
+        
+        return once
+    }
 
 }

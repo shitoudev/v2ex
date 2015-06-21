@@ -13,12 +13,21 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
 
 //    var rows = 0, sections = 0
+    var isMine = true
     var userInfo: MemberModel! {
         didSet {
-            self.navigationItem.title = userInfo.username
+            self.navigationItem.title = userInfo==nil ? "我的" : userInfo.username
         }
     }
-    var username: String = "Livid"
+    var username: String! {
+        didSet {
+            MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
+//                println("userInfo.bio = \(obj!.bio)")
+                self.userInfo = obj
+                self.updateUI()
+            })
+        }
+    }
 //    var arr = [AnyObject]()
     var indexPath: NSIndexPath?
 
@@ -27,6 +36,8 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.tableView.reloadData()
         }
     }
+    
+    var accountViewController: AccountViewController?
     
     lazy var box = UIView()
     
@@ -43,55 +54,18 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Do any additional setup after loading the view, typically from a nib.
         self.title = "我的"
 
-        self.tableView.backgroundColor = UIColor.whiteColor()
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 44
-        MemberModel.getUserInfo(self.username, completionHandler: { (obj, error) -> Void in
-            if error == nil {
-                self.userInfo = obj
-//                self.sections = 1
-//                self.rows = 1
-                var more = [AnyObject]()
-                if self.userInfo.website != "" {
-                    let content = ["text":(self.userInfo.website)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":self.userInfo.website!]
-                    more.append(content)
-                }
-                if self.userInfo.twitter != "" {
-                    let content = ["text":(self.userInfo.twitter)!, "font":String.fontAwesomeIconWithName(FontAwesome.Twitter), "url":"http://twitter.com/"+self.userInfo.twitter!]
-                    more.append(content)
-                }
-                if self.userInfo.psn != "" {
-                    let content = ["text":(self.userInfo.psn)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":"https://secure.us.playstation.com/logged-in/trophies/public-trophies/?onlineId="+self.userInfo.psn!]
-                    more.append(content)
-                }
-                if self.userInfo.github != "" {
-                    let content = ["text":(self.userInfo.github)!, "font":String.fontAwesomeIconWithName(FontAwesome.Github), "url":"https://github.com/"+self.userInfo.github!]
-                    more.append(content)
-                }
-                if self.userInfo.btc != "" {
-                    let content = ["text":(self.userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.Btc), "url":"http://blockexplorer.com/address/"+self.userInfo.btc!]
-                    more.append(content)
-                }
-                if self.userInfo.location != "" {
-                    let content = ["text":(self.userInfo.location)!, "font":String.fontAwesomeIconWithName(FontAwesome.LocationArrow), "url":"http://www.google.com/maps?q="+self.userInfo.location!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!]
-                    more.append(content)
-                }
-                if self.userInfo.tagline != "" {
-//                    var content = ["text":(self.userInfo.tagline)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap)]
-//                    more.append(content)
-                }
-                
-                var arr = [AnyObject]()
-                arr.append([1])
-                arr.append(more)
-                self.datasource = arr
-            }
-        })
+        tableView.backgroundColor = UIColor.whiteColor()
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
         
-//        var accountViewController = AccountViewController().allocWithRouterParams(nil)
-//        self.addChildViewController(accountViewController)
-//        self.view.addSubview(accountViewController.view)
-//        accountViewController.didMoveToParentViewController(self)
+        if isMine {
+            if MemberModel.sharedMember.isLogin() {
+                username = MemberModel.sharedMember.username
+            } else {
+                addAccountViewController()
+            }
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoginSuccess:", name: v2exUserLoginSuccessNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -103,17 +77,66 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillAppear(animated)
         
         if (indexPath != nil) {
-            self.tableView.deselectRowAtIndexPath(indexPath!, animated: true)
+            tableView.deselectRowAtIndexPath(indexPath!, animated: true)
         }
+    }
+    
+    func addAccountViewController() {
+        self.accountViewController = AccountViewController().allocWithRouterParams(nil)
+        addChildViewController(accountViewController!)
+        view.addSubview(accountViewController!.view)
+        accountViewController!.didMoveToParentViewController(self)
+    }
+    
+    func updateUI() {
+        var more = [AnyObject]()
+        if self.userInfo.website != "" {
+            let content = ["text":(self.userInfo.website)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":self.userInfo.website!]
+            more.append(content)
+        }
+        if self.userInfo.twitter != "" {
+            let content = ["text":(self.userInfo.twitter)!, "font":String.fontAwesomeIconWithName(FontAwesome.Twitter), "url":"http://twitter.com/"+self.userInfo.twitter!]
+            more.append(content)
+        }
+        if self.userInfo.psn != "" {
+            let content = ["text":(self.userInfo.psn)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":"https://secure.us.playstation.com/logged-in/trophies/public-trophies/?onlineId="+self.userInfo.psn!]
+            more.append(content)
+        }
+        if self.userInfo.github != "" {
+            let content = ["text":(self.userInfo.github)!, "font":String.fontAwesomeIconWithName(FontAwesome.Github), "url":"https://github.com/"+self.userInfo.github!]
+            more.append(content)
+        }
+        if self.userInfo.btc != "" {
+            let content = ["text":(self.userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.Btc), "url":"http://blockexplorer.com/address/"+self.userInfo.btc!]
+            more.append(content)
+        }
+        if self.userInfo.location != "" {
+            let content = ["text":(self.userInfo.location)!, "font":String.fontAwesomeIconWithName(FontAwesome.LocationArrow), "url":"http://www.google.com/maps?q="+self.userInfo.location!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!]
+            more.append(content)
+        }
+        if self.userInfo.tagline != "" {
+            //                    var content = ["text":(self.userInfo.tagline)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap)]
+            //                    more.append(content)
+        }
+        
+        if isMine && more.count == 0 {
+            more.append(["text":"退出登录"])
+        }
+        
+        var arr = [AnyObject]()
+        arr.append([1])
+        arr.append(more)
+        
+        if isMine {
+            arr.append([["text":"退出登录"]])
+        }
+        self.datasource = arr
     }
     
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-//        var str = arr[indexPath.section][indexPath.row]
-//        println("section = \(indexPath.section), row = \(indexPath.row), str = \(str)")
-
         if indexPath.section==0 && indexPath.row==0 {
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoID") as! UITableViewCell
 
@@ -129,24 +152,27 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             bioLabel.text = userInfo.bio
             
             return cell
-        }else if indexPath.section==1 {
+        }else if indexPath.section==1 || indexPath.section==2 {
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoMoreID") as! UITableViewCell
             
             let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
             let str = dict["text"] as! String
-            let font = dict["font"] as! String
-            cell.textLabel?.text = font + "  " + str
-            cell.textLabel?.font = UIFont.fontAwesomeOfSize(14)
+            if str == "退出登录" {
+                cell.textLabel?.text = str
+                cell.textLabel?.font = UIFont.systemFontOfSize(13)
+                cell.textLabel?.textAlignment = NSTextAlignment.Center
+            } else {
+                let font = dict["font"] as! String
+                cell.textLabel?.text = font + "  " + str
+                cell.textLabel?.font = UIFont.fontAwesomeOfSize(14)
+                cell.textLabel?.textAlignment = NSTextAlignment.Left
+            }
+            
             
             return cell
         }else{
             return UITableViewCell()
         }
-//
-//        let article = hotArticleArr[indexPath.row]
-//        cell.updateCell(article)
-//        
-//        return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -155,7 +181,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             return rows.count
         }
         return 0
-//        return arr[section];
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -169,14 +194,48 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if indexPath.section == 1 {
+        if indexPath.section==1 || indexPath.section==2 {
             self.indexPath = indexPath
             
             let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
-            let url = dict["url"] as! String
-            let webViewController = WebViewController().allocWithRouterParams(["url":url])
-            webViewController.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(webViewController, animated: true)
+            let str = dict["text"] as! String
+            if str == "退出登录" {
+                self.indexPath = nil
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                let alertViewController = UIAlertController(title: "确定要退出登录吗？", message: nil, preferredStyle: .ActionSheet)
+                let cancelAction = UIAlertAction(title: "取消", style: .Cancel, handler: { (_) -> Void in })
+                let okAction = UIAlertAction(title: "退出登录", style: .Default, handler: { (action) -> Void in
+                    self.userInfo = nil
+                    MemberModel.sharedMember.removeUserData()
+                    self.addAccountViewController()
+                    NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLogoutSuccessNotification, object: nil)
+
+                })
+                alertViewController.addAction(cancelAction)
+                alertViewController.addAction(okAction)
+                presentViewController(alertViewController, animated: true, completion: { () -> Void in
+                    
+                })
+            } else {
+                let url = dict["url"] as! String
+                let webViewController = WebViewController().allocWithRouterParams(["url":url])
+                webViewController.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(webViewController, animated: true)
+            }
+        }
+    }
+    
+    // MARK: NSNotification
+    
+    func userLoginSuccess(notification: NSNotification) {
+        if isMine {
+            if (accountViewController != nil) {
+                accountViewController?.view.removeFromSuperview()
+                accountViewController?.removeFromParentViewController()
+                self.accountViewController = nil
+            }
+            self.userInfo = notification.userInfo!["user"] as! MemberModel
+            updateUI()
         }
     }
     

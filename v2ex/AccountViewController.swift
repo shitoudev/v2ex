@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import JDStatusBarNotification
 
 enum SwitchType: Int {
     case LOGIN
@@ -20,7 +21,7 @@ class AccountViewController: UITableViewController {
     let SUBMIT_TAG = 10
     let FORGET_PWD = 11
     
-    var rows = 3, sections = 1
+    let rows = 3, sections = 1
     var type: SwitchType = .LOGIN
     
     //args: NSDictionary
@@ -34,8 +35,25 @@ class AccountViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableView.separatorStyle = .None
-        
+        tableView.separatorStyle = .None
+
+        if let pvc = parentViewController {
+            if pvc is UINavigationController {
+                navigationItem.title = "登录"
+                let item = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: "cancel:")
+                navigationItem.leftBarButtonItem = item
+            }
+        }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        view.addKeyboardPanningWithActionHandler { (keyboardFrameInView, opening, closing) -> Void in}
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.removeKeyboardControl()
     }
     
     override func didReceiveMemoryWarning() {
@@ -108,13 +126,10 @@ class AccountViewController: UITableViewController {
             var title = (type == .LOGIN) ? "登录" : "找回密码"
             submit.setTitle(title, forState: UIControlState.Normal)
             let forgetPwd = cell.viewWithTag(FORGET_PWD) as! UIButton
-            forgetPwd.addTarget(self, action: "forgetPwd:", forControlEvents: UIControlEvents.TouchUpInside)
-            title = (type == .LOGIN) ? "忘记密码？" : "我要登录"
-            forgetPwd.setTitle(title, forState: UIControlState.Normal)
-            
-            if type == .LOGIN {
-                
-            }
+            forgetPwd.hidden = true
+//            forgetPwd.addTarget(self, action: "forgetPwd:", forControlEvents: UIControlEvents.TouchUpInside)
+//            title = (type == .LOGIN) ? "忘记密码？" : "我要登录"
+//            forgetPwd.setTitle(title, forState: UIControlState.Normal)
         }
     }
     
@@ -122,53 +137,65 @@ class AccountViewController: UITableViewController {
 
     // login
     func loginSubmit(sender: UIButton) {
-        if type == .LOGIN {
+        let account = self.getAccountField().text //"wordcup"
+        let password = self.getSecondField().text //"wordcup"
+        if type == .LOGIN  && !account.isEmpty && !password.isEmpty{
+
+            JDStatusBarNotification.showWithStatus("登录中...", styleName: JDStatusBarStyleDark)
+            JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: UIActivityIndicatorViewStyle.White)
             
             let signinUrl = APIManage.Router.Signin
-            
-//            let cfg = NSURLSessionConfiguration.defaultSessionConfiguration()
-            let cookiesStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
-//            cfg.HTTPCookieStorage = cookiesStorage
-//            cfg.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicy.Always
-//            cfg.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-//            cfg.HTTPAdditionalHeaders?.updateValue(signinUrl, forKey: "Referer")
-            
-            for cookie in cookiesStorage.cookies as! [NSHTTPCookie] {
-                if cookie.domain.hasSuffix(APIManage.domain) {
-                    cookiesStorage.deleteCookie(cookie)
-                }
-            }
-            println("cookies = \(cookiesStorage.cookies)")
-
 
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
 
             mgr.request(.GET, signinUrl, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
                 
-                var err: NSError?
-                var parser = HTMLParser(html: str!, error: &err)
-                
-                var bodyNode = parser.body
-                if let onceNode = bodyNode?.findChildTagAttr("input", attrName: "name", attrValue: "once") {
-                    let once = onceNode.getAttributeNamed("value")
+                let once = APIManage.getOnceStringFromHtmlResponse(str!)
+                if !once.isEmpty {
                     mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(signinUrl, forKey: "Referer")
                     // 请求登录
-                    mgr.request(.POST, signinUrl, parameters: ["u":"wordcup", "p":"wordcup", "once":once, "next":"/"]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
-                        if (error != nil && str != nil) {
+                    
+                    mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+                        if (error == nil && str != nil) {
                             var err: NSError?
-                            var parser = HTMLParser(html: str!, error: &err)
-                            var bodyNode = parser.body
+                            let parser = HTMLParser(html: str!, error: &err)
+                            let bodyNode = parser.body
                             if let myNodes = bodyNode?.findChildTagAttr("a", attrName: "href", attrValue: "/my/nodes") {
-                                // 登录成功
-                                
+                                // 登录成功，查找 username
+                                var username = account
+                                let aNodes = bodyNode?.findChildTagsAttr("a", attrName: "class", attrValue: "top")
+                                for a in aNodes! {
+                                    let href = a.getAttributeNamed("href") as NSString
+                                    if href.hasPrefix("/member/") {
+                                        username = a.contents
+                                        break
+                                    }
+                                }
+                                // 获取用户信息
+                                MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
+                                    if error == nil {
+                                        JDStatusBarNotification.showWithStatus("登录成功:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
+                                        MemberModel.sharedMember.username = obj!.username
+                                        MemberModel.sharedMember.uid = obj!.uid
+                                        MemberModel.sharedMember.saveUserData()
+                                        NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLoginSuccessNotification, object: nil, userInfo: ["user":obj!])
+                                        if let pvc = self.parentViewController {
+                                            if pvc is UINavigationController {
+                                                self.dismissViewControllerAnimated(false, completion: { () -> Void in })
+                                            }
+                                        }
+                                    } else {
+                                        JDStatusBarNotification.showWithStatus(error!.localizedDescription + "登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                                    }
+                                })
                             }
                         }else{
-                            
+                            JDStatusBarNotification.showWithStatus("登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                         }
-                        println("resp = \(resp), obj = \(str), error = \(error)")
-//                            println("cookies___ = \(mgr.session.configuration.HTTPCookieStorage?.cookies)")
-
+                        //                        println("resp = \(resp), obj = \(str), error = \(error)")
                     })
+                } else {
+                    // once 获取失败
                 }
                 
             })
@@ -184,6 +211,26 @@ class AccountViewController: UITableViewController {
         }) { (finished) -> Void in
             
         }
+    }
+    
+    // MARK: Action
+    
+    func cancel(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: { () -> Void in })
+    }
+    
+    // MARK: Get View
+    
+    func getAccountField() -> UITextField {
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+        let textField = cell!.viewWithTag(TEXT_FIELD_TAG) as! UITextField
+        return textField
+    }
+    
+    func getSecondField() -> UITextField {
+        let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 1, inSection: 0))
+        let textField = cell!.viewWithTag(TEXT_FIELD_TAG) as! UITextField
+        return textField
     }
     
     

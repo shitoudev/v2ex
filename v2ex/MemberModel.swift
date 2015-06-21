@@ -9,11 +9,15 @@
 import Foundation
 import SwiftyJSON
 
+private let dict = NSUserDefaults.standardUserDefaults().objectForKey(APIManage.domain) as? NSDictionary
+private let sharedInstance = dict==nil ? MemberModel(fromDictionary: ["id":0, "username":"", "avatar_large":""]) : MemberModel(fromDictionary: dict!)
+
 class MemberModel {
     var username: String, uid: Int, avatar_large: String
     var website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
     
     init(fromDictionary dictionary: NSDictionary) {
+        println("dictionary = \(dictionary)")
         self.uid = dictionary["id"] as! Int
         self.username = dictionary["username"] as! String
         self.avatar_large = dictionary["avatar_large"] as! String
@@ -32,6 +36,36 @@ class MemberModel {
         self.bio = dictionary["bio"] as? String
         self.created = dictionary["created"] as? Int
 
+    }
+
+    class var sharedMember: MemberModel {
+        return sharedInstance
+    }
+    
+    func isLogin() -> Bool {
+        return (uid != 0) && !username.isEmpty
+    }
+    
+    func saveUserData() {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(["id":uid, "username":username, "avatar_large":avatar_large], forKey: APIManage.domain)
+        defaults.synchronize()
+    }
+    
+    func removeUserData() {
+        self.uid = 0
+        self.username = ""
+        self.avatar_large = ""
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.removeObjectForKey(APIManage.domain)
+        defaults.synchronize()
+        // remove cookie
+        let cookiesStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        if let cookies = cookiesStorage.cookiesForURL(NSURL(string: APIManage.baseURLString)!) {
+            for cookie in cookies {
+                cookiesStorage.deleteCookie(cookie as! NSHTTPCookie)
+            }
+        }
     }
     
     static func getUserInfo(account: AnyObject, completionHandler: (obj: MemberModel?, NSError?)->Void) {

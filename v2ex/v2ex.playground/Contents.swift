@@ -242,6 +242,26 @@ let http200Status = (statusCode: 200, desc: "OK")
 let one: UInt16 = 0b00001111
 let onef = ~one
 
+class A {
+    let b: B
+    init() {
+        b = B()
+        b.a = self
+    }
+    
+    deinit {
+        println("A deinit")
+    }
+}
 
+class B {
+    weak var a: A? = nil
+    deinit {
+        println("B deinit")
+    }
+}
+
+var obj: A? = A()
+obj = nil
 
 
