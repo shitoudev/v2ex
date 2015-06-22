@@ -219,7 +219,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
             } else {
                 let url = dict["url"] as! String
                 let webViewController = WebViewController().allocWithRouterParams(["url":url])
-                webViewController.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(webViewController, animated: true)
             }
         }

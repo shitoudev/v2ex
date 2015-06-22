@@ -29,6 +29,7 @@ class WebViewController: UIViewController, UIWebViewDelegate {
         
         var web = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("webViewController") as! WebViewController
         web.requestURL = args["url"] as! String
+        web.hidesBottomBarWhenPushed = true
         
         return web
     }
