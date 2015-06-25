@@ -37,5 +37,9 @@ class BaseViewController: UIViewController {
     func reloadViewTapped(sender: UIButton!) {
         
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 
 }

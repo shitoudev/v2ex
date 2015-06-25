@@ -76,11 +76,15 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         super.viewDidAppear(animated)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         
         self.removeObservers()
         view.removeKeyboardControl()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     deinit {

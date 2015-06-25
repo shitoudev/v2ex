@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import v2exKit
 
 enum PostType: Int {
     case Api
@@ -57,6 +58,11 @@ class PostModel: JSONAble {
                 
                 if error == nil {
                     result = self.getPostsFromHtmlResponse(str!)
+                    if target == "hot" {
+                        // 保存3条数据，供 today extension 使用
+                        self.saveDataForTodayExtension(result)
+                    }
+                    
                     completionHandler(obj: result, nil)
                 } else {
                     completionHandler(obj: [], error)
@@ -193,5 +199,20 @@ class PostModel: JSONAble {
         }
         
         return result
+    }
+    
+    static func saveDataForTodayExtension (post: [PostModel]) -> Void {
+        // 保存3条数据，供 today extension 使用
+        var dataSouce = [NSDictionary]()
+        for (idx, val) in enumerate(post) {
+            if idx == 3 {
+                break
+            }
+            dataSouce.append(["id":val.postId, "title":val.title])
+        }
+        
+        let userDefaults = NSUserDefaults(suiteName: kAppGroupIdentifier)
+        userDefaults?.setObject(dataSouce, forKey: kAppSharedDefaultsTodayExtensionDataKey)
+        userDefaults?.synchronize()
     }
 }

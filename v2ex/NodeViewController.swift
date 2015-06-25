@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NodeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource{
     
     
     @IBOutlet weak var tableView: UITableView!

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var openURLQueue: [UIViewController] = []
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -58,10 +59,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        if openURLQueue.count > 0 {
+            let viewController = openURLQueue.first!
+            let tabbarController = application.keyWindow?.rootViewController as! UITabBarController
+            if let selectedViewController = tabbarController.selectedViewController as? UINavigationController {
+                selectedViewController.pushViewController(viewController, animated: true)
+                openURLQueue.removeAll(keepCapacity: true)
+            }
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        if url.scheme == "v2ex" {
+            if url.host == "post" {
+                if let query = url.query {
+                    let paramArr = query.componentsSeparatedByString("&")
+                    var postId = 0
+                    for paramStr in paramArr {
+                        let queryArr = query.componentsSeparatedByString("=")
+                        let key = queryArr.first
+                        if key == "postId" {
+                            let val = queryArr.last!
+                            postId = val.toInt()!
+                            break
+                        }
+                    }
+                    
+                    if postId > 0 {
+                        openURLQueue.removeAll(keepCapacity: true)
+                        let viewController = PostDetailViewController().allocWithRouterParams(nil)
+                        viewController.postId = postId
+                        openURLQueue.append(viewController)
+                    }
+                    
+                }
+            }
+        }
+//        println("url.scheme = \(url.scheme), url.host = \(url.host) url.relativePath = \(url.relativePath), url.query = \(url.query)")
+        return true
     }
 
 
