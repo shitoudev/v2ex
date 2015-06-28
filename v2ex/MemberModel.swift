@@ -80,7 +80,7 @@ class MemberModel {
                     let result = MemberModel(fromDictionary: json.dictionaryObject!)
                     completionHandler(obj: result, nil)
                 }else{
-                    let err = NSError(domain: APIManage.domain, code: 201, userInfo: nil)
+                    let err = NSError(domain: APIManage.domain, code: 201, userInfo: [NSLocalizedDescriptionKey:"用户未找到"])
                     completionHandler(obj: nil, err)
                 }
                 

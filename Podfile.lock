@@ -6,6 +6,7 @@ PODS:
   - SnapKit (0.12.0)
   - SwiftyJSON (2.2.0)
   - SwiftyUserDefaults (1.1.0)
+  - TTTAttributedLabel (1.13.4)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
@@ -15,6 +16,7 @@ DEPENDENCIES:
   - SnapKit (~> 0.11)
   - SwiftyJSON (~> 2.2.0)
   - SwiftyUserDefaults (~> 1.1.0)
+  - TTTAttributedLabel (~> 1.13.4)
 
 SPEC CHECKSUMS:
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
@@ -24,5 +26,6 @@ SPEC CHECKSUMS:
   SnapKit: 00c388aa3bf1944c1b55472f31e841f75bd83882
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
   SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
+  TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
 
 COCOAPODS: 0.37.2

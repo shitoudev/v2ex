@@ -15,6 +15,7 @@ class CommentModel: JSONAble {
     var comment_id: Int, thanks: Int, created: Int, last_modified: Int
     var content: String, content_rendered: String
     var member: MemberModel
+    var linkRange: [NSRange]?, linkMatched = false
     
     init(fromDictionary dictionary: NSDictionary) {
         self.comment_id = dictionary["id"] as! Int

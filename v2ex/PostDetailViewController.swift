@@ -9,8 +9,10 @@
 import UIKit
 import SnapKit
 import JDStatusBarNotification
+import TTTAttributedLabel
+import v2exKit
 
-class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, TTTAttributedLabelDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbarView: UIView!
@@ -117,14 +119,50 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             timeLabel.textColor = UIColor.grayColor()
             timeLabel.text = postDetail.getSmartTime()
             
-            let contentLabel = cell.contentView.viewWithTag(14) as! UILabel
-            contentLabel.text = postDetail.content
+            let contentLabel = cell.contentView.viewWithTag(14) as! TTTAttributedLabel
+            contentLabel.delegate = self
             contentLabel.font = UIFont.systemFontOfSize(14)
+            var linkAttributes = Dictionary<String, AnyObject>()
+            linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
+            contentLabel.linkAttributes = linkAttributes
+            contentLabel.extendsLinkTouchArea = false
+            
+            var linkRange = [NSRange]()
+            contentLabel.setText(postDetail.content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
+                
+                let stringRange = NSMakeRange(0, mutableAttributedString.length)
+                // username
+                usernameRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
+                    
+                    if result != nil {
+                        addLinkAttributed(mutableAttributedString, range: result.range)
+                        linkRange.append(result.range)
+                    }
+                })
+                // http link
+                httpRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
+                    
+                    if result != nil {
+                        addLinkAttributed(mutableAttributedString, range: result.range)
+                        linkRange.append(result.range)
+                    }
+                })
+                
+                return mutableAttributedString
+            })
+            
+            if linkRange.count > 0 {
+                for range in linkRange {
+                    let linkStr = (postDetail.content as NSString).substringWithRange(range)
+                    contentLabel.addLinkToURL(NSURL(string: linkStr), withRange: range)
+                }
+            }
 
             return cell;
             
         } else {
             let cell: CommentCell = tableView.dequeueReusableCellWithIdentifier("commentCellId") as! CommentCell
+            cell.contentLabel.delegate = self
             
             let comment = dataSouce[indexPath.row] as! CommentModel
             cell.updateCell(comment)
@@ -203,7 +241,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             let profileViewController = ProfileViewController().allocWithRouterParams(nil)
             profileViewController.isMine = false
             profileViewController.username = username
-            self.navigationController?.pushViewController(profileViewController, animated: true)
+            navigationController?.pushViewController(profileViewController, animated: true)
         }
     }
     
@@ -298,6 +336,25 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     
     func getTextView() -> STTextView {
         return toolbarView.viewWithTag(10) as! STTextView
+    }
+    
+    // MARK: TTTAttributedLabelDelegate
+    func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
+        if url != nil {
+            if let urlStr = url.absoluteString {
+                if urlStr.hasPrefix("@") {
+                    let username = (urlStr as NSString).substringFromIndex(1)
+
+                    let profileViewController = ProfileViewController().allocWithRouterParams(nil)
+                    profileViewController.isMine = false
+                    profileViewController.username = username
+                    navigationController?.pushViewController(profileViewController, animated: true)
+                } else {
+                    let webViewController = WebViewController().allocWithRouterParams(["url":url.absoluteString!])
+                    navigationController?.pushViewController(webViewController, animated: true)
+                }
+            }
+        }
     }
     
 }

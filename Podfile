@@ -5,6 +5,7 @@ link_with 'v2ex', 'v2exTodayExtension', 'v2exKit'
 
 pod 'Alamofire', '~> 1.2'
 pod 'SwiftyJSON', '~> 2.2.0'
+pod 'TTTAttributedLabel', '~> 1.13.4'
 
 target :v2ex do
     pod 'SnapKit', '~> 0.11'

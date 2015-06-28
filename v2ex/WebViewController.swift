@@ -20,8 +20,10 @@ class WebViewController: BaseViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "加载中..."
-        self.webView.delegate = self
-        self.webView.loadRequest(NSURLRequest(URL: NSURL(string: requestURL)!))
+        
+        webView.delegate = self
+        webView.loadRequest(NSURLRequest(URL: NSURL(string: requestURL)!))
+        webView.scalesPageToFit = true
     }
     
     //args: NSDictionary
@@ -36,7 +38,7 @@ class WebViewController: BaseViewController, UIWebViewDelegate {
     
     // MARK: UIWebViewDelegate
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        self.title = "加载失败"
+        self.title = "加载失败:["
     }
     func webViewDidFinishLoad(webView: UIWebView) {
         var title = webView.stringByEvaluatingJavaScriptFromString("document.title")

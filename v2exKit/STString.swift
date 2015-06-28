@@ -10,7 +10,7 @@ import UIKit
 
 extension String {
     
-    static func strHeight (str: String, size: CGSize, font: UIFont) -> CGFloat {
+    public static func strHeight (str: String, size: CGSize, font: UIFont) -> CGFloat {
 //        NSStringDrawingOptions.UsesFontLeading
         let rect: CGRect = str.boundingRectWithSize(size, options: NSStringDrawingOptions.UsesLineFragmentOrigin|NSStringDrawingOptions.UsesFontLeading, attributes: [NSFontAttributeName:font], context: nil)
         return rect.size.height

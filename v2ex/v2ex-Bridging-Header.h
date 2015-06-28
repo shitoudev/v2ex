@@ -14,5 +14,6 @@
 
 #import <DAKeyboardControl/DAKeyboardControl.h>
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
+#import <TTTAttributedLabel/TTTAttributedLabel.h>
 
 #endif

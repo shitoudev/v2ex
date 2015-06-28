@@ -8,7 +8,7 @@
 
 import UIKit
 
-class STTextView: UITextView {
+public class STTextView: UITextView {
     
     var placeHolder: NSString! {
         didSet {
@@ -27,21 +27,21 @@ class STTextView: UITextView {
         self.configureTextView()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.configureTextView()
     }
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         self.configureTextView()
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
     }
     
-    override func drawRect(rect: CGRect) {
+    override public func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
         if count(self.text) == 0 && self.placeHolder != nil {

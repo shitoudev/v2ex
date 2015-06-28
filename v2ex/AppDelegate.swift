@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 public let _dismissAfter = 1.65
 

@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     
-    static func smartDate (strtotime: NSTimeInterval) -> String {
+    public static func smartDate (strtotime: NSTimeInterval) -> String {
         var smartStr = ""
 
         var currentDate = NSDate().timeIntervalSince1970

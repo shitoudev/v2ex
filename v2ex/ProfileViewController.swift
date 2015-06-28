@@ -23,8 +23,12 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
         didSet {
             MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
 //                println("userInfo.bio = \(obj!.bio)")
-                self.userInfo = obj
-                self.updateUI()
+                if error == nil {
+                    self.userInfo = obj
+                    self.updateUI()
+                } else {
+                    self.navigationItem.title = error!.localizedDescription
+                }
             })
         }
     }

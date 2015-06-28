@@ -10,7 +10,7 @@ import UIKit
 
 extension UIView {
     
-    var left: CGFloat {
+    public var left: CGFloat {
         get {
             return self.frame.origin.x
         }
@@ -20,25 +20,25 @@ extension UIView {
             self.frame = frame
         }
     }
-    var right: CGFloat {
+    public var right: CGFloat {
         return self.left + self.width
     }
     
-    var top: CGFloat {
+    public var top: CGFloat {
         return self.frame.origin.y
     }
-    var bottom: CGFloat {
+    public var bottom: CGFloat {
         return self.top + self.height
     }
     
-    var width: CGFloat {
+    public var width: CGFloat {
         return self.frame.size.width
     }
-    var height: CGFloat {
+    public var height: CGFloat {
         return self.frame.size.height
     }
     
-    func traverseResponderChainForUIViewController() -> UIViewController? {
+    public func traverseResponderChainForUIViewController() -> UIViewController? {
         
         if let nextResponder = self.nextResponder() {
             if nextResponder.isKindOfClass(UIViewController) {

@@ -10,10 +10,7 @@
 		69FF3F897802C4C57C749220 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C60098BDFA4AABA175BF634 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		7227834754258556493FE6AF /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C60098BDFA4AABA175BF634 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		97213D0D1B25739500F99FBC /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97213D0C1B25739500F99FBC /* CommentModel.swift */; };
-		97213D0F1B25911900F99FBC /* STString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97213D0E1B25911900F99FBC /* STString.swift */; };
-		972752061AFF8B20001A1F41 /* STColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972752051AFF8B20001A1F41 /* STColor.swift */; };
 		972752161AFFA078001A1F41 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972752151AFFA078001A1F41 /* ProfileViewController.swift */; };
-		972752181B004970001A1F41 /* STDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972752171B004970001A1F41 /* STDate.swift */; };
 		9727521D1B00998E001A1F41 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9727521C1B00998E001A1F41 /* BaseViewController.swift */; };
 		972D99AA1B38352F0069C052 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972D99A91B38352F0069C052 /* NotificationCenter.framework */; };
 		972D99AF1B38352F0069C052 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D99AE1B38352F0069C052 /* TodayViewController.swift */; };
@@ -27,9 +24,13 @@
 		974205031B300E8800F07E5E /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205021B300E8800F07E5E /* PostViewController.swift */; };
 		974205051B30708300F07E5E /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205041B30708300F07E5E /* PostCell.swift */; };
 		974205071B3070BA00F07E5E /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974205061B3070BA00F07E5E /* PostCell.xib */; };
-		9742050B1B31663300F07E5E /* STTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9742050A1B31663300F07E5E /* STTextView.swift */; };
+		974F651F1B3FF66300927B37 /* STColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F65191B3FF66300927B37 /* STColor.swift */; };
+		974F65201B3FF66300927B37 /* STDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651A1B3FF66300927B37 /* STDate.swift */; };
+		974F65211B3FF66300927B37 /* STString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651B1B3FF66300927B37 /* STString.swift */; };
+		974F65221B3FF66300927B37 /* STTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651C1B3FF66300927B37 /* STTextView.swift */; };
+		974F65231B3FF66300927B37 /* STView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651D1B3FF66300927B37 /* STView.swift */; };
+		974F65241B3FF66300927B37 /* STWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651E1B3FF66300927B37 /* STWebView.swift */; };
 		975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975E6D3C1B0B3F490080F998 /* AccountViewController.swift */; };
-		9788C6FC1B283FBC007E92C9 /* STWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9788C6FB1B283FBC007E92C9 /* STWebView.swift */; };
 		979587331B0F389200B20745 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 979587321B0F389200B20745 /* libxml2.dylib */; };
 		97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A067A31AF4B3C400EB475C /* JSONAble.swift */; };
 		97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BA7CDB1AF47FBB00950A0C /* AppDelegate.swift */; };
@@ -47,7 +48,6 @@
 		97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
 		97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C5F1B218E5700F38FB1 /* PostModel.swift */; };
 		97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C631B21AC5700F38FB1 /* PostTableView.swift */; };
-		97E76C681B248EEE00F38FB1 /* STView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C671B248EEE00F38FB1 /* STView.swift */; };
 		97E76C6A1B24AB3700F38FB1 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C691B24AB3700F38FB1 /* PostDetailViewController.swift */; };
 		97E76C6C1B24AE3600F38FB1 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C6B1B24AE3600F38FB1 /* CommentCell.swift */; };
 		97E76C6E1B24AE5700F38FB1 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97E76C6D1B24AE5700F38FB1 /* CommentCell.xib */; };
@@ -128,10 +128,7 @@
 		5C60098BDFA4AABA175BF634 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96FD8C32A3900DB4C0D61775 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		97213D0C1B25739500F99FBC /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
-		97213D0E1B25911900F99FBC /* STString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STString.swift; sourceTree = "<group>"; };
-		972752051AFF8B20001A1F41 /* STColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STColor.swift; sourceTree = "<group>"; };
 		972752151AFFA078001A1F41 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		972752171B004970001A1F41 /* STDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STDate.swift; sourceTree = "<group>"; };
 		9727521C1B00998E001A1F41 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		972D99A81B38352F0069C052 /* v2exTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = v2exTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		972D99A91B38352F0069C052 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -148,9 +145,13 @@
 		974205021B300E8800F07E5E /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		974205041B30708300F07E5E /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		974205061B3070BA00F07E5E /* PostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
-		9742050A1B31663300F07E5E /* STTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTextView.swift; sourceTree = "<group>"; };
+		974F65191B3FF66300927B37 /* STColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STColor.swift; sourceTree = "<group>"; };
+		974F651A1B3FF66300927B37 /* STDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STDate.swift; sourceTree = "<group>"; };
+		974F651B1B3FF66300927B37 /* STString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STString.swift; sourceTree = "<group>"; };
+		974F651C1B3FF66300927B37 /* STTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTextView.swift; sourceTree = "<group>"; };
+		974F651D1B3FF66300927B37 /* STView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STView.swift; sourceTree = "<group>"; };
+		974F651E1B3FF66300927B37 /* STWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STWebView.swift; sourceTree = "<group>"; };
 		975E6D3C1B0B3F490080F998 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
-		9788C6FB1B283FBC007E92C9 /* STWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STWebView.swift; sourceTree = "<group>"; };
 		979587321B0F389200B20745 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		97A067A31AF4B3C400EB475C /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
 		97BA7CD61AF47FBB00950A0C /* v2ex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = v2ex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,7 +174,6 @@
 		97E62EBD1B11CD5E00589989 /* APIManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManage.swift; sourceTree = "<group>"; };
 		97E76C5F1B218E5700F38FB1 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		97E76C631B21AC5700F38FB1 /* PostTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableView.swift; sourceTree = "<group>"; };
-		97E76C671B248EEE00F38FB1 /* STView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STView.swift; sourceTree = "<group>"; };
 		97E76C691B24AB3700F38FB1 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		97E76C6B1B24AE3600F38FB1 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		97E76C6D1B24AE5700F38FB1 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
@@ -257,7 +257,6 @@
 				97E76C6D1B24AE5700F38FB1 /* CommentCell.xib */,
 				974205041B30708300F07E5E /* PostCell.swift */,
 				974205061B3070BA00F07E5E /* PostCell.xib */,
-				9742050A1B31663300F07E5E /* STTextView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -386,11 +385,6 @@
 				972752081AFF9223001A1F41 /* Controller */,
 				972752071AFF9190001A1F41 /* View */,
 				97A0679E1AF49B2600EB475C /* Model */,
-				972752051AFF8B20001A1F41 /* STColor.swift */,
-				97E76C671B248EEE00F38FB1 /* STView.swift */,
-				972752171B004970001A1F41 /* STDate.swift */,
-				9788C6FB1B283FBC007E92C9 /* STWebView.swift */,
-				97213D0E1B25911900F99FBC /* STString.swift */,
 				97BA7CDB1AF47FBB00950A0C /* AppDelegate.swift */,
 				97BA7CE11AF47FBB00950A0C /* Main.storyboard */,
 				97BA7CE41AF47FBB00950A0C /* Images.xcassets */,
@@ -435,6 +429,12 @@
 				97EA804B1B3AAD87002C7C48 /* v2exKit.h */,
 				97EA80491B3AAD87002C7C48 /* Supporting Files */,
 				97D645261B3C4936005B4485 /* v2exKit.swift */,
+				974F65191B3FF66300927B37 /* STColor.swift */,
+				974F651A1B3FF66300927B37 /* STDate.swift */,
+				974F651B1B3FF66300927B37 /* STString.swift */,
+				974F651C1B3FF66300927B37 /* STTextView.swift */,
+				974F651D1B3FF66300927B37 /* STView.swift */,
+				974F651E1B3FF66300927B37 /* STWebView.swift */,
 			);
 			path = v2exKit;
 			sourceTree = "<group>";
@@ -821,26 +821,20 @@
 				97BA7D001AF483B100950A0C /* HotViewController.swift in Sources */,
 				97E76C6A1B24AB3700F38FB1 /* PostDetailViewController.swift in Sources */,
 				97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */,
-				97213D0F1B25911900F99FBC /* STString.swift in Sources */,
 				97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */,
 				97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */,
 				97E76C6C1B24AE3600F38FB1 /* CommentCell.swift in Sources */,
 				975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */,
-				972752061AFF8B20001A1F41 /* STColor.swift in Sources */,
 				97BB75451AFCF8AA00872416 /* NodeViewController.swift in Sources */,
 				97E76C701B25485C00F38FB1 /* PostDetailModel.swift in Sources */,
 				9727521D1B00998E001A1F41 /* BaseViewController.swift in Sources */,
 				9739A8031B3BBA85006D9259 /* HTMLNode.swift in Sources */,
 				97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */,
-				97E76C681B248EEE00F38FB1 /* STView.swift in Sources */,
 				97BB75411AFCC15D00872416 /* NodeModel.swift in Sources */,
 				974205051B30708300F07E5E /* PostCell.swift in Sources */,
 				97213D0D1B25739500F99FBC /* CommentModel.swift in Sources */,
-				9742050B1B31663300F07E5E /* STTextView.swift in Sources */,
-				9788C6FC1B283FBC007E92C9 /* STWebView.swift in Sources */,
 				97BB75471AFCFA0100872416 /* WebViewController.swift in Sources */,
 				97BB753F1AFCAF0900872416 /* MemberModel.swift in Sources */,
-				972752181B004970001A1F41 /* STDate.swift in Sources */,
 				972752161AFFA078001A1F41 /* ProfileViewController.swift in Sources */,
 				974205031B300E8800F07E5E /* PostViewController.swift in Sources */,
 				97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */,
@@ -861,7 +855,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				974F65201B3FF66300927B37 /* STDate.swift in Sources */,
+				974F651F1B3FF66300927B37 /* STColor.swift in Sources */,
+				974F65221B3FF66300927B37 /* STTextView.swift in Sources */,
+				974F65241B3FF66300927B37 /* STWebView.swift in Sources */,
+				974F65231B3FF66300927B37 /* STView.swift in Sources */,
 				97D645271B3C4936005B4485 /* v2exKit.swift in Sources */,
+				974F65211B3FF66300927B37 /* STString.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
