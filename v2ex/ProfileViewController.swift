@@ -217,6 +217,12 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                 })
                 alertViewController.addAction(cancelAction)
                 alertViewController.addAction(okAction)
+                // iPad
+                if let popoverController = alertViewController.popoverPresentationController {
+                    let cell = tableView.cellForRowAtIndexPath(indexPath)!
+                    popoverController.sourceView = cell
+                    popoverController.sourceRect = cell.bounds
+                }
                 presentViewController(alertViewController, animated: true, completion: { () -> Void in
                     
                 })

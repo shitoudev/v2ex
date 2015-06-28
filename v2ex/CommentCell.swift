@@ -17,8 +17,6 @@ let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://
 
 //let httpRegularExpression = NSRegularExpression(pattern: "(?<![.*\">])\\b(?:(?:https?|ftp|file)://|[a-z]\\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
-let linkFont = CTFontCreateWithName(UIFont.systemFontOfSize(14).fontName, UIFont.systemFontOfSize(14).pointSize, nil)
-
 class CommentCell: UITableViewCell {
     @IBOutlet weak var avatarButton: UIButton!
     @IBOutlet weak var contentLabel: TTTAttributedLabel!
@@ -41,6 +39,7 @@ class CommentCell: UITableViewCell {
         linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
         contentLabel.linkAttributes = linkAttributes
         contentLabel.extendsLinkTouchArea = false
+        contentLabel.font = kContentFont
     }
     
     func updateCell(comment: CommentModel) -> Void {
@@ -97,13 +96,5 @@ class CommentCell: UITableViewCell {
                 contentLabel.addLinkToURL(NSURL(string: linkStr), withRange: range)
             }
         }
-    }
-    
-    func addAttributed(attrStr: NSMutableAttributedString, range: NSRange) -> NSMutableAttributedString {
-        
-        attrStr.removeAttribute(kCTForegroundColorAttributeName as! String, range: range)
-        attrStr.addAttribute(kCTForegroundColorAttributeName as! String, value: UIColor.colorWithHexString(kLinkColor).CGColor, range: range)
-        
-        return attrStr
     }
 }

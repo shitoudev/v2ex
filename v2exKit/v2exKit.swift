@@ -12,7 +12,8 @@ public let kAppGroupIdentifier = "group.cc.yueti.v2ex"
 public let kAppSharedDefaultsTodayExtensionDataKey = "cc.yueti.today.extension"
 
 public let kLinkColor = "#778087"
-
+public let kContentFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
+public let kTitleFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 
 /**
 修改链接的文字属性

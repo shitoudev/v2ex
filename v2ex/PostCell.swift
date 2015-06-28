@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 class PostCell: UITableViewCell {
     
@@ -20,17 +21,18 @@ class PostCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.picView.layer.cornerRadius = 5
-        self.picView.layer.masksToBounds = true
-        self.nodeLabel.textColor = UIColor.grayColor()
-        self.usernameLabel.font = UIFont.fontAwesomeOfSize(12)
-        self.timeLabel.textAlignment = NSTextAlignment.Center
-        self.timeLabel.textColor = UIColor.grayColor()
-        self.timeLabel.font = UIFont.fontAwesomeOfSize(12)
-        self.usernameLabel.textColor = UIColor.grayColor()
-        self.timeLabel.hidden = true
-        self.repliesLabel.font = self.usernameLabel.font
-        self.repliesLabel.textColor = self.usernameLabel.textColor
+        picView.layer.cornerRadius = 5
+        picView.layer.masksToBounds = true
+        nodeLabel.textColor = UIColor.grayColor()
+        usernameLabel.font = UIFont.fontAwesomeOfSize(12)
+        timeLabel.textAlignment = NSTextAlignment.Center
+        timeLabel.textColor = UIColor.grayColor()
+        timeLabel.font = UIFont.fontAwesomeOfSize(12)
+        usernameLabel.textColor = UIColor.grayColor()
+        timeLabel.hidden = true
+        repliesLabel.font = usernameLabel.font
+        repliesLabel.textColor = usernameLabel.textColor
+        titleLabel.font = kTitleFont
     }
     
     func updateCell(post: PostModel) -> Void {

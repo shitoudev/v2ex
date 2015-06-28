@@ -103,7 +103,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             
             let titleLabel = cell.contentView.viewWithTag(10) as! UILabel
-            titleLabel.font = UIFont.boldSystemFontOfSize(14)
+            titleLabel.font = kTitleFont
             titleLabel.text = postDetail.title
             
             let usernameButton = cell.contentView.viewWithTag(15) as! UIButton
@@ -126,6 +126,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
             contentLabel.linkAttributes = linkAttributes
             contentLabel.extendsLinkTouchArea = false
+            contentLabel.font = kContentFont
             
             var linkRange = [NSRange]()
             contentLabel.setText(postDetail.content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
