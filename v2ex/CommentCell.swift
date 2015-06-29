@@ -10,10 +10,8 @@ import UIKit
 import TTTAttributedLabel
 import v2exKit
 
-//let usernameRegularExpression = NSRegularExpression(pattern: "@[^\"?][^.](\\S*)", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 let usernameRegularExpression = NSRegularExpression(pattern: "@[^.\"?]((?!\\.)\\w){2,}", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
-//let httpRegularExpression = NSRegularExpression(pattern: "[a-zA-z]+://[^\\s)）\"]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
-let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w.+?&#/%=~\\-|$]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w+?&#/%=~\\-|$?!:,.]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
 //let httpRegularExpression = NSRegularExpression(pattern: "(?<![.*\">])\\b(?:(?:https?|ftp|file)://|[a-z]\\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
