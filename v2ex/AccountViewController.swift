@@ -23,6 +23,7 @@ class AccountViewController: UITableViewController {
     
     let rows = 3, sections = 1
     var type: SwitchType = .LOGIN
+    var logining = false
     
     //args: NSDictionary
     func allocWithRouterParams(args: NSDictionary?) -> AccountViewController {
@@ -137,6 +138,10 @@ class AccountViewController: UITableViewController {
 
     // login
     func loginSubmit(sender: UIButton) {
+        if logining {
+            return
+        }
+        logining = true
         let account = self.getAccountField().text //"wordcup"
         let password = self.getSecondField().text //"wordcup"
         if type == .LOGIN  && !account.isEmpty && !password.isEmpty{
@@ -177,6 +182,7 @@ class AccountViewController: UITableViewController {
                                         JDStatusBarNotification.showWithStatus("登录成功:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
                                         MemberModel.sharedMember.username = obj!.username
                                         MemberModel.sharedMember.uid = obj!.uid
+                                        MemberModel.sharedMember.avatar_large = obj!.avatar_large
                                         MemberModel.sharedMember.saveUserData()
                                         NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLoginSuccessNotification, object: nil, userInfo: ["user":obj!])
                                         if let pvc = self.parentViewController {
@@ -193,9 +199,11 @@ class AccountViewController: UITableViewController {
                             JDStatusBarNotification.showWithStatus("登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                         }
                         //                        println("resp = \(resp), obj = \(str), error = \(error)")
+                        self.logining = false
                     })
                 } else {
                     // once 获取失败
+                    self.logining = false
                 }
                 
             })

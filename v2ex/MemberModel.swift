@@ -13,12 +13,11 @@ private let dict = NSUserDefaults.standardUserDefaults().objectForKey(APIManage.
 private let sharedInstance = dict==nil ? MemberModel(fromDictionary: ["id":0, "username":"", "avatar_large":""]) : MemberModel(fromDictionary: dict!)
 
 class MemberModel {
-    var username: String, uid: Int, avatar_large: String
-    var website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
+    var username: String, avatar_large: String
+    var uid: Int?, website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
     
     init(fromDictionary dictionary: NSDictionary) {
-        println("dictionary = \(dictionary)")
-        self.uid = dictionary["id"] as! Int
+
         self.username = dictionary["username"] as! String
         self.avatar_large = dictionary["avatar_large"] as! String
         
@@ -26,6 +25,7 @@ class MemberModel {
             self.avatar_large = "http:"+self.avatar_large
         }
         
+        self.uid = dictionary["id"] as? Int
         self.website = dictionary["website"] as? String
         self.twitter = dictionary["twitter"] as? String
         self.psn = dictionary["psn"] as? String
@@ -48,7 +48,7 @@ class MemberModel {
     
     func saveUserData() {
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(["id":uid, "username":username, "avatar_large":avatar_large], forKey: APIManage.domain)
+        defaults.setObject(["id":uid!, "username":username, "avatar_large":avatar_large], forKey: APIManage.domain)
         defaults.synchronize()
     }
     

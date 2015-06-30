@@ -21,10 +21,9 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     
     var postId: Int!
     var postDetail: PostDetailModel!
-    var dataSouce: NSArray! {
+    var dataSouce: [AnyObject] = [AnyObject]() {
         didSet {
             self.title = (self.postDetail != nil) ? self.postDetail?.title : "加载中...."
-            self.tableView.reloadData()
         }
     }
     var indexPath: NSIndexPath!
@@ -197,17 +196,46 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     }
     
     func reloadTableViewData(#isPull: Bool) {
-        
+//        self.postId = 199762
         PostDetailModel.getPostDetail(postId, completionHandler: { (detail, error) -> Void in
             if error == nil {
+                self.dataSouce = []
                 self.postDetail = detail
-                CommentModel.getComments(self.postId, completionHandler: { (obj, error) -> Void in
+                self.dataSouce.append(self.postDetail)
+                self.tableView.reloadData()
+
+//                CommentModel.getCommentsFromHtml(self.postId, page: 1, completionHandler: { (obj, error) -> Void in
+//                    if error == nil {
+//                        self.tableView.beginUpdates()
+//                        var indexPaths = [NSIndexPath]()
+//                        for (index, val) in enumerate(obj) {
+//                            self.dataSouce.append(val)
+//
+//                            let row = self.tableView.numberOfRowsInSection(0)+index
+//                            let indexPath = NSIndexPath(forRow: row, inSection: 0)
+//                            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
+//                        }
+//                        self.tableView.endUpdates()
+//                    }
+//                    
+//                    if isPull {
+//                        self.refreshControl.endRefreshing()
+//                    }
+//                })
+                
+                let salt = "&\(self.postDetail.replies)"
+                CommentModel.getComments(self.postId, salt:salt, completionHandler: { (obj, error) -> Void in
                     if error == nil {
-                        var arr: NSMutableArray = NSMutableArray(array: obj)
-                        arr.insertObject(detail!, atIndex: 0)
-                        self.dataSouce = arr
+                        self.tableView.beginUpdates()
+                        for (index, val) in enumerate(obj) {
+                            self.dataSouce.append(val)
+                            
+                            let row = self.tableView.numberOfRowsInSection(0)+index
+                            let indexPath = NSIndexPath(forRow: row, inSection: 0)
+                            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
+                        }
+                        self.tableView.endUpdates()
                     }
-                    
                     if isPull {
                         self.refreshControl.endRefreshing()
                     }
@@ -305,8 +333,26 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     }
     
     func submitSuccessData() {
-        reloadTableViewData(isPull: false)
+        
         JDStatusBarNotification.showWithStatus("提交完成:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
+        
+        let content = getTextView().text
+        let user = MemberModel.sharedMember
+        let data = ["id":0, "content":content, "created":NSDate().timeIntervalSince1970, "member":["username":user.username, "avatar_large":user.avatar_large]]
+        let comment = CommentModel(fromDictionary: data)
+//        println("comment.data = \(data)")
+        
+        // update row
+        self.tableView.beginUpdates()
+        
+        self.dataSouce.append(comment)
+        let row = self.tableView.numberOfRowsInSection(0)
+        let indexPath = NSIndexPath(forRow: row, inSection: 0)
+        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
+        
+        self.tableView.endUpdates()
+        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+        
         getTextView().text = ""
         getTextView().setNeedsDisplay()
     }

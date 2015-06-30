@@ -45,11 +45,9 @@ class CommentCell: UITableViewCell {
         usernameButton.setTitle(comment.member.username, forState: .Normal)
         timeLabel.text = comment.getSmartTime()
         
-//        contentLabel.text = comment.content
-//        return
-        
+        let content = comment.apiData ? comment.content : comment.getContent()
         if comment.linkMatched {
-            contentLabel.setText(comment.content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
+            contentLabel.setText(content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
                 if comment.linkRange?.count > 0 {
                     for range in comment.linkRange! {
                         addLinkAttributed(mutableAttributedString, range: range)
@@ -60,7 +58,7 @@ class CommentCell: UITableViewCell {
         } else {
             var linkRange = [NSRange]()
             
-            contentLabel.setText(comment.content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
+            contentLabel.setText(content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
                 
                 let stringRange = NSMakeRange(0, mutableAttributedString.length)
                 // username
@@ -90,7 +88,7 @@ class CommentCell: UITableViewCell {
         
         if comment.linkRange?.count > 0 {
             for range in comment.linkRange! {
-                let linkStr = (comment.content as NSString).substringWithRange(range)
+                let linkStr = (content as NSString).substringWithRange(range)
                 contentLabel.addLinkToURL(NSURL(string: linkStr), withRange: range)
             }
         }
