@@ -76,32 +76,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        if url.scheme == "v2ex" {
-            if url.host == "post" {
-                if let query = url.query {
-                    let paramArr = query.componentsSeparatedByString("&")
-                    var postId = 0
-                    for paramStr in paramArr {
-                        let queryArr = query.componentsSeparatedByString("=")
-                        let key = queryArr.first
-                        if key == "postId" {
-                            let val = queryArr.last!
+        let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)!
+        if urlComponents.host == "post" {
+            if let queryItems = urlComponents.queryItems {
+                var postId = 0
+                for item in queryItems {
+                    if (item as! NSURLQueryItem).name == "postId" {
+                        if let val = (item as! NSURLQueryItem).value {
                             postId = val.toInt()!
                             break
                         }
                     }
-                    
-                    if postId > 0 {
-                        openURLQueue.removeAll(keepCapacity: true)
-                        let viewController = PostDetailViewController().allocWithRouterParams(nil)
-                        viewController.postId = postId
-                        openURLQueue.append(viewController)
-                    }
-                    
                 }
+                if postId > 0 {
+                    openURLQueue.removeAll(keepCapacity: true)
+                    let viewController = PostDetailViewController().allocWithRouterParams(nil)
+                    viewController.postId = postId
+                    openURLQueue.append(viewController)
+                }
+                
             }
         }
-//        println("url.scheme = \(url.scheme), url.host = \(url.host) url.relativePath = \(url.relativePath), url.query = \(url.query)")
         return true
     }
 

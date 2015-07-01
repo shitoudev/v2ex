@@ -20,12 +20,12 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     @IBOutlet weak var toolbarBottomConstraint: NSLayoutConstraint!
     
     var postId: Int!
-    var postDetail: PostDetailModel!
-    var dataSouce: [AnyObject] = [AnyObject]() {
+    var postDetail: PostDetailModel! {
         didSet {
             self.title = (self.postDetail != nil) ? self.postDetail?.title : "加载中...."
         }
     }
+    var dataSouce: [AnyObject] = [AnyObject]()
     var indexPath: NSIndexPath!
     var refreshControl: UIRefreshControl!
     
@@ -41,7 +41,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.dataSouce = []
+        self.postDetail = nil
         self.tableView.registerNib(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "commentCellId")
         self.tableView.estimatedRowHeight = 90
         self.tableView.rowHeight = UITableViewAutomaticDimension
