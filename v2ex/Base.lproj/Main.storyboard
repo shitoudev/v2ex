@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -149,7 +149,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="550"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postContentCellId" rowHeight="118" id="sAc-hW-23n">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="postContentCellId" rowHeight="118" id="sAc-hW-23n" customClass="PostContentCell" customModule="v2ex" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sAc-hW-23n" id="bqK-NJ-VeY">
@@ -223,6 +223,13 @@
                                                 <constraint firstItem="7h9-0h-72x" firstAttribute="leading" secondItem="bqK-NJ-VeY" secondAttribute="leading" constant="8" id="vQf-9k-2KP"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="avatarButton" destination="Zru-eF-WZ8" id="Nld-IS-fCU"/>
+                                            <outlet property="contentLabel" destination="7h9-0h-72x" id="QBT-Sa-JAc"/>
+                                            <outlet property="timeLabel" destination="rz4-1Q-SXm" id="9tE-zz-cOe"/>
+                                            <outlet property="titleLabel" destination="jeB-bs-mbH" id="50U-En-V0J"/>
+                                            <outlet property="usernameButton" destination="zdb-9b-2PX" id="CkQ-sa-YhE"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

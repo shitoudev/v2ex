@@ -68,7 +68,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         
         getTextView().delegate = self
         getTextView().placeHolder = "添加评论 输入@自动匹配用户..."
-        getTextView().keyboardType = UIKeyboardType.EmailAddress
+        getTextView().keyboardType = UIKeyboardType.Twitter
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -104,66 +104,11 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("postContentCellId") as! UITableViewCell
+            let cell: PostContentCell = tableView.dequeueReusableCellWithIdentifier("postContentCellId") as! PostContentCell
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             
-            let titleLabel = cell.contentView.viewWithTag(10) as! UILabel
-            titleLabel.font = kTitleFont
-            titleLabel.text = postDetail.title
-            
-            let usernameButton = cell.contentView.viewWithTag(15) as! UIButton
-            usernameButton.setTitle(postDetail.member.username, forState: UIControlState.Normal)
-            usernameButton.setTitleColor(UIColor.colorWithHexString(kLinkColor), forState: .Normal)
-            
-            let avatarButton = cell.contentView.viewWithTag(16) as! UIButton
-            avatarButton.layer.cornerRadius = 5
-            avatarButton.layer.masksToBounds = true
-            avatarButton.kf_setImageWithURL(NSURL(string: self.postDetail.member.avatar_large)!, forState: .Normal, placeholderImage: nil)
-            
-            let timeLabel = cell.contentView.viewWithTag(13) as! UILabel
-            timeLabel.font = UIFont.systemFontOfSize(12)
-            timeLabel.textColor = UIColor.grayColor()
-            timeLabel.text = postDetail.getSmartTime()
-            
-            let contentLabel = cell.contentView.viewWithTag(14) as! TTTAttributedLabel
-            contentLabel.delegate = self
-            contentLabel.font = UIFont.systemFontOfSize(14)
-            var linkAttributes = Dictionary<String, AnyObject>()
-            linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
-            contentLabel.linkAttributes = linkAttributes
-            contentLabel.extendsLinkTouchArea = false
-            contentLabel.font = kContentFont
-            
-            var linkRange = [NSRange]()
-            contentLabel.setText(postDetail.content, afterInheritingLabelAttributesAndConfiguringWithBlock: { (mutableAttributedString) -> NSMutableAttributedString! in
-                
-                let stringRange = NSMakeRange(0, mutableAttributedString.length)
-                // username
-                usernameRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
-                    
-                    if result != nil {
-                        addLinkAttributed(mutableAttributedString, range: result.range)
-                        linkRange.append(result.range)
-                    }
-                })
-                // http link
-                httpRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
-                    
-                    if result != nil {
-                        addLinkAttributed(mutableAttributedString, range: result.range)
-                        linkRange.append(result.range)
-                    }
-                })
-                
-                return mutableAttributedString
-            })
-            
-            if linkRange.count > 0 {
-                for range in linkRange {
-                    let linkStr = (postDetail.content as NSString).substringWithRange(range)
-                    contentLabel.addLinkToURL(NSURL(string: linkStr), withRange: range)
-                }
-            }
+            cell.contentLabel.delegate = self
+            cell.updateCell(postDetail)
 
             return cell;
             

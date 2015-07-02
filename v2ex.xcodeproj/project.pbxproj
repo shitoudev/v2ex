@@ -48,6 +48,7 @@
 		97BB75471AFCFA0100872416 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75461AFCFA0100872416 /* WebViewController.swift */; };
 		97C0B5A31B43DA0700C74281 /* AtUserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */; };
 		97D645271B3C4936005B4485 /* v2exKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D645261B3C4936005B4485 /* v2exKit.swift */; };
+		97D6B4991B457E450043499B /* PostContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B4981B457E450043499B /* PostContentCell.swift */; };
 		97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
 		97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C5F1B218E5700F38FB1 /* PostModel.swift */; };
 		97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C631B21AC5700F38FB1 /* PostTableView.swift */; };
@@ -177,6 +178,7 @@
 		97BB75461AFCFA0100872416 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtUserTableView.swift; sourceTree = "<group>"; };
 		97D645261B3C4936005B4485 /* v2exKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = v2exKit.swift; sourceTree = "<group>"; };
+		97D6B4981B457E450043499B /* PostContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentCell.swift; sourceTree = "<group>"; };
 		97E62EBD1B11CD5E00589989 /* APIManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManage.swift; sourceTree = "<group>"; };
 		97E76C5F1B218E5700F38FB1 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		97E76C631B21AC5700F38FB1 /* PostTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableView.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */,
 				9759730A1B44053400FCF28D /* MemberCell.swift */,
 				9759730C1B4405E800FCF28D /* MemberCell.xib */,
+				97D6B4981B457E450043499B /* PostContentCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -836,6 +839,7 @@
 				97E76C6C1B24AE3600F38FB1 /* CommentCell.swift in Sources */,
 				975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */,
 				97BB75451AFCF8AA00872416 /* NodeViewController.swift in Sources */,
+				97D6B4991B457E450043499B /* PostContentCell.swift in Sources */,
 				97E76C701B25485C00F38FB1 /* PostDetailModel.swift in Sources */,
 				9727521D1B00998E001A1F41 /* BaseViewController.swift in Sources */,
 				9739A8031B3BBA85006D9259 /* HTMLNode.swift in Sources */,
