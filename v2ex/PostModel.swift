@@ -20,21 +20,24 @@ enum PostType: Int {
 class PostModel: JSONAble {
 
     var postId: Int, replies: Int
-    var avatar: String, title: String, node: String, username: String, latestReplyTime: String
+    var title: String, node: String, latestReplyTime: String
+    var member: MemberModel
     
     init(fromDictionary dictionary: NSDictionary) {
         
         self.postId = dictionary["postId"] as! Int
         self.replies = dictionary["replies"] as! Int
-        self.avatar = dictionary["avatar"] as! String
+//        self.avatar = dictionary["avatar"] as! String
         self.title = dictionary["title"] as! String
         self.node = dictionary["node"] as! String
-        self.username = dictionary["username"] as! String
+//        self.username = dictionary["username"] as! String
         self.latestReplyTime = dictionary["latestReplyTime"] as! String
         
-        if avatar.hasPrefix("//") {
-            self.avatar = "http:" + avatar
-        }
+//        if avatar.hasPrefix("//") {
+//            self.avatar = "http:" + avatar
+//        }
+        
+        self.member = MemberModel(fromDictionary: dictionary["member"] as! NSDictionary)
     }
     /**
     获取主题
@@ -110,7 +113,7 @@ class PostModel: JSONAble {
                     let username = itemObj["member"]!["username"] as! String
                     let latestReplyTime = ""
                     let replies = itemObj["replies"] as! Int
-                    let post = ["postId":postId, "replies":replies, "avatar":avatar, "title":title, "node":node, "username":username, "latestReplyTime":latestReplyTime] as NSDictionary
+                    let post = ["postId":postId, "replies":replies, "avatar":avatar, "title":title, "node":node, "username":username, "latestReplyTime":latestReplyTime, "member":["username":username, "avatar_large":avatar]] as NSDictionary
                     var postModel = PostModel(fromDictionary: post)
                     result.append(postModel)
                 }
@@ -188,7 +191,7 @@ class PostModel: JSONAble {
                         if let repliesNode: HTMLNode = oneNode.findChildTagAttr("a", attrName: "class", attrValue: "count_livid") {
                             replies = repliesNode.contents.toInt()!
                         }
-                        let post = ["postId":postId, "replies":replies, "avatar":avatar, "title":title, "node":node, "username":username, "latestReplyTime":latestReplyTime] as NSDictionary
+                        let post = ["postId":postId, "replies":replies, "title":title, "node":node, "latestReplyTime":latestReplyTime, "member":["username":username, "avatar_large":avatar]] as NSDictionary
                         //                    println("post = \(post)")
                         var postModel = PostModel(fromDictionary: post)
                         result.append(postModel)

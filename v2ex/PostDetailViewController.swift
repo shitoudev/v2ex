@@ -11,8 +11,9 @@ import SnapKit
 import JDStatusBarNotification
 import TTTAttributedLabel
 import v2exKit
+import SnapKit
 
-class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, TTTAttributedLabelDelegate {
+class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, TTTAttributedLabelDelegate, AtUserTableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbarView: UIView!
@@ -28,6 +29,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     var dataSouce: [AnyObject] = [AnyObject]()
     var indexPath: NSIndexPath!
     var refreshControl: UIRefreshControl!
+    var atTableView: AtUserTableView!
     
     //args: NSDictionary
     func allocWithRouterParams(args: NSDictionary?) -> PostDetailViewController {
@@ -63,6 +65,10 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
 
         let sendButton = toolbarView.viewWithTag(11) as! UIButton
         sendButton.addTarget(self, action: "sendButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        getTextView().delegate = self
+        getTextView().placeHolder = "添加评论 输入@自动匹配用户..."
+        getTextView().keyboardType = UIKeyboardType.EmailAddress
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -107,6 +113,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             
             let usernameButton = cell.contentView.viewWithTag(15) as! UIButton
             usernameButton.setTitle(postDetail.member.username, forState: UIControlState.Normal)
+            usernameButton.setTitleColor(UIColor.colorWithHexString(kLinkColor), forState: .Normal)
             
             let avatarButton = cell.contentView.viewWithTag(16) as! UIButton
             avatarButton.layer.cornerRadius = 5
@@ -351,7 +358,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
         
         self.tableView.endUpdates()
-        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
+        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
         
         getTextView().text = ""
         getTextView().setNeedsDisplay()
@@ -385,6 +392,63 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         return toolbarView.viewWithTag(10) as! STTextView
     }
     
+    // MARK: UITextViewDelegate
+    func textViewDidChange(textView: UITextView) {
+        if !textView.text.isEmpty && dataSouce.count > 0 {
+            if last(textView.text) == " " {
+                atTableView?.hidden = true
+                return
+            }
+            let components = textView.text.componentsSeparatedByString(" ")
+            if components.count > 0 {
+                let atText = components.last!
+                if atText.hasPrefix("@") {
+                    let text = atText.stringByReplacingOccurrencesOfString("@", withString: "")
+                    if !text.isEmpty {
+
+                        if atTableView == nil {
+                            self.atTableView = AtUserTableView(frame: tableView.bounds, style: .Plain)
+                            atTableView.atDelegate = self
+                            view.insertSubview(atTableView, belowSubview: toolbarView)
+                            
+                            atTableView.snp_makeConstraints { (make) -> Void in
+                                make.top.equalTo(tableView.snp_top).offset(64)
+                                make.left.equalTo(tableView.snp_left)
+                                make.right.equalTo(tableView.snp_right)
+                                make.bottom.equalTo(tableView.snp_bottom)
+                            }
+                            let postDetail: PostDetailModel = dataSouce.first as! PostDetailModel
+                            var userData = [postDetail.member]
+                            for obj in dataSouce {
+                                if let comment = obj as? CommentModel {
+                                    var canAdd = true
+                                    if userData.count > 0 {
+                                        for user in userData {
+                                            if user.username == comment.member.username {
+                                                canAdd = false
+                                            }
+                                        }
+                                    }
+                                    if canAdd {
+                                        userData.append(comment.member)
+                                    }
+                                }
+                            }
+                            
+                            atTableView.originData = userData
+                        }
+                        
+                        atTableView.searchText = text
+                        atTableView.hidden = !atTableView.searchMember()
+                    } else {
+                        atTableView?.hidden = true
+                    }
+                }
+            }
+        }
+
+    }
+    
     // MARK: TTTAttributedLabelDelegate
     func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
         if url != nil {
@@ -402,6 +466,14 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
                 }
             }
         }
+    }
+    
+    // MARK: AtUserTableViewDelegate
+    func didSelectedUser(user: MemberModel) {
+        
+        getTextView().text = getTextView().text.stringByReplacingOccurrencesOfString("@" + atTableView.searchText, withString: "@" + user.username + " ", options: NSStringCompareOptions.BackwardsSearch)
+        
+        atTableView?.hidden = true
     }
     
 }

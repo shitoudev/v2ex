@@ -12,7 +12,7 @@ import SwiftyJSON
 private let dict = NSUserDefaults.standardUserDefaults().objectForKey(APIManage.domain) as? NSDictionary
 private let sharedInstance = dict==nil ? MemberModel(fromDictionary: ["id":0, "username":"", "avatar_large":""]) : MemberModel(fromDictionary: dict!)
 
-class MemberModel {
+class MemberModel: NSObject {
     var username: String, avatar_large: String
     var uid: Int?, website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
     

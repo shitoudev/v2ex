@@ -30,6 +30,8 @@
 		974F65221B3FF66300927B37 /* STTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651C1B3FF66300927B37 /* STTextView.swift */; };
 		974F65231B3FF66300927B37 /* STView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651D1B3FF66300927B37 /* STView.swift */; };
 		974F65241B3FF66300927B37 /* STWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651E1B3FF66300927B37 /* STWebView.swift */; };
+		9759730B1B44053400FCF28D /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9759730A1B44053400FCF28D /* MemberCell.swift */; };
+		9759730D1B4405E800FCF28D /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9759730C1B4405E800FCF28D /* MemberCell.xib */; };
 		975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975E6D3C1B0B3F490080F998 /* AccountViewController.swift */; };
 		979587331B0F389200B20745 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 979587321B0F389200B20745 /* libxml2.dylib */; };
 		97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A067A31AF4B3C400EB475C /* JSONAble.swift */; };
@@ -44,6 +46,7 @@
 		97BB75431AFCEE7A00872416 /* LatestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75421AFCEE7A00872416 /* LatestViewController.swift */; };
 		97BB75451AFCF8AA00872416 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75441AFCF8AA00872416 /* NodeViewController.swift */; };
 		97BB75471AFCFA0100872416 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75461AFCFA0100872416 /* WebViewController.swift */; };
+		97C0B5A31B43DA0700C74281 /* AtUserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */; };
 		97D645271B3C4936005B4485 /* v2exKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D645261B3C4936005B4485 /* v2exKit.swift */; };
 		97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
 		97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C5F1B218E5700F38FB1 /* PostModel.swift */; };
@@ -151,6 +154,8 @@
 		974F651C1B3FF66300927B37 /* STTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTextView.swift; sourceTree = "<group>"; };
 		974F651D1B3FF66300927B37 /* STView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STView.swift; sourceTree = "<group>"; };
 		974F651E1B3FF66300927B37 /* STWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STWebView.swift; sourceTree = "<group>"; };
+		9759730A1B44053400FCF28D /* MemberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
+		9759730C1B4405E800FCF28D /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
 		975E6D3C1B0B3F490080F998 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		979587321B0F389200B20745 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		97A067A31AF4B3C400EB475C /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
@@ -170,6 +175,7 @@
 		97BB75421AFCEE7A00872416 /* LatestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestViewController.swift; sourceTree = "<group>"; };
 		97BB75441AFCF8AA00872416 /* NodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
 		97BB75461AFCFA0100872416 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtUserTableView.swift; sourceTree = "<group>"; };
 		97D645261B3C4936005B4485 /* v2exKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = v2exKit.swift; sourceTree = "<group>"; };
 		97E62EBD1B11CD5E00589989 /* APIManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManage.swift; sourceTree = "<group>"; };
 		97E76C5F1B218E5700F38FB1 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
@@ -257,6 +263,9 @@
 				97E76C6D1B24AE5700F38FB1 /* CommentCell.xib */,
 				974205041B30708300F07E5E /* PostCell.swift */,
 				974205061B3070BA00F07E5E /* PostCell.xib */,
+				97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */,
+				9759730A1B44053400FCF28D /* MemberCell.swift */,
+				9759730C1B4405E800FCF28D /* MemberCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -670,6 +679,7 @@
 				97E76C6E1B24AE5700F38FB1 /* CommentCell.xib in Resources */,
 				97BA7CE81AF47FBB00950A0C /* LaunchScreen.xib in Resources */,
 				97BA7CE51AF47FBB00950A0C /* Images.xcassets in Resources */,
+				9759730D1B4405E800FCF28D /* MemberCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,9 +847,11 @@
 				97BB753F1AFCAF0900872416 /* MemberModel.swift in Sources */,
 				972752161AFFA078001A1F41 /* ProfileViewController.swift in Sources */,
 				974205031B300E8800F07E5E /* PostViewController.swift in Sources */,
+				9759730B1B44053400FCF28D /* MemberCell.swift in Sources */,
 				97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */,
 				9739A8011B3BBA85006D9259 /* FontAwesome.swift in Sources */,
 				97BB75431AFCEE7A00872416 /* LatestViewController.swift in Sources */,
+				97C0B5A31B43DA0700C74281 /* AtUserTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

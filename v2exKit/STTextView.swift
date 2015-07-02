@@ -10,12 +10,12 @@ import UIKit
 
 public class STTextView: UITextView {
     
-    var placeHolder: NSString! {
+    public var placeHolder: NSString! {
         didSet {
             self.setNeedsDisplay()
         }
     }
-    var placeHolderTextColor: UIColor! {
+    public var placeHolderTextColor: UIColor! {
         didSet {
             self.setNeedsDisplay()
         }

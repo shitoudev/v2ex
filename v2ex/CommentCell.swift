@@ -11,7 +11,7 @@ import TTTAttributedLabel
 import v2exKit
 
 let usernameRegularExpression = NSRegularExpression(pattern: "@[^.\"?]((?!\\.)\\w){2,}", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
-let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w+?&#/%=~\\-|$?!:,.]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w+?&#/%=~\\-|@$?!:,.]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
 //let httpRegularExpression = NSRegularExpression(pattern: "(?<![.*\">])\\b(?:(?:https?|ftp|file)://|[a-z]\\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
@@ -32,7 +32,8 @@ class CommentCell: UITableViewCell {
         timeLabel.textColor = UIColor.grayColor()
         timeLabel.font = UIFont.systemFontOfSize(12)
         usernameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        
+        usernameButton.setTitleColor(UIColor.colorWithHexString(kLinkColor), forState: .Normal)
+
         var linkAttributes = Dictionary<String, AnyObject>()
         linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
         contentLabel.linkAttributes = linkAttributes

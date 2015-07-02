@@ -36,16 +36,16 @@ class PostCell: UITableViewCell {
     }
     
     func updateCell(post: PostModel) -> Void {
-        picView.kf_setImageWithURL(NSURL(string: post.avatar)!, placeholderImage: nil)
+        picView.kf_setImageWithURL(NSURL(string: post.member.avatar_large)!, placeholderImage: nil)
         titleLabel.text = post.title
         nodeLabel.text = "[\(post.node)]"
-        usernameLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.username)"
+        usernameLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.member.username)"
         repliesLabel.text = String.fontAwesomeIconWithName(.Comment)+" \(post.replies)"
         
         if post.node.isEmpty {
             //            self.nodeLabel.hidden = true
             nodeLabel.font = UIFont.fontAwesomeOfSize(12)
-            nodeLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.username)"
+            nodeLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.member.username)"
             repliesLabel.hidden = true
             usernameLabel.text = String.fontAwesomeIconWithName(.Comment)+" \(post.replies)"
         }
