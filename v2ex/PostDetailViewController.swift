@@ -253,7 +253,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
                         //                        println("args = \(self.getTextView().text + once), str = \(str)")
                         if (error == nil && str != nil) {
                             var err: NSError?
-                            let parser = HTMLParser(html: str!, error: &err)
+                            let parser = HTMLParser(html: str!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
                             let bodyNode = parser.body
                             let headNode = parser.head
                             

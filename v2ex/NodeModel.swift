@@ -32,12 +32,12 @@ class NodeModel {
         var result = [AnyObject]()
 
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, respStr, error) -> Void in
             
             if error == nil {
                 
                 var err: NSError?
-                let parser = HTMLParser(html: str!, error: &err)
+                let parser = HTMLParser(html: respStr!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
                 
                 let bodyNode = parser.body
                 

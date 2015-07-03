@@ -163,7 +163,7 @@ class AccountViewController: UITableViewController {
                     mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
                         if (error == nil && str != nil) {
                             var err: NSError?
-                            let parser = HTMLParser(html: str!, error: &err)
+                            let parser = HTMLParser(html: str!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
                             let bodyNode = parser.body
                             if let myNodes = bodyNode?.findChildTagAttr("a", attrName: "href", attrValue: "/my/nodes") {
                                 // 登录成功，查找 username

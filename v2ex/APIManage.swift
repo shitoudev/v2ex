@@ -76,7 +76,7 @@ class APIManage: Manager {
     static func getOnceStringFromHtmlResponse(respStr: String) -> String {
         var once = ""
         var err: NSError?
-        let parser = HTMLParser(html: respStr, error: &err)
+        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
         
         let bodyNode = parser.body
         if let onceNode = bodyNode?.findChildTagAttr("input", attrName: "name", attrValue: "once") {

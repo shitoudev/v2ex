@@ -109,7 +109,7 @@ class CommentModel: JSONAble {
     private static func getCommentsFromHtmlResponse(respStr: String) -> [CommentModel] {
         var result = [CommentModel]()
         var err: NSError?
-        let parser = HTMLParser(html: respStr, error: &err)
+        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
         
         let bodyNode = parser.body
         if let divs = bodyNode?.findChildTagsAttr("div", attrName: "class", attrValue: "cell") {
