@@ -24,13 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         var navigationBar = UINavigationBar.appearance()
-        navigationBar.barTintColor = UIColor.colorWithHexString("#333344") //colorWithHexString("#333344")
+        navigationBar.barTintColor = kAppNormalColor
         navigationBar.tintColor = UIColor.whiteColor()
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         
-        UITabBar.appearance().tintColor = UIColor.colorWithHexString("#333344")
+        UITabBar.appearance().tintColor = kAppNormalColor
         
         application.statusBarStyle = UIStatusBarStyle.LightContent
+        window?.tintColor = kAppNormalColor
         
         if MemberModel.sharedMember.isLogin() {
             println("登录中")

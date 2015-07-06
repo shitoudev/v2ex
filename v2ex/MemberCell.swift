@@ -17,7 +17,7 @@ class MemberCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        selectionStyle = UITableViewCellSelectionStyle.None
         avatarButton.layer.cornerRadius = 5
         avatarButton.layer.masksToBounds = true
         avatarButton.enabled = false

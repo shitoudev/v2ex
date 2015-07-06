@@ -27,19 +27,19 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         self.title = "节点"
         
         self.dataSouce = []
-        self.tableView.dataSource = self
-        self.tableView.delegate = self
-        self.tableView.rowHeight = 48
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = 48
         
         let footerView = UIView.new()
         footerView.backgroundColor = UIColor.clearColor()
-        self.tableView.tableFooterView = footerView
+        tableView.tableFooterView = footerView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        tableView.addSubview(self.refreshControl)
         
-        self.reloadTableViewData(isPull: false)
+        reloadTableViewData(isPull: false)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLogoutSuccessNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLoginSuccessNotification, object: nil)

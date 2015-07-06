@@ -24,24 +24,24 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     }
     var indexPath: NSIndexPath!
     var refreshControl: UIRefreshControl!
-    
+
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
         self.dataSouce = []
-        self.dataSource = self
-        self.delegate = self
-        self.rowHeight = 56
-        self.registerNib(UINib(nibName: "PostCell", bundle: nil), forCellReuseIdentifier: "postCellId")
+        dataSource = self
+        delegate = self
+        rowHeight = 56
+        layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        registerNib(UINib(nibName: "PostCell", bundle: nil), forCellReuseIdentifier: "postCellId")
         
         let footerView = UIView.new()
         footerView.backgroundColor = UIColor.clearColor()
-        self.tableFooterView = footerView
+        tableFooterView = footerView
         
         self.refreshControl = UIRefreshControl(frame: self.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.addSubview(self.refreshControl)
-
     }
 
     required init(coder aDecoder: NSCoder) {

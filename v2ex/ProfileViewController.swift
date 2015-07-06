@@ -32,7 +32,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             })
         }
     }
-//    var arr = [AnyObject]()
+
     var indexPath: NSIndexPath?
 
     var datasource: NSArray! {
@@ -94,31 +94,31 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     func updateUI() {
         var more = [AnyObject]()
-        if self.userInfo.website != "" {
-            let content = ["text":(self.userInfo.website)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":self.userInfo.website!]
+        if userInfo.website != "" {
+            let content = ["text":(userInfo.website)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":userInfo.website!]
             more.append(content)
         }
-        if self.userInfo.twitter != "" {
-            let content = ["text":(self.userInfo.twitter)!, "font":String.fontAwesomeIconWithName(FontAwesome.Twitter), "url":"http://twitter.com/"+self.userInfo.twitter!]
+        if userInfo.twitter != "" {
+            let content = ["text":(userInfo.twitter)!, "font":String.fontAwesomeIconWithName(FontAwesome.Twitter), "url":"http://twitter.com/"+userInfo.twitter!]
             more.append(content)
         }
-        if self.userInfo.psn != "" {
-            let content = ["text":(self.userInfo.psn)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":"https://secure.us.playstation.com/logged-in/trophies/public-trophies/?onlineId="+self.userInfo.psn!]
+        if userInfo.psn != "" {
+            let content = ["text":(userInfo.psn)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap), "url":"https://secure.us.playstation.com/logged-in/trophies/public-trophies/?onlineId="+userInfo.psn!]
             more.append(content)
         }
-        if self.userInfo.github != "" {
-            let content = ["text":(self.userInfo.github)!, "font":String.fontAwesomeIconWithName(FontAwesome.Github), "url":"https://github.com/"+self.userInfo.github!]
+        if userInfo.github != "" {
+            let content = ["text":(userInfo.github)!, "font":String.fontAwesomeIconWithName(FontAwesome.Github), "url":"https://github.com/"+userInfo.github!]
             more.append(content)
         }
-        if self.userInfo.btc != "" {
-            let content = ["text":(self.userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.Btc), "url":"http://blockexplorer.com/address/"+self.userInfo.btc!]
+        if userInfo.btc != "" {
+            let content = ["text":(userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.Btc), "url":"http://blockexplorer.com/address/"+userInfo.btc!]
             more.append(content)
         }
-        if self.userInfo.location != "" {
-            let content = ["text":(self.userInfo.location)!, "font":String.fontAwesomeIconWithName(FontAwesome.LocationArrow), "url":"http://www.google.com/maps?q="+self.userInfo.location!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!]
+        if userInfo.location != "" {
+            let content = ["text":(userInfo.location)!, "font":String.fontAwesomeIconWithName(FontAwesome.LocationArrow), "url":"http://www.google.com/maps?q="+userInfo.location!.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!]
             more.append(content)
         }
-        if self.userInfo.tagline != "" {
+        if userInfo.tagline != "" {
             //                    var content = ["text":(self.userInfo.tagline)!, "font":String.fontAwesomeIconWithName(FontAwesome.Sitemap)]
             //                    more.append(content)
         }
@@ -228,7 +228,8 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                 })
             } else {
                 let url = dict["url"] as! String
-                let webViewController = WebViewController().allocWithRouterParams(["url":url])
+                let webViewController = WebViewController()
+                webViewController.loadURLWithString(url)
                 navigationController?.pushViewController(webViewController, animated: true)
             }
         }

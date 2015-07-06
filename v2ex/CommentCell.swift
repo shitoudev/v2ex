@@ -26,14 +26,16 @@ class CommentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.selectionStyle = UITableViewCellSelectionStyle.None
+        layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        separatorInset = UIEdgeInsetsZero
+        selectionStyle = UITableViewCellSelectionStyle.None
         avatarButton.layer.cornerRadius = 5
         avatarButton.layer.masksToBounds = true
         timeLabel.textColor = UIColor.grayColor()
         timeLabel.font = UIFont.systemFontOfSize(12)
         usernameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         usernameButton.setTitleColor(UIColor.colorWithHexString(kLinkColor), forState: .Normal)
-
+        
         var linkAttributes = Dictionary<String, AnyObject>()
         linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
         contentLabel.linkAttributes = linkAttributes

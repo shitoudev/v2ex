@@ -17,10 +17,10 @@ class HotViewController: BaseViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.title = "最热"
         
-        self.tableView = PostTableView(frame: CGRect(x: 0, y: 64, width: self.view.width, height: self.view.height-64-49), style: UITableViewStyle.Plain)
-        self.tableView.dataType = PostType.Navi
-        self.tableView.target = "hot"
-        self.view.addSubview(self.tableView)
+        self.tableView = PostTableView(frame: view.bounds, style: .Plain)
+        tableView.dataType = PostType.Navi
+        tableView.target = "hot"
+        self.view = tableView
     }
     
     override func viewWillAppear(animated: Bool) {

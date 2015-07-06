@@ -39,6 +39,7 @@ public class STTextView: UITextView {
     
     override public func layoutSubviews() {
         super.layoutSubviews()
+        setNeedsDisplay()
     }
     
     override public func drawRect(rect: CGRect) {
@@ -98,7 +99,7 @@ public class STTextView: UITextView {
     }
     
     func didReceiveTextViewNotification(notification: NSNotification) {
-        self.setNeedsDisplay()
+        setNeedsDisplay()
     }
     
     // MARK: Lifetime

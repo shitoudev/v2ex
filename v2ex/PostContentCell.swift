@@ -22,7 +22,8 @@ class PostContentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        separatorInset = UIEdgeInsetsZero
         titleLabel.font = kTitleFont
 
         avatarButton.layer.cornerRadius = 5

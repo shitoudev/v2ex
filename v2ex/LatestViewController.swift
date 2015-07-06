@@ -17,10 +17,10 @@ class LatestViewController: BaseViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.title = "最新"
         
-        self.tableView = PostTableView(frame: CGRect(x: 0, y: 64, width: self.view.width, height: self.view.height-64-49), style: UITableViewStyle.Plain)
-        self.tableView.dataType = PostType.Api
-        self.tableView.target = "latest"
-        self.view.addSubview(self.tableView)
+        self.tableView = PostTableView(frame: view.bounds, style: .Plain)
+        tableView.dataType = PostType.Api
+        tableView.target = "latest"
+        self.view = tableView
     }
     
     override func viewWillAppear(animated: Bool) {

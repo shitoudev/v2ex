@@ -40,23 +40,28 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         return viewController
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.postDetail = nil
-        self.tableView.registerNib(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "commentCellId")
-        self.tableView.estimatedRowHeight = 90
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.registerNib(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "commentCellId")
+        tableView.estimatedRowHeight = 90
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         let footerView = UIView.new()
         footerView.backgroundColor = UIColor.clearColor()
-        self.tableView.tableFooterView = footerView
+        tableView.tableFooterView = footerView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        tableView.addSubview(self.refreshControl)
         
-        self.reloadTableViewData(isPull: false)
+        reloadTableViewData(isPull: false)
         
         let topLayer = CALayer()
         topLayer.frame = CGRectMake(0, 0, toolbarView.width, 0.5)
@@ -73,7 +78,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.addObservers()
+        addObservers()
         view.keyboardTriggerOffset = self.toolbarView.height;
         view.addKeyboardPanningWithActionHandler { (keyboardFrameInView, opening, closing) -> Void in
             self.toolbarBottomConstraint.constant = self.view.height - keyboardFrameInView.origin.y
@@ -86,7 +91,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.removeObservers()
+        removeObservers()
         view.removeKeyboardControl()
     }
     
@@ -295,15 +300,15 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
 //        println("comment.data = \(data)")
         
         // update row
-        self.tableView.beginUpdates()
+        tableView.beginUpdates()
         
-        self.dataSouce.append(comment)
-        let row = self.tableView.numberOfRowsInSection(0)
+        dataSouce.append(comment)
+        let row = tableView.numberOfRowsInSection(0)
         let indexPath = NSIndexPath(forRow: row, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Middle)
         
-        self.tableView.endUpdates()
-        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+        tableView.endUpdates()
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
         
         getTextView().text = ""
         getTextView().setNeedsDisplay()
@@ -406,7 +411,8 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
                     profileViewController.username = username
                     navigationController?.pushViewController(profileViewController, animated: true)
                 } else {
-                    let webViewController = WebViewController().allocWithRouterParams(["url":url.absoluteString!])
+                    let webViewController = WebViewController()
+                    webViewController.loadURLWithString(url.absoluteString!)
                     navigationController?.pushViewController(webViewController, animated: true)
                 }
             }

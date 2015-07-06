@@ -276,14 +276,13 @@
                             <constraint firstItem="qqS-6v-0iE" firstAttribute="top" secondItem="hTY-Xp-3G4" secondAttribute="top" id="Jtk-CQ-STr"/>
                             <constraint firstItem="R5J-Zt-6kz" firstAttribute="leading" secondItem="hTY-Xp-3G4" secondAttribute="leading" id="Zcy-zs-7OZ"/>
                             <constraint firstItem="qqS-6v-0iE" firstAttribute="leading" secondItem="hTY-Xp-3G4" secondAttribute="leading" id="aDO-mv-1jX"/>
-                            <constraint firstItem="hfZ-RF-aie" firstAttribute="top" secondItem="R5J-Zt-6kz" secondAttribute="bottom" id="jGu-8D-GNj"/>
+                            <constraint firstAttribute="bottom" secondItem="R5J-Zt-6kz" secondAttribute="bottom" id="faD-eu-5Wi"/>
                             <constraint firstAttribute="trailing" secondItem="qqS-6v-0iE" secondAttribute="trailing" id="vWP-bs-S5Y"/>
                             <constraint firstAttribute="trailing" secondItem="R5J-Zt-6kz" secondAttribute="trailing" id="zvH-L2-ijN"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="tableView" destination="qqS-6v-0iE" id="ZUY-kf-7j5"/>
-                        <outlet property="toolbarBottomConstraint" destination="jGu-8D-GNj" id="pUG-VX-mru"/>
                         <outlet property="toolbarHeightConstraint" destination="bkn-FJ-czj" id="y1M-PK-vSK"/>
                         <outlet property="toolbarView" destination="R5J-Zt-6kz" id="qac-e9-UKt"/>
                     </connections>
@@ -517,39 +516,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dTt-Oy-7Yq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1562" y="1155"/>
-        </scene>
-        <!--Web View Controller-->
-        <scene sceneID="3Sd-AX-cyG">
-            <objects>
-                <viewController storyboardIdentifier="webViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MJO-3D-Wn3" customClass="WebViewController" customModule="v2ex" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="n8G-UI-Jhf"/>
-                        <viewControllerLayoutGuide type="bottom" id="BJ9-FB-UiX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Dj3-kw-LwD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4vq-yn-FRb">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </webView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="4vq-yn-FRb" secondAttribute="trailing" id="HYV-QD-3eB"/>
-                            <constraint firstItem="4vq-yn-FRb" firstAttribute="top" secondItem="Dj3-kw-LwD" secondAttribute="top" id="WAx-sr-4re"/>
-                            <constraint firstItem="BJ9-FB-UiX" firstAttribute="top" secondItem="4vq-yn-FRb" secondAttribute="bottom" id="fTU-rx-cFh"/>
-                            <constraint firstItem="4vq-yn-FRb" firstAttribute="leading" secondItem="Dj3-kw-LwD" secondAttribute="leading" id="vng-jq-xGE"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="webView" destination="4vq-yn-FRb" id="cnZ-V2-TT6"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="THB-wR-bYs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2424" y="1028"/>
         </scene>
         <!--Post View Controller-->
         <scene sceneID="55R-uI-1GR">

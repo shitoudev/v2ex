@@ -26,16 +26,15 @@ class AtUserTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        self.dataSource = self
-        self.delegate = self
-        self.rowHeight = 44
+        dataSource = self
+        delegate = self
+        rowHeight = 44
         
-        self.registerNib(UINib(nibName: "MemberCell", bundle: nil), forCellReuseIdentifier: "memberCellId")
+        registerNib(UINib(nibName: "MemberCell", bundle: nil), forCellReuseIdentifier: "memberCellId")
         
         let footerView = UIView.new()
         footerView.backgroundColor = UIColor.clearColor()
-        self.tableFooterView = footerView
-        
+        tableFooterView = footerView
     }
     
     required init(coder aDecoder: NSCoder) {

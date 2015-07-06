@@ -23,16 +23,15 @@ class PostViewController: BaseViewController {
         
         return viewController
     }
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.tableView = PostTableView(frame: CGRect(x: 0, y: 64, width: self.view.width, height: self.view.height-64), style: UITableViewStyle.Plain)
-        self.tableView.dataType = dataType
-        self.tableView.target = target
-        self.view.addSubview(tableView)
+        self.tableView = PostTableView(frame: view.bounds, style: .Plain)
+        tableView.dataType = dataType
+        tableView.target = target
+        self.view = tableView
     }
     
     override func viewWillAppear(animated: Bool) {
