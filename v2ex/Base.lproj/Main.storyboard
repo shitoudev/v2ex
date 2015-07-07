@@ -283,6 +283,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="qqS-6v-0iE" id="ZUY-kf-7j5"/>
+                        <outlet property="toolbarBottomConstraint" destination="faD-eu-5Wi" id="lEZ-XL-p5N"/>
                         <outlet property="toolbarHeightConstraint" destination="bkn-FJ-czj" id="y1M-PK-vSK"/>
                         <outlet property="toolbarView" destination="R5J-Zt-6kz" id="qac-e9-UKt"/>
                     </connections>

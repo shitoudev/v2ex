@@ -532,6 +532,7 @@
 				89688493CCA7F9D9EF00FB90 /* Copy Pods Resources */,
 				972D99B81B38352F0069C052 /* Embed App Extensions */,
 				97EA80651B3AAD87002C7C48 /* Embed Frameworks */,
+				97CA03D01B4BD7C60045E4C6 /* Auto-increment Build */,
 			);
 			buildRules = (
 			);
@@ -799,6 +800,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-v2ex/Pods-v2ex-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		97CA03D01B4BD7C60045E4C6 /* Auto-increment Build */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Auto-increment Build";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=`date +%y%m%d%H`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
 		CF91A5CFB147A8D138D6E8C8 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
