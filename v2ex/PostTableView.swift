@@ -17,7 +17,7 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    var dataSouce: NSArray! {
+    var dataSouce: [PostModel] = [] {
         didSet {
             self.reloadData()
         }
@@ -28,7 +28,6 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
         
-        self.dataSouce = []
         dataSource = self
         delegate = self
         rowHeight = 56
@@ -53,7 +52,7 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: PostCell = tableView.dequeueReusableCellWithIdentifier("postCellId") as! PostCell
         
-        let post = dataSouce[indexPath.row] as! PostModel
+        let post = dataSouce[indexPath.row]
         cell.updateCell(post)
         
         return cell
@@ -69,7 +68,7 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         self.indexPath = indexPath
         if let vc = self.traverseResponderChainForUIViewController() {
             if vc.isKindOfClass(UIViewController) {
-                let post = self.dataSouce[indexPath.row] as! PostModel
+                let post = self.dataSouce[indexPath.row]
                 let viewController = PostDetailViewController().allocWithRouterParams(nil)
                 viewController.postId = post.postId
                 vc.navigationController?.pushViewController(viewController, animated: true)

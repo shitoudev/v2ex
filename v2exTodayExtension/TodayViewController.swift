@@ -69,8 +69,6 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
         cell.textLabel?.textColor = UIColor.whiteColor()
         cell.textLabel?.font = UIFont.systemFontOfSize(14)
         
-        println("cell = cell \(indexPath.row)")
-        
         return cell
     }
     

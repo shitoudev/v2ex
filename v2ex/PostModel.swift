@@ -46,7 +46,7 @@ class PostModel: JSONAble {
     :param: target            主题类型目标
     :param: completionHandler
     */
-    static func getPostList(postType:PostType, target:String, completionHandler:(obj: NSArray, NSError?) -> Void) {
+    static func getPostList(postType:PostType, target:String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
 
         if postType == .Api {
             PostModel.getLatestPosts({ (obj, errer) -> Void in
@@ -96,7 +96,7 @@ class PostModel: JSONAble {
     
     :param: completionHandler
     */
-    static func getLatestPosts(completionHandler:(obj: NSArray, NSError?) -> Void) {
+    static func getLatestPosts(completionHandler:(obj: [PostModel], NSError?) -> Void) {
         var result = [PostModel]()
         Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (_, _, jsonObject, error) -> Void in
             
@@ -132,7 +132,7 @@ class PostModel: JSONAble {
     :param: username
     :param: completionHandler
     */
-    static func getUserPosts(username: String, completionHandler:(obj: NSArray, NSError?) -> Void) {
+    static func getUserPosts(username: String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
         let url = APIManage.Router.Member + username
         var result = [PostModel]()
         let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)

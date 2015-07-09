@@ -25,7 +25,7 @@ class NodeModel {
         }
     }
     
-    static func getNodeList(completionHandler:(obj: NSArray, NSError?)->Void) {
+    static func getNodeList(completionHandler:(obj: [AnyObject]?, NSError?)->Void) {
         
         let url = APIManage.baseURLString
         

@@ -53,7 +53,7 @@ class CommentModel: JSONAble {
     :param: postId            主题ID
     :param: completionHandler 回调
     */
-    static func getComments(postId:Int, salt: String, completionHandler:(obj: NSArray, NSError?)->Void) {
+    static func getComments(postId:Int, salt: String, completionHandler:(obj: [CommentModel], NSError?)->Void) {
         
         let url = APIManage.Router.ApiComment + String(postId) + salt
         
@@ -84,7 +84,7 @@ class CommentModel: JSONAble {
     :param: page              当前页数
     :param: completionHandler 回调
     */
-    static func getCommentsFromHtml(postId: Int, page: Int, completionHandler:(obj: NSArray, NSError?)->Void) {
+    static func getCommentsFromHtml(postId: Int, page: Int, completionHandler:(obj: [CommentModel], NSError?)->Void) {
         let url = APIManage.Router.Post + String(postId) + "?p=\(page)"
         var result = [CommentModel]()
         let mgr = APIManage.sharedManager

@@ -35,7 +35,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
 
     var indexPath: NSIndexPath?
 
-    var datasource: NSArray! {
+    var datasource: [AnyObject]! {
         didSet {
             self.tableView.reloadData()
         }
@@ -181,7 +181,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (datasource != nil) {
-            let rows = datasource[section] as! NSArray
+            let rows = datasource[section] as! [AnyObject]
             return rows.count
         }
         return 0

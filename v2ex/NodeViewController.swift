@@ -13,7 +13,7 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
 
-    var dataSouce: NSArray! {
+    var dataSouce: [AnyObject]! {
         didSet {
             self.tableView.reloadData()
         }
@@ -50,14 +50,26 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if indexPath != nil {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "userStatusChanged:", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "userStatusChanged:", object: nil)
+    }
+    
     // MARK: UITableViewDataSource
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("nodeCellId") as! UITableViewCell
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
-        let arr = dataSouce[indexPath.section]["node"] as! NSArray
-        let node = arr[indexPath.row] as! NodeModel
+        let node = getNodesBySection(indexPath.section)[indexPath.row]
         cell.textLabel?.text = node.title
         
         return cell
@@ -68,8 +80,7 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let arr = dataSouce[section]["node"] as! NSArray
-        return arr.count
+        return getNodesBySection(section).count
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -81,9 +92,7 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.indexPath = indexPath
         
-        let arr = dataSouce[indexPath.section]["node"] as! NSArray
-        let node = arr[indexPath.row] as! NodeModel
-        
+        let node = getNodesBySection(indexPath.section)[indexPath.row]
         let type = dataSouce[indexPath.section]["type"] as! NSNumber
 
         let postViewController = PostViewController().allocWithRouterParams(nil)
@@ -112,6 +121,11 @@ class NodeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 self.refreshControl.endRefreshing()
             }
         })
+    }
+    
+    /// 
+    func getNodesBySection(section: Int) -> [NodeModel] {
+        return dataSouce[section]["node"] as! [NodeModel]
     }
     
     // MARK: NSNotification
