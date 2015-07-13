@@ -15,6 +15,7 @@ enum PostType: Int {
     case Api
     case Node
     case Navi
+    case User
 }
 
 class PostModel: JSONAble {
@@ -27,16 +28,9 @@ class PostModel: JSONAble {
         
         self.postId = dictionary["postId"] as! Int
         self.replies = dictionary["replies"] as! Int
-//        self.avatar = dictionary["avatar"] as! String
         self.title = dictionary["title"] as! String
         self.node = dictionary["node"] as! String
-//        self.username = dictionary["username"] as! String
         self.latestReplyTime = dictionary["latestReplyTime"] as! String
-        
-//        if avatar.hasPrefix("//") {
-//            self.avatar = "http:" + avatar
-//        }
-        
         self.member = MemberModel(fromDictionary: dictionary["member"] as! NSDictionary)
     }
     /**
@@ -72,9 +66,9 @@ class PostModel: JSONAble {
                 }
             })
             
-        } else if postType == .Node {
+        } else if postType == .Node || postType == .User {
             
-            let url = APIManage.Router.Node + target
+            let url = (postType == .Node) ?  (APIManage.Router.Node + target) : (APIManage.Router.Member + target + "/topics")
             var result = [PostModel]()
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
             mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in

@@ -8,6 +8,7 @@
 
 import UIKit
 import v2exKit
+import SnapKit
 
 class PostCell: UITableViewCell {
     
@@ -17,6 +18,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var repliesLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var picViewWidthConstraint: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -38,20 +40,24 @@ class PostCell: UITableViewCell {
     }
     
     func updateCell(post: PostModel) -> Void {
-        picView.kf_setImageWithURL(NSURL(string: post.member.avatar_large)!, placeholderImage: nil)
+        picViewWidthConstraint.constant = 40
+        if post.member.avatar_large.isEmpty {
+            picViewWidthConstraint.constant = 0.1
+            picView.image = nil
+        } else {
+            picView.kf_setImageWithURL(NSURL(string: post.member.avatar_large)!, placeholderImage: nil)
+        }
         titleLabel.text = post.title
         nodeLabel.text = "[\(post.node)]"
         usernameLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.member.username)"
         repliesLabel.text = String.fontAwesomeIconWithName(.Comment)+" \(post.replies)"
         
         if post.node.isEmpty {
-            //            self.nodeLabel.hidden = true
             nodeLabel.font = UIFont.fontAwesomeOfSize(12)
             nodeLabel.text = String.fontAwesomeIconWithName(.User)+"  \(post.member.username)"
             repliesLabel.hidden = true
             usernameLabel.text = String.fontAwesomeIconWithName(.Comment)+" \(post.replies)"
         }
-        //        self.timeLabel.text = article.getSmartTime()
     }
     
 }

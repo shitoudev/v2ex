@@ -12,8 +12,14 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     @IBOutlet weak var tableView: UITableView!
 
-//    var rows = 0, sections = 0
-    var isMine = true
+    var isMine = true {
+        didSet {
+            if !isMine {
+                self.myTopicName = "TA的主题"
+                self.myReplyName = "TA的回复"
+            }
+        }
+    }
     var userInfo: MemberModel! {
         didSet {
             self.navigationItem.title = userInfo==nil ? "我的" : userInfo.username
@@ -42,6 +48,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     }
     
     var accountViewController: AccountViewController?
+    var myTopicName = "我的主题", myReplyName = "我的回复"
     
     lazy var box = UIView()
     
@@ -129,6 +136,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
         
         var arr = [AnyObject]()
         arr.append([1])
+        arr.append([["text":myTopicName], ["text":myReplyName]])
         arr.append(more)
         
         if isMine {
@@ -156,20 +164,24 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             bioLabel.text = userInfo.bio
             
             return cell
-        }else if indexPath.section==1 || indexPath.section==2 {
+        }else if indexPath.section==1 || indexPath.section==2  || indexPath.section==3{
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoMoreID") as! UITableViewCell
-            
+            cell.textLabel?.textAlignment = NSTextAlignment.Left
+            cell.textLabel?.font = UIFont.systemFontOfSize(13)
+            cell.accessoryType = UITableViewCellAccessoryType.None
+
             let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
             let str = dict["text"] as! String
             if str == "退出登录" {
                 cell.textLabel?.text = str
-                cell.textLabel?.font = UIFont.systemFontOfSize(13)
                 cell.textLabel?.textAlignment = NSTextAlignment.Center
+            } else if str == myTopicName || str == myReplyName {
+                cell.textLabel?.text = str
+                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
             } else {
                 let font = dict["font"] as! String
                 cell.textLabel?.text = font + "  " + str
                 cell.textLabel?.font = UIFont.fontAwesomeOfSize(14)
-                cell.textLabel?.textAlignment = NSTextAlignment.Left
             }
             
             
@@ -198,7 +210,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if indexPath.section==1 || indexPath.section==2 {
+        if indexPath.section==1 || indexPath.section==2  || indexPath.section==3{
             self.indexPath = indexPath
             
             let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
@@ -226,6 +238,14 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                 presentViewController(alertViewController, animated: true, completion: { () -> Void in
                     
                 })
+            } else if str == myTopicName || str == myReplyName {
+                if str == myTopicName {
+                    let postViewController = PostViewController().allocWithRouterParams(nil)
+                    postViewController.title = str
+                    postViewController.dataType = .User
+                    postViewController.target = userInfo.username
+                    navigationController?.pushViewController(postViewController, animated: true)
+                }
             } else {
                 let url = dict["url"] as! String
                 let webViewController = WebViewController()

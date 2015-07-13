@@ -81,6 +81,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         addObservers()
         view.keyboardTriggerOffset = self.toolbarView.height;
         view.addKeyboardPanningWithActionHandler { (keyboardFrameInView, opening, closing) -> Void in
+            self.view.layoutIfNeeded()
             self.toolbarBottomConstraint.constant = self.view.height - keyboardFrameInView.origin.y
         }
     }
