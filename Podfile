@@ -8,10 +8,10 @@ pod 'SwiftyJSON', '~> 2.2.0'
 pod 'TTTAttributedLabel', '~> 1.13.4'
 
 target :v2ex do
-    pod 'SnapKit', '~> 0.11'
+    pod 'SnapKit', '~> 0.12'
     pod 'DAKeyboardControl', '~> 2.4.0'
     pod 'SwiftyUserDefaults', '~> 1.1.0'
-    pod 'Kingfisher', '~> 1.3'
+    pod 'Kingfisher', '~> 1.4'
     pod 'JDStatusBarNotification', '~> 1.5.2'
 end
 
