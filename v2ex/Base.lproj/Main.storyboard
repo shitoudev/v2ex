@@ -42,36 +42,66 @@
             </objects>
             <point key="canvasLocation" x="1562" y="360"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Member Reply View Controller-->
         <scene sceneID="aJF-mZ-49A">
             <objects>
-                <tableViewController id="sTd-SC-Dgy" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="memberReplyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sTd-SC-Dgy" customClass="MemberReplyViewController" customModule="v2ex" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ocz-UV-XF5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="replayCellId" rowHeight="66" id="SDK-gF-2yG">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="memberReplyCellId" rowHeight="86" id="SDK-gF-2yG" customClass="MemberReplyCell" customModule="v2ex" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SDK-gF-2yG" id="XGP-92-FOV">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="如何解决实例间强引用循环" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTD-hh-4Nd">
-                                            <rect key="frame" x="8" y="8" width="584" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="如何解决实例间强引用循环" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTD-hh-4Nd">
+                                            <rect key="frame" x="0.0" y="0.0" width="144" height="36"/>
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="gsZ-i1-sbJ"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNz-XV-RpP">
-                                            <rect key="frame" x="8" y="25" width="584" height="32.5"/>
-                                            <string key="text">跟OC中的弱引用相似，声明属性或者变量时，在前面加上weak关键字表明这是一个弱引用。弱引用不会牢牢保持住引用的实例，并且不会阻止 ARC 销毁被引用的实例。因为弱引用的值会变化并可能为nil，所以弱引用不能是常量，必须是可选类型（Optional）。因为弱引用不会保持所引用的实例，即使引用存在，实例也有可能被销毁。因此，ARC 会在引用的实例被销毁后自动将其赋值为nil。</string>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="321天前" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlc-Ga-Loo">
+                                            <rect key="frame" x="144" y="0.0" width="456" height="36"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="1bZ-go-zTN"/>
+                                                <constraint firstAttribute="height" constant="36" id="9BH-BE-FYI"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跟OC中的弱引用相似，声明属性或者变量时，在前面加上weak关键字表明这是一个弱引用。弱引用不会牢牢保持住引用的实例，并且不会阻止 ARC 销毁被引用的实例。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WNz-XV-RpP">
+                                            <rect key="frame" x="8" y="46" width="584" height="31.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="NTD-hh-4Nd" firstAttribute="leading" secondItem="XGP-92-FOV" secondAttribute="leading" id="9U7-eQ-6FD"/>
+                                        <constraint firstItem="WNz-XV-RpP" firstAttribute="leading" secondItem="XGP-92-FOV" secondAttribute="leading" constant="8" id="Blw-AP-xz2"/>
+                                        <constraint firstItem="dlc-Ga-Loo" firstAttribute="top" secondItem="XGP-92-FOV" secondAttribute="top" id="Brl-kT-Lc4"/>
+                                        <constraint firstAttribute="trailing" secondItem="dlc-Ga-Loo" secondAttribute="trailing" id="Psz-ww-hAe"/>
+                                        <constraint firstItem="WNz-XV-RpP" firstAttribute="top" secondItem="dlc-Ga-Loo" secondAttribute="bottom" constant="10" id="W4N-w7-V7P"/>
+                                        <constraint firstItem="dlc-Ga-Loo" firstAttribute="leading" secondItem="NTD-hh-4Nd" secondAttribute="trailing" id="YsC-2e-mGi"/>
+                                        <constraint firstItem="dlc-Ga-Loo" firstAttribute="leading" secondItem="NTD-hh-4Nd" secondAttribute="trailing" id="ZiN-3g-BcM"/>
+                                        <constraint firstAttribute="bottom" secondItem="WNz-XV-RpP" secondAttribute="bottom" constant="8" id="dhx-gx-aWm"/>
+                                        <constraint firstItem="NTD-hh-4Nd" firstAttribute="top" secondItem="XGP-92-FOV" secondAttribute="top" id="jOS-ha-m3F"/>
+                                        <constraint firstAttribute="trailing" secondItem="WNz-XV-RpP" secondAttribute="trailing" constant="8" id="xiv-dZ-GsD"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateTimeLabel" destination="dlc-Ga-Loo" id="xbX-C2-jHv"/>
+                                    <outlet property="postTitleLabel" destination="NTD-hh-4Nd" id="WRU-IN-unU"/>
+                                    <outlet property="replyContentLabel" destination="WNz-XV-RpP" id="5Uc-As-JSn"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

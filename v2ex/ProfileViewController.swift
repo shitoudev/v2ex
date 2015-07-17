@@ -245,6 +245,11 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                     postViewController.dataType = .User
                     postViewController.target = userInfo.username
                     navigationController?.pushViewController(postViewController, animated: true)
+                } else {
+                    let viewController = MemberReplyViewController().allocWithRouterParams(nil)
+                    viewController.title = str
+                    viewController.username = userInfo.username
+                    navigationController?.pushViewController(viewController, animated: true)
                 }
             } else {
                 let url = dict["url"] as! String

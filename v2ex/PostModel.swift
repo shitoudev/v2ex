@@ -164,8 +164,11 @@ class PostModel: JSONAble {
                             title = titleNode.contents
                             let href = titleNode.getAttributeNamed("href")
                             let components = href.componentsSeparatedByString("/")
-                            let componentsId = components.last?.componentsSeparatedByString("#")
-                            postId = (componentsId?.first)!.toInt()!
+                            if let componentsId = components.last?.componentsSeparatedByString("#") {
+                                if let first = componentsId.first {
+                                    postId = first.toInt()!
+                                }
+                            }
                         }
                         // avatar
                         if let avatarNode: HTMLNode = oneNode.findChildTagAttr("img", attrName: "class", attrValue: "avatar") {
@@ -208,6 +211,7 @@ class PostModel: JSONAble {
             dataSouce.append(["id":val.postId, "title":val.title])
         }
         
+        //TODO: 这里会有内存泄露
         let userDefaults = NSUserDefaults(suiteName: kAppGroupIdentifier)
         userDefaults?.setObject(dataSouce, forKey: kAppSharedDefaultsTodayExtensionDataKey)
         userDefaults?.synchronize()
