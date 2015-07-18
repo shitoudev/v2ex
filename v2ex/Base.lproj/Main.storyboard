@@ -432,11 +432,11 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQG-Td-0jR">
-                                                    <rect key="frame" x="56" y="23" width="33" height="18"/>
+                                                    <rect key="frame" x="56" y="8" width="35.5" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="yD1-Ac-7Rr"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -446,10 +446,16 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HoK-aO-uHc">
+                                                    <rect key="frame" x="56" y="30" width="300" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="VNf-Yb-QLH" firstAttribute="top" secondItem="V0U-tO-k5n" secondAttribute="bottom" constant="8" id="09N-pv-3io"/>
-                                                <constraint firstItem="LQG-Td-0jR" firstAttribute="top" secondItem="4kT-dR-xfh" secondAttribute="top" constant="23" id="2zT-s1-pO3"/>
+                                                <constraint firstItem="LQG-Td-0jR" firstAttribute="top" secondItem="4kT-dR-xfh" secondAttribute="top" constant="8" id="2zT-s1-pO3"/>
                                                 <constraint firstItem="LQG-Td-0jR" firstAttribute="leading" secondItem="V0U-tO-k5n" secondAttribute="trailing" constant="8" id="4Gl-ZP-1uO"/>
                                                 <constraint firstItem="VNf-Yb-QLH" firstAttribute="top" secondItem="V0U-tO-k5n" secondAttribute="bottom" constant="8" id="GEH-ff-FaL"/>
                                                 <constraint firstAttribute="trailing" secondItem="VNf-Yb-QLH" secondAttribute="trailing" constant="8" id="GJq-u2-8rR"/>

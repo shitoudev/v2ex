@@ -16,7 +16,6 @@ class MemberReplyViewController: UITableViewController {
             tableView.reloadData()
         }
     }
-    var indexPath: NSIndexPath!
 
     //args: NSDictionary
     func allocWithRouterParams(args: NSDictionary?) -> MemberReplyViewController {
@@ -44,7 +43,6 @@ class MemberReplyViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        deselectRow()
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,8 +65,6 @@ class MemberReplyViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.indexPath = indexPath
-        
         let replyModel = dataSouce[indexPath.row]
         let viewController = PostDetailViewController().allocWithRouterParams(nil)
         viewController.postId = replyModel.post_id
@@ -83,11 +79,5 @@ class MemberReplyViewController: UITableViewController {
                 
             }
         })
-    }
-    
-    func deselectRow() -> Void {
-        if (indexPath != nil) {
-//            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
     }
 }

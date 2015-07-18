@@ -163,6 +163,18 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             let bioLabel = cell.viewWithTag(3) as! UILabel
             bioLabel.text = userInfo.bio
             
+            let subLabel = cell.viewWithTag(4) as! UILabel
+            subLabel.textColor = UIColor.grayColor()
+            var subInfo = "V2EX 第 \(userInfo.uid!) 号会员"
+            if (userInfo.created != nil) {
+                let date = NSDate(timeIntervalSince1970: Double(userInfo.created!))
+                let dtFormatter = NSDateFormatter()
+                dtFormatter.dateFormat = "yyyy年M月d日 H:mm"
+                dtFormatter.locale = NSLocale(localeIdentifier: "zh_CN")
+                subInfo = subInfo + "，加入于 \(dtFormatter.stringFromDate(date))"
+            }
+            subLabel.text = subInfo
+            
             return cell
         }else if indexPath.section==1 || indexPath.section==2  || indexPath.section==3{
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoMoreID") as! UITableViewCell
