@@ -13,6 +13,9 @@ target :v2ex do
     pod 'SwiftyUserDefaults', '~> 1.1.0'
     pod 'Kingfisher', '~> 1.4'
     pod 'JDStatusBarNotification', '~> 1.5.2'
+    
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 #target 'v2exTodayExtension' do

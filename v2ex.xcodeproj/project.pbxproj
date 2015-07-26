@@ -542,6 +542,7 @@
 				972D99B81B38352F0069C052 /* Embed App Extensions */,
 				97EA80651B3AAD87002C7C48 /* Embed Frameworks */,
 				97CA03D01B4BD7C60045E4C6 /* Auto-increment Build */,
+				9764184B1B59D1BC003986EE /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -809,6 +810,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-v2ex/Pods-v2ex-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9764184B1B59D1BC003986EE /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/Fabric.framework/run\" 7b53c2e05af000ba52880507b237ee822aadb974 b50c646c4b32821feed62d516b5bcacb06ae0385a9afc817f0e7c40f5a5db038";
 		};
 		97CA03D01B4BD7C60045E4C6 /* Auto-increment Build */ = {
 			isa = PBXShellScriptBuildPhase;

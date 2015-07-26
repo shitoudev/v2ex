@@ -8,6 +8,9 @@
 
 import UIKit
 import v2exKit
+import Fabric
+import Crashlytics
+//import Flurry
 
 public let _dismissAfter = 1.65
 
@@ -39,6 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             println("未登录")
         }
 //        MemberModel.sharedMember.removeUserData()
+        
+        Fabric.with([Crashlytics()])
+        
         
         // Override point for customization after application launch.
         return true

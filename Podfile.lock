@@ -1,6 +1,10 @@
 PODS:
   - Alamofire (1.2.3)
+  - Crashlytics (3.0.11)
   - DAKeyboardControl (2.4.0)
+  - Fabric (1.2.8):
+    - Fabric/Base (= 1.2.8)
+  - Fabric/Base (1.2.8)
   - JDStatusBarNotification (1.5.2)
   - Kingfisher (1.4.2)
   - SnapKit (0.12.0)
@@ -10,7 +14,9 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
+  - Crashlytics
   - DAKeyboardControl (~> 2.4.0)
+  - Fabric
   - JDStatusBarNotification (~> 1.5.2)
   - Kingfisher (~> 1.4)
   - SnapKit (~> 0.12)
@@ -20,7 +26,9 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
+  Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
   DAKeyboardControl: 9d9bca22a5cc3c1d3cc61e24fbd208c3e84a3d2d
+  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
   Kingfisher: 4446782a827abbe2e6048a1fa741924a10e6ad7c
   SnapKit: 00c388aa3bf1944c1b55472f31e841f75bd83882
