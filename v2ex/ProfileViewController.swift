@@ -22,7 +22,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     }
     var userInfo: MemberModel! {
         didSet {
-            self.navigationItem.title = userInfo==nil ? "我的" : userInfo.username
+            self.navigationItem.title = userInfo==nil ? "" : userInfo.username
         }
     }
     var username: String! {
@@ -63,7 +63,6 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.title = "我的"
 
         tableView.backgroundColor = UIColor.whiteColor()
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -130,8 +129,10 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             //                    more.append(content)
         }
         
+        var addLogoutData = false
         if isMine && more.count == 0 {
             more.append(["text":"退出登录"])
+            addLogoutData = true
         }
         
         var arr = [AnyObject]()
@@ -139,7 +140,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
         arr.append([["text":myTopicName], ["text":myReplyName]])
         arr.append(more)
         
-        if isMine {
+        if isMine && !addLogoutData {
             arr.append([["text":"退出登录"]])
         }
         self.datasource = arr
@@ -236,6 +237,8 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                     self.userInfo = nil
                     MemberModel.sharedMember.removeUserData()
                     self.addAccountViewController()
+                    self.datasource.removeAll(keepCapacity: false)
+                    self.tableView.reloadData();
                     NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLogoutSuccessNotification, object: nil)
 
                 })

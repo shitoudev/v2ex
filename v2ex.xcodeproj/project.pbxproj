@@ -29,13 +29,13 @@
 		974F65211B3FF66300927B37 /* STString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651B1B3FF66300927B37 /* STString.swift */; };
 		974F65221B3FF66300927B37 /* STTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651C1B3FF66300927B37 /* STTextView.swift */; };
 		974F65231B3FF66300927B37 /* STView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651D1B3FF66300927B37 /* STView.swift */; };
-		974F65241B3FF66300927B37 /* STWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F651E1B3FF66300927B37 /* STWebView.swift */; };
 		9759730B1B44053400FCF28D /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9759730A1B44053400FCF28D /* MemberCell.swift */; };
 		9759730D1B4405E800FCF28D /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9759730C1B4405E800FCF28D /* MemberCell.xib */; };
 		975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975E6D3C1B0B3F490080F998 /* AccountViewController.swift */; };
 		9764184A1B58B8A4003986EE /* MemberReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976418491B58B8A4003986EE /* MemberReplyModel.swift */; };
 		979587331B0F389200B20745 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 979587321B0F389200B20745 /* libxml2.dylib */; };
 		97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A067A31AF4B3C400EB475C /* JSONAble.swift */; };
+		97A8CCE61B6B6E5600CFADB9 /* STInsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CCE51B6B6E5600CFADB9 /* STInsetLabel.swift */; };
 		97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BA7CDB1AF47FBB00950A0C /* AppDelegate.swift */; };
 		97BA7CE31AF47FBB00950A0C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97BA7CE11AF47FBB00950A0C /* Main.storyboard */; };
 		97BA7CE51AF47FBB00950A0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97BA7CE41AF47FBB00950A0C /* Images.xcassets */; };
@@ -157,13 +157,13 @@
 		974F651B1B3FF66300927B37 /* STString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STString.swift; sourceTree = "<group>"; };
 		974F651C1B3FF66300927B37 /* STTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STTextView.swift; sourceTree = "<group>"; };
 		974F651D1B3FF66300927B37 /* STView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STView.swift; sourceTree = "<group>"; };
-		974F651E1B3FF66300927B37 /* STWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STWebView.swift; sourceTree = "<group>"; };
 		9759730A1B44053400FCF28D /* MemberCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		9759730C1B4405E800FCF28D /* MemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
 		975E6D3C1B0B3F490080F998 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		976418491B58B8A4003986EE /* MemberReplyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyModel.swift; sourceTree = "<group>"; };
 		979587321B0F389200B20745 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		97A067A31AF4B3C400EB475C /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
+		97A8CCE51B6B6E5600CFADB9 /* STInsetLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STInsetLabel.swift; sourceTree = "<group>"; };
 		97BA7CD61AF47FBB00950A0C /* v2ex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = v2ex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97BA7CDA1AF47FBB00950A0C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97BA7CDB1AF47FBB00950A0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -455,7 +455,7 @@
 				974F651B1B3FF66300927B37 /* STString.swift */,
 				974F651C1B3FF66300927B37 /* STTextView.swift */,
 				974F651D1B3FF66300927B37 /* STView.swift */,
-				974F651E1B3FF66300927B37 /* STWebView.swift */,
+				97A8CCE51B6B6E5600CFADB9 /* STInsetLabel.swift */,
 			);
 			path = v2exKit;
 			sourceTree = "<group>";
@@ -916,10 +916,10 @@
 				974F65201B3FF66300927B37 /* STDate.swift in Sources */,
 				974F651F1B3FF66300927B37 /* STColor.swift in Sources */,
 				974F65221B3FF66300927B37 /* STTextView.swift in Sources */,
-				974F65241B3FF66300927B37 /* STWebView.swift in Sources */,
 				974F65231B3FF66300927B37 /* STView.swift in Sources */,
 				97D645271B3C4936005B4485 /* v2exKit.swift in Sources */,
 				974F65211B3FF66300927B37 /* STString.swift in Sources */,
+				97A8CCE61B6B6E5600CFADB9 /* STInsetLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

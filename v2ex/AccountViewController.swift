@@ -207,7 +207,8 @@ class AccountViewController: UITableViewController {
                 }
                 
             })
-            
+        } else {
+            self.logining = false
         }
     }
     // forget password
