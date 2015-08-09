@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>cc.yueti.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>cc.shitoudev.v2ex</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>15073117</string>
+	<string>15080917</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

@@ -13,8 +13,9 @@ public let kAppSharedDefaultsTodayExtensionDataKey = "cc.yueti.today.extension"
 
 public let kLinkColor = "#778087"
 public let kAppNormalColor = UIColor.colorWithHexString("#333344")
-public let kContentFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
-public let kTitleFont = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
+public let kIsiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+public let kContentFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
+public let kTitleFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 
 /**
 修改链接的文字属性

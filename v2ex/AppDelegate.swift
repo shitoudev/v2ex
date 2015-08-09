@@ -10,7 +10,6 @@ import UIKit
 import v2exKit
 import Fabric
 import Crashlytics
-//import Flurry
 
 public let _dismissAfter = 1.65
 
@@ -44,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        MemberModel.sharedMember.removeUserData()
         
         Fabric.with([Crashlytics()])
-        
+        Flurry.startSession("4PJF88FR8SBPJBV3R69V")
         
         // Override point for customization after application launch.
         return true

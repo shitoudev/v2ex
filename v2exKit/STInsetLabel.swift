@@ -28,4 +28,11 @@ class STInsetLabel: UILabel {
     override func drawTextInRect(rect: CGRect) {
         super.drawTextInRect(UIEdgeInsetsInsetRect(rect, padding))
     }
+    
+    override func intrinsicContentSize() -> CGSize {
+        var size = super.intrinsicContentSize()
+        size.width += padding.left + padding.right
+        size.height += padding.top + padding.bottom
+        return size
+    }
 }

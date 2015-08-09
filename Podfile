@@ -16,6 +16,7 @@ target :v2ex do
     
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'FlurrySDK', '~> 6.6.0'
 end
 
 #target 'v2exTodayExtension' do
