@@ -2,8 +2,8 @@
 v2ex iOS 客户端
 
 ### 应用程序截图
-![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot%20/s_1.jpg)
-![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot%20/s_2.jpg)
+![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot/s_1.jpg)
+![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot/s_2.jpg)
 
 ### 未完成列表
 * ~~我的 界面~~
