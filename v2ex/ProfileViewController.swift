@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import v2exKit
+import TDBadgedCell
 
 class ProfileViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -48,9 +50,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
     }
     
     var accountViewController: AccountViewController?
-    var myTopicName = "我的主题", myReplyName = "我的回复"
-    
-    lazy var box = UIView()
+    var myTopicName = "我的主题", myReplyName = "我的回复", myNotiName = "我的提醒"
     
     //args: NSDictionary
     func allocWithRouterParams(args: NSDictionary?) -> ProfileViewController {
@@ -137,7 +137,13 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
         
         var arr = [AnyObject]()
         arr.append([1])
-        arr.append([["text":myTopicName], ["text":myReplyName]])
+        var myArr = [AnyObject]()
+        myArr.append(["text":myTopicName])
+        myArr.append(["text":myReplyName])
+        if isMine {
+            myArr.append(["text":myNotiName])
+        }
+        arr.append(myArr)
         arr.append(more)
         
         if isMine && !addLogoutData {
@@ -178,7 +184,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             
             return cell
         }else if indexPath.section==1 || indexPath.section==2  || indexPath.section==3{
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoMoreID") as! UITableViewCell
+            let cell: TDBadgedCell = TDBadgedCell(style: UITableViewCellStyle.Default, reuseIdentifier: "userInfoMoreID")
             cell.textLabel?.textAlignment = NSTextAlignment.Left
             cell.textLabel?.font = UIFont.systemFontOfSize(13)
             cell.accessoryType = UITableViewCellAccessoryType.None
@@ -188,9 +194,19 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             if str == "退出登录" {
                 cell.textLabel?.text = str
                 cell.textLabel?.textAlignment = NSTextAlignment.Center
-            } else if str == myTopicName || str == myReplyName {
+            } else if containName(str) {
                 cell.textLabel?.text = str
                 cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+                if str == myNotiName {
+                    if NotificationManage.sharedManager.hasNewNotification {
+                        cell.badgeString = "\(NotificationManage.sharedManager.unreadCount)"
+                        cell.badgeColor = UIColor.redColor()
+                        cell.badge.fontSize = 12
+                        cell.badge.radius = CGFloat(cell.badge.width/2)
+                    } else {
+                        cell.badgeString = nil
+                    }
+                }
             } else {
                 let font = dict["font"] as! String
                 cell.textLabel?.text = font + "  " + str
@@ -253,17 +269,22 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                 presentViewController(alertViewController, animated: true, completion: { () -> Void in
                     
                 })
-            } else if str == myTopicName || str == myReplyName {
+            } else if containName(str) {
                 if str == myTopicName {
                     let postViewController = PostViewController().allocWithRouterParams(nil)
                     postViewController.title = str
                     postViewController.dataType = .User
                     postViewController.target = userInfo.username
                     navigationController?.pushViewController(postViewController, animated: true)
-                } else {
+                } else if str == myReplyName {
                     let viewController = MemberReplyViewController().allocWithRouterParams(nil)
                     viewController.title = str
                     viewController.username = userInfo.username
+                    navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    NotificationManage.sharedManager.unreadCount = 0
+                    let viewController = NotificationViewController().allocWithRouterParams(nil)
+                    viewController.title = str
                     navigationController?.pushViewController(viewController, animated: true)
                 }
             } else {
@@ -273,6 +294,11 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                 navigationController?.pushViewController(webViewController, animated: true)
             }
         }
+    }
+    
+    func containName(str: String) -> Bool {
+        let name = [myTopicName, myReplyName, myNotiName]
+        return find(name, str) != nil
     }
     
     // MARK: NSNotification

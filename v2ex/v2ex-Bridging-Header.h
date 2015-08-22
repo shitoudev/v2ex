@@ -16,5 +16,6 @@
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 #import <FlurrySDK/Flurry.h>
+#import <TDBadgedCell/TDBadgedCell.h>
 
 #endif

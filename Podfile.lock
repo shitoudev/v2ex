@@ -13,6 +13,7 @@ PODS:
   - SnapKit (0.13.0)
   - SwiftyJSON (2.2.1)
   - SwiftyUserDefaults (1.1.0)
+  - TDBadgedCell (3.0)
   - TTTAttributedLabel (1.13.4)
 
 DEPENDENCIES:
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - SnapKit (~> 0.12)
   - SwiftyJSON (~> 2.2.0)
   - SwiftyUserDefaults (~> 1.1.0)
+  - TDBadgedCell (~> 3.0)
   - TTTAttributedLabel (~> 1.13.4)
 
 SPEC CHECKSUMS:
@@ -39,6 +41,7 @@ SPEC CHECKSUMS:
   SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
+  TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
 
 COCOAPODS: 0.38.2

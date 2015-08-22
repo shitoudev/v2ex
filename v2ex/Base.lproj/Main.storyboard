@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -612,6 +612,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9IO-hb-Fco" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2456" y="1776"/>
+        </scene>
+        <!--Notification View Controller-->
+        <scene sceneID="Lnb-MY-uN0">
+            <objects>
+                <tableViewController storyboardIdentifier="notificationViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AT1-lY-C0N" customClass="NotificationViewController" customModule="v2ex" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vXX-x5-HN4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="notificationCellId" rowHeight="86" id="fyq-LJ-Byy" customClass="NotificationCell" customModule="v2ex" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fyq-LJ-Byy" id="4Ld-CI-f5W">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="如何解决实例间强引用循环" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSf-Gd-CiW">
+                                            <rect key="frame" x="0.0" y="0.0" width="144" height="36"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="36" id="7Iz-OJ-W0H"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="321天前" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmR-yT-eCr" customClass="STInsetLabel" customModule="v2exKit">
+                                            <rect key="frame" x="144" y="0.0" width="456" height="36"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="TxJ-hf-gvE"/>
+                                                <constraint firstAttribute="height" constant="36" id="vyB-u6-ymO"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="跟OC中的弱引用相似，声明属性或者变量时，在前面加上weak关键字表明这是一个弱引用。弱引用不会牢牢保持住引用的实例，并且不会阻止 ARC 销毁被引用的实例。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dG9-tD-tvi">
+                                            <rect key="frame" x="8" y="46" width="584" height="31.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="TSf-Gd-CiW" firstAttribute="leading" secondItem="4Ld-CI-f5W" secondAttribute="leading" id="OSm-Xh-zIJ"/>
+                                        <constraint firstAttribute="trailing" secondItem="dG9-tD-tvi" secondAttribute="trailing" constant="8" id="TkO-QJ-x39"/>
+                                        <constraint firstItem="bmR-yT-eCr" firstAttribute="leading" secondItem="TSf-Gd-CiW" secondAttribute="trailing" id="Vhc-ct-YsV"/>
+                                        <constraint firstAttribute="trailing" secondItem="bmR-yT-eCr" secondAttribute="trailing" id="XCQ-rd-AaI"/>
+                                        <constraint firstAttribute="bottom" secondItem="dG9-tD-tvi" secondAttribute="bottom" constant="8" id="as3-U5-uAd"/>
+                                        <constraint firstItem="bmR-yT-eCr" firstAttribute="top" secondItem="4Ld-CI-f5W" secondAttribute="top" id="dPC-OX-1DT"/>
+                                        <constraint firstItem="TSf-Gd-CiW" firstAttribute="top" secondItem="4Ld-CI-f5W" secondAttribute="top" id="eu2-62-T5C"/>
+                                        <constraint firstItem="dG9-tD-tvi" firstAttribute="top" secondItem="bmR-yT-eCr" secondAttribute="bottom" constant="10" id="mhD-on-pFj"/>
+                                        <constraint firstItem="dG9-tD-tvi" firstAttribute="leading" secondItem="4Ld-CI-f5W" secondAttribute="leading" constant="8" id="rgr-oP-3L2"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="contentLabel" destination="dG9-tD-tvi" id="5hb-yF-Iv3"/>
+                                    <outlet property="dateTimeLabel" destination="bmR-yT-eCr" id="ecq-V3-Ffl"/>
+                                    <outlet property="postTitleLabel" destination="TSf-Gd-CiW" id="fah-VI-mRz"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="AT1-lY-C0N" id="7By-G5-q77"/>
+                            <outlet property="delegate" destination="AT1-lY-C0N" id="HPz-Z6-xEn"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Ag-Jt-z00" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3234" y="1776"/>
         </scene>
     </scenes>
     <resources>

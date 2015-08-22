@@ -34,6 +34,9 @@
 		975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975E6D3C1B0B3F490080F998 /* AccountViewController.swift */; };
 		9764184A1B58B8A4003986EE /* MemberReplyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976418491B58B8A4003986EE /* MemberReplyModel.swift */; };
 		979587331B0F389200B20745 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 979587321B0F389200B20745 /* libxml2.dylib */; };
+		979D11921B84722600B113DB /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979D11911B84722600B113DB /* NotificationViewController.swift */; };
+		979D11941B84792600B113DB /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979D11931B84792600B113DB /* NotificationCell.swift */; };
+		979D11961B858AD900B113DB /* NotificationManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 979D11951B858AD900B113DB /* NotificationManage.swift */; };
 		97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A067A31AF4B3C400EB475C /* JSONAble.swift */; };
 		97A8CCE61B6B6E5600CFADB9 /* STInsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A8CCE51B6B6E5600CFADB9 /* STInsetLabel.swift */; };
 		97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BA7CDB1AF47FBB00950A0C /* AppDelegate.swift */; };
@@ -50,6 +53,7 @@
 		97BC19481B5401CB007E9783 /* MemberReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BC19471B5401CB007E9783 /* MemberReplyViewController.swift */; };
 		97BC194A1B5407A1007E9783 /* MemberReplyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BC19491B5407A1007E9783 /* MemberReplyCell.swift */; };
 		97C0B5A31B43DA0700C74281 /* AtUserTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */; };
+		97CBCBEA1B78B0E400FC2945 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CBCBE91B78B0E400FC2945 /* NotificationModel.swift */; };
 		97D645271B3C4936005B4485 /* v2exKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D645261B3C4936005B4485 /* v2exKit.swift */; };
 		97D6B4991B457E450043499B /* PostContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B4981B457E450043499B /* PostContentCell.swift */; };
 		97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
@@ -162,6 +166,9 @@
 		975E6D3C1B0B3F490080F998 /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		976418491B58B8A4003986EE /* MemberReplyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyModel.swift; sourceTree = "<group>"; };
 		979587321B0F389200B20745 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		979D11911B84722600B113DB /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		979D11931B84792600B113DB /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		979D11951B858AD900B113DB /* NotificationManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationManage.swift; sourceTree = "<group>"; };
 		97A067A31AF4B3C400EB475C /* JSONAble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAble.swift; sourceTree = "<group>"; };
 		97A8CCE51B6B6E5600CFADB9 /* STInsetLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = STInsetLabel.swift; sourceTree = "<group>"; };
 		97BA7CD61AF47FBB00950A0C /* v2ex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = v2ex.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,6 +190,7 @@
 		97BC19471B5401CB007E9783 /* MemberReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyViewController.swift; sourceTree = "<group>"; };
 		97BC19491B5407A1007E9783 /* MemberReplyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberReplyCell.swift; sourceTree = "<group>"; };
 		97C0B5A21B43DA0700C74281 /* AtUserTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtUserTableView.swift; sourceTree = "<group>"; };
+		97CBCBE91B78B0E400FC2945 /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		97D645261B3C4936005B4485 /* v2exKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = v2exKit.swift; sourceTree = "<group>"; };
 		97D6B4981B457E450043499B /* PostContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentCell.swift; sourceTree = "<group>"; };
 		97E62EBD1B11CD5E00589989 /* APIManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManage.swift; sourceTree = "<group>"; };
@@ -276,6 +284,7 @@
 				9759730C1B4405E800FCF28D /* MemberCell.xib */,
 				97D6B4981B457E450043499B /* PostContentCell.swift */,
 				97BC19491B5407A1007E9783 /* MemberReplyCell.swift */,
+				979D11931B84792600B113DB /* NotificationCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -292,6 +301,7 @@
 				97E76C691B24AB3700F38FB1 /* PostDetailViewController.swift */,
 				974205021B300E8800F07E5E /* PostViewController.swift */,
 				97BC19471B5401CB007E9783 /* MemberReplyViewController.swift */,
+				979D11911B84722600B113DB /* NotificationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -368,6 +378,7 @@
 				97E76C6F1B25485C00F38FB1 /* PostDetailModel.swift */,
 				97213D0C1B25739500F99FBC /* CommentModel.swift */,
 				976418491B58B8A4003986EE /* MemberReplyModel.swift */,
+				97CBCBE91B78B0E400FC2945 /* NotificationModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -414,6 +425,7 @@
 				97BB753B1AFBB08200872416 /* v2ex.playground */,
 				97BB75461AFCFA0100872416 /* WebViewController.swift */,
 				97E62EBD1B11CD5E00589989 /* APIManage.swift */,
+				979D11951B858AD900B113DB /* NotificationManage.swift */,
 			);
 			path = v2ex;
 			sourceTree = "<group>";
@@ -877,6 +889,7 @@
 				97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */,
 				97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */,
 				97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */,
+				979D11961B858AD900B113DB /* NotificationManage.swift in Sources */,
 				97E76C6C1B24AE3600F38FB1 /* CommentCell.swift in Sources */,
 				975E6D3D1B0B3F490080F998 /* AccountViewController.swift in Sources */,
 				97BB75451AFCF8AA00872416 /* NodeViewController.swift in Sources */,
@@ -885,12 +898,15 @@
 				9727521D1B00998E001A1F41 /* BaseViewController.swift in Sources */,
 				9739A8031B3BBA85006D9259 /* HTMLNode.swift in Sources */,
 				97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */,
+				979D11921B84722600B113DB /* NotificationViewController.swift in Sources */,
 				97BB75411AFCC15D00872416 /* NodeModel.swift in Sources */,
 				974205051B30708300F07E5E /* PostCell.swift in Sources */,
+				97CBCBEA1B78B0E400FC2945 /* NotificationModel.swift in Sources */,
 				97213D0D1B25739500F99FBC /* CommentModel.swift in Sources */,
 				97BB75471AFCFA0100872416 /* WebViewController.swift in Sources */,
 				9764184A1B58B8A4003986EE /* MemberReplyModel.swift in Sources */,
 				97BB753F1AFCAF0900872416 /* MemberModel.swift in Sources */,
+				979D11941B84792600B113DB /* NotificationCell.swift in Sources */,
 				972752161AFFA078001A1F41 /* ProfileViewController.swift in Sources */,
 				974205031B300E8800F07E5E /* PostViewController.swift in Sources */,
 				9759730B1B44053400FCF28D /* MemberCell.swift in Sources */,

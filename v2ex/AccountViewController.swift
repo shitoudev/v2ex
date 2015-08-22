@@ -180,10 +180,13 @@ class AccountViewController: UITableViewController {
                                 MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
                                     if error == nil {
                                         JDStatusBarNotification.showWithStatus("登录成功:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
+                                        // 设置用户信息
                                         MemberModel.sharedMember.username = obj!.username
                                         MemberModel.sharedMember.uid = obj!.uid
                                         MemberModel.sharedMember.avatar_large = obj!.avatar_large
                                         MemberModel.sharedMember.saveUserData()
+                                        // 重新启动通知轮询
+                                        NotificationManage.sharedManager.timerRestart()
                                         NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLoginSuccessNotification, object: nil, userInfo: ["user":obj!])
                                         if let pvc = self.parentViewController {
                                             if pvc is UINavigationController {

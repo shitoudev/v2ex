@@ -66,6 +66,9 @@ class MemberModel: NSObject {
                 cookiesStorage.deleteCookie(cookie as! NSHTTPCookie)
             }
         }
+        // reset notification count
+        NotificationManage.sharedManager.unreadCount = 0
+        NotificationManage.sharedManager.timerStop()
     }
     
     static func getUserInfo(account: AnyObject, completionHandler: (obj: MemberModel?, NSError?)->Void) {

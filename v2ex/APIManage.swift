@@ -8,7 +8,6 @@
 
 import Alamofire
 
-
 class APIManage: Manager {
     
 //    enum Router: URLRequestConvertible {
@@ -53,17 +52,22 @@ class APIManage: Manager {
         static var Member: String {
             return APIManage.baseURLString + "member/"
         }
+        
+        static var Notification: String {
+            return APIManage.baseURLString + "notifications"
+        }
+        
     }
 
-    internal static let sharedManager: Manager = {
+    internal static let sharedManager: APIManage = {
 
         let cookiesStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         let configuration: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPCookieStorage = cookiesStorage
         configuration.HTTPCookieAcceptPolicy = NSHTTPCookieAcceptPolicy.Always
-        configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
+        configuration.HTTPAdditionalHeaders = APIManage.defaultHTTPHeaders
        
-        return Manager(configuration: configuration)
+        return APIManage(configuration: configuration)
     }()
     
     /**

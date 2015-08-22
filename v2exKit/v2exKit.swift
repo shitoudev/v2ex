@@ -17,6 +17,8 @@ public let kIsiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterf
 public let kContentFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 public let kTitleFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 
+public let htmlRegularExpression = NSRegularExpression(pattern: "<[^>]+>", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+
 /**
 修改链接的文字属性
 

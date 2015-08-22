@@ -13,7 +13,8 @@ target :v2ex do
     pod 'SwiftyUserDefaults', '~> 1.1.0'
     pod 'Kingfisher', '~> 1.4'
     pod 'JDStatusBarNotification', '~> 1.5.2'
-    
+    pod 'TDBadgedCell', '~> 3.0'
+       
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'FlurrySDK', '~> 6.6.0'

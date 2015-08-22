@@ -9,8 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-
-let htmlRegularExpression = NSRegularExpression(pattern: "<[^>]+>", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+import v2exKit
 
 class MemberReplyModel: JSONAble {
     
