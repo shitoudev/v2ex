@@ -11,6 +11,11 @@ v2ex iOS 客户端
 * ~~应用内通知提醒~~
 * 帖子阅读标记
 
+### 致谢
+感谢 [@Mysdes](https://twitter.com/Mysdes) 设计的应用图标
+
+还有伟大的开源社区及苹果给我们带来这么好用的产品！
+
 ### 联系
 shitoudev#gmail.com
 
