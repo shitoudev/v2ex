@@ -10,7 +10,7 @@ import UIKit
 
 class STInsetLabel: UILabel {
     
-    var padding = UIEdgeInsetsMake(0, 10, 0, 10) //UIEdgeInsetsZero
+    var padding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) //UIEdgeInsetsZero
     
     override init(frame: CGRect) {
         super.init(frame: frame)

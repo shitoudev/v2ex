@@ -11,7 +11,7 @@ import WebKit
 import SnapKit
 import v2exKit
 
-class WebViewController: BaseViewController, WKNavigationDelegate {
+class WebViewController: BaseViewController {
     
     var webView: WKWebView!
     var toolbar: UIToolbar!
@@ -143,18 +143,6 @@ class WebViewController: BaseViewController, WKNavigationDelegate {
         }
     }
     
-    // MARK: WKNavigationDelegate
-    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        updateToolbarItems()
-    }
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        title = webView.title
-        updateToolbarItems()
-    }
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-        updateToolbarItems()
-    }
-    
     // MARK: Button tapped
     func backTapped(sender: AnyObject) {
         if webView.canGoBack {
@@ -241,5 +229,19 @@ class WebViewController: BaseViewController, WKNavigationDelegate {
         refreshButtonItem.image = webView.loading ? UIImage(named: "webStop") : UIImage(named: "webRefresh")
         
         UIApplication.sharedApplication().networkActivityIndicatorVisible = webView.loading
+    }
+}
+
+// MARK: WKNavigationDelegate
+extension WebViewController: WKNavigationDelegate {
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        updateToolbarItems()
+    }
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        title = webView.title
+        updateToolbarItems()
+    }
+    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
+        updateToolbarItems()
     }
 }

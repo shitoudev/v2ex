@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
+class PostTableView: UITableView {
     
     var dataType: PostType!
     var target: String! {
@@ -31,7 +31,7 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         dataSource = self
         delegate = self
         rowHeight = 56
-        layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         registerNib(UINib(nibName: "PostCell", bundle: nil), forCellReuseIdentifier: "postCellId")
         
         let footerView = UIView.new()
@@ -45,35 +45,6 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: UITableViewDataSource
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: PostCell = tableView.dequeueReusableCellWithIdentifier("postCellId") as! PostCell
-        
-        let post = dataSouce[indexPath.row]
-        cell.updateCell(post)
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSouce.count;
-    }
-    
-    // MARK: UITableViewDelegate
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.indexPath = indexPath
-        if let vc = self.traverseResponderChainForUIViewController() {
-            if vc.isKindOfClass(UIViewController) {
-                let post = self.dataSouce[indexPath.row]
-                let viewController = PostDetailViewController().allocWithRouterParams(nil)
-                viewController.postId = post.postId
-                vc.navigationController?.pushViewController(viewController, animated: true)
-            }
-        }
     }
     
     func refresh() {
@@ -100,4 +71,32 @@ class PostTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension PostTableView: UITableViewDelegate, UITableViewDataSource {
+    // UITableViewDataSource
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell: PostCell = tableView.dequeueReusableCellWithIdentifier("postCellId") as! PostCell
+        
+        let post = dataSouce[indexPath.row]
+        cell.updateCell(post)
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSouce.count;
+    }
+    
+    // UITableViewDelegate
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.indexPath = indexPath
+        if let vc = self.traverseResponderChainForUIViewController() where vc.isKindOfClass(UIViewController) {
+            let post = self.dataSouce[indexPath.row]
+            let viewController = PostDetailViewController().allocWithRouterParams(nil)
+            viewController.postId = post.postId
+            vc.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
 }

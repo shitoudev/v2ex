@@ -45,9 +45,18 @@ class NotificationViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK: UITableViewDataSource
-    
+    func reloadTableViewData(#isPull: Bool) {
+        NotificationModel.getUserNotifications { (obj, error) -> Void in
+            if error == nil {
+                self.dataSouce = obj
+            }
+        }
+    }
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension NotificationViewController {
+    // UITableViewDataSource
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: NotificationCell = tableView.dequeueReusableCellWithIdentifier("notificationCellId") as! NotificationCell
         let dataModel = dataSouce[indexPath.row]
@@ -58,20 +67,11 @@ class NotificationViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSouce.count;
     }
-    
+    // UITableViewDelegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let dataModel = dataSouce[indexPath.row]
         let viewController = PostDetailViewController().allocWithRouterParams(nil)
         viewController.postId = dataModel.post_id
         navigationController?.pushViewController(viewController, animated: true)
-    }
-
-    
-    func reloadTableViewData(#isPull: Bool) {
-        NotificationModel.getUserNotifications { (obj, error) -> Void in
-            if error == nil {
-                self.dataSouce = obj
-            }
-        }
     }
 }

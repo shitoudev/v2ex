@@ -10,7 +10,7 @@ import UIKit
 import NotificationCenter
 import v2exKit
 
-class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDelegate, UITableViewDataSource {
+class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var tableView: UITableView!
     var dataSouce: NSArray! {
@@ -35,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         let height = Int(tableView.rowHeight) * dataSouce.count
-        preferredContentSize = CGSizeMake(view.bounds.size.width, CGFloat(height))
+        preferredContentSize = CGSize(width: view.width, height: CGFloat(height))
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,7 +44,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
     }
     
     func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(0, 8, 15, 0)
+        return UIEdgeInsets(top: 0, left: 8, bottom: 15, right: 0)
     }
     
     func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
@@ -59,8 +59,19 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
         completionHandler(NCUpdateResult.NewData)
     }
     
-    // MARK: UITableViewDataSource
+    func refresh() {
+        self.reloadTableViewData(isPull: true)
+    }
     
+    func reloadTableViewData(#isPull: Bool) {
+        
+    }
+    
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
+    // UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("todayPostCellId") as! UITableViewCell
         
@@ -76,8 +87,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
         return dataSouce.count;
     }
     
-    // MARK: UITableViewDelegate
-    
+    // UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let post = dataSouce[indexPath.row] as! NSDictionary
@@ -86,13 +96,5 @@ class TodayViewController: UIViewController, NCWidgetProviding, UITableViewDeleg
             
         })
     }
-    
-    func refresh() {
-        self.reloadTableViewData(isPull: true)
-    }
-    
-    func reloadTableViewData(#isPull: Bool) {
-        
-    }
-    
 }
+

@@ -10,7 +10,7 @@ import UIKit
 import v2exKit
 import TDBadgedCell
 
-class ProfileViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -152,13 +152,35 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
         self.datasource = arr
     }
     
-    // MARK: UITableViewDataSource
+    func containName(str: String) -> Bool {
+        let name = [myTopicName, myReplyName, myNotiName]
+        return find(name, str) != nil
+    }
     
+    // MARK: NSNotification
+    
+    func userLoginSuccess(notification: NSNotification) {
+        if isMine {
+            if (accountViewController != nil) {
+                accountViewController?.view.removeFromSuperview()
+                accountViewController?.removeFromParentViewController()
+                self.accountViewController = nil
+            }
+            self.userInfo = notification.userInfo!["user"] as! MemberModel
+            updateUI()
+        }
+    }
+    
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
+    // UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section==0 && indexPath.row==0 {
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoID") as! UITableViewCell
-
+            
             let avatarImageView = cell.viewWithTag(1) as! UIImageView
             avatarImageView.layer.cornerRadius = 5
             avatarImageView.layer.masksToBounds = true
@@ -188,7 +210,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             cell.textLabel?.textAlignment = NSTextAlignment.Left
             cell.textLabel?.font = UIFont.systemFontOfSize(13)
             cell.accessoryType = UITableViewCellAccessoryType.None
-
+            
             let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
             let str = dict["text"] as! String
             if str == "退出登录" {
@@ -256,7 +278,7 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
                     self.datasource.removeAll(keepCapacity: false)
                     self.tableView.reloadData();
                     NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLogoutSuccessNotification, object: nil)
-
+                    
                 })
                 alertViewController.addAction(cancelAction)
                 alertViewController.addAction(okAction)
@@ -295,24 +317,4 @@ class ProfileViewController: BaseViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-    
-    func containName(str: String) -> Bool {
-        let name = [myTopicName, myReplyName, myNotiName]
-        return find(name, str) != nil
-    }
-    
-    // MARK: NSNotification
-    
-    func userLoginSuccess(notification: NSNotification) {
-        if isMine {
-            if (accountViewController != nil) {
-                accountViewController?.view.removeFromSuperview()
-                accountViewController?.removeFromParentViewController()
-                self.accountViewController = nil
-            }
-            self.userInfo = notification.userInfo!["user"] as! MemberModel
-            updateUI()
-        }
-    }
-    
 }

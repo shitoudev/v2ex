@@ -49,10 +49,21 @@ class MemberReplyViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func reloadTableViewData(#isPull: Bool) {
+        MemberReplyModel.getMemberReplies(username, completionHandler: { (obj, error) -> Void in
+            if error == nil {
+                self.dataSouce = obj
+            } else {
+                
+            }
+        })
+    }
+}
 
-    
-    // MARK: UITableViewDataSource
-    
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension MemberReplyViewController {
+    // UITableViewDataSource
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: MemberReplyCell = tableView.dequeueReusableCellWithIdentifier("memberReplyCellId") as! MemberReplyCell
         let replyModel = dataSouce[indexPath.row]
@@ -63,21 +74,11 @@ class MemberReplyViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSouce.count;
     }
-    
+    // UITableViewDelegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let replyModel = dataSouce[indexPath.row]
         let viewController = PostDetailViewController().allocWithRouterParams(nil)
         viewController.postId = replyModel.post_id
         navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func reloadTableViewData(#isPull: Bool) {
-        MemberReplyModel.getMemberReplies(username, completionHandler: { (obj, error) -> Void in
-            if error == nil {
-                self.dataSouce = obj
-            } else {
-                
-            }
-        })
     }
 }

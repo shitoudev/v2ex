@@ -13,7 +13,7 @@ import TTTAttributedLabel
 import v2exKit
 import SnapKit
 
-class PostDetailViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, TTTAttributedLabelDelegate, AtUserTableViewDelegate {
+class PostDetailViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbarView: UIView!
@@ -42,7 +42,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        tableView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
     }
     
     override func viewDidLoad() {
@@ -64,7 +64,7 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
         reloadTableViewData(isPull: false)
         
         let topLayer = CALayer()
-        topLayer.frame = CGRectMake(0, 0, toolbarView.width, 0.5)
+        topLayer.frame = CGRect(x: 0, y: 0, width: toolbarView.width, height: 0.5)
         topLayer.backgroundColor = UIColor.lightGrayColor().CGColor
         toolbarView.layer.addSublayer(topLayer)
 
@@ -85,68 +85,12 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             self.toolbarBottomConstraint.constant = self.view.height - keyboardFrameInView.origin.y
         }
     }
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         removeObservers()
         view.removeKeyboardControl()
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    deinit {
-        println("deinit call")
-    }
-    
-    
-    // MARK: UITableViewDataSource
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.row == 0 {
-            let cell: PostContentCell = tableView.dequeueReusableCellWithIdentifier("postContentCellId") as! PostContentCell
-            cell.selectionStyle = UITableViewCellSelectionStyle.None
-            
-            cell.contentLabel.delegate = self
-            cell.updateCell(postDetail)
-
-            return cell;
-            
-        } else {
-            let cell: CommentCell = tableView.dequeueReusableCellWithIdentifier("commentCellId") as! CommentCell
-            cell.contentLabel.delegate = self
-            
-            let comment = dataSouce[indexPath.row] as! CommentModel
-            cell.updateCell(comment)
-            
-            cell.avatarButton.tag = indexPath.row
-            cell.usernameButton.tag = indexPath.row
-            
-            if !cell.isButtonAddTarget {
-                cell.avatarButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
-                cell.usernameButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
-                cell.isButtonAddTarget = true
-            }
-            
-            return cell
-        }
-        
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSouce.count > 0 ? dataSouce.count : 0
-    }
-    
-    // MARK: UITableViewDelegate
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
     }
     
     func refresh() {
@@ -342,71 +286,17 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
     func getTextView() -> STTextView {
         return toolbarView.viewWithTag(10) as! STTextView
     }
-    
-    // MARK: UITextViewDelegate
-    func textViewDidChange(textView: UITextView) {
-        if !textView.text.isEmpty && dataSouce.count > 0 {
-            if last(textView.text) == " " {
-                atTableView?.hidden = true
-                return
-            }
-            let components = textView.text.componentsSeparatedByString(" ")
-            if components.count > 0 {
-                let atText = components.last!
-                if atText.hasPrefix("@") {
-                    let text = atText.stringByReplacingOccurrencesOfString("@", withString: "")
-                    if !text.isEmpty {
 
-                        if atTableView == nil {
-                            self.atTableView = AtUserTableView(frame: tableView.bounds, style: .Plain)
-                            atTableView.atDelegate = self
-                            view.insertSubview(atTableView, belowSubview: toolbarView)
-                            
-                            atTableView.snp_makeConstraints { (make) -> Void in
-                                make.top.equalTo(tableView.snp_top).offset(64)
-                                make.left.equalTo(tableView.snp_left)
-                                make.right.equalTo(tableView.snp_right)
-                                make.bottom.equalTo(tableView.snp_bottom)
-                            }
-                            let postDetail: PostDetailModel = dataSouce.first as! PostDetailModel
-                            var userData = [postDetail.member]
-                            for obj in dataSouce {
-                                if let comment = obj as? CommentModel {
-                                    var canAdd = true
-                                    if userData.count > 0 {
-                                        for user in userData {
-                                            if user.username == comment.member.username {
-                                                canAdd = false
-                                            }
-                                        }
-                                    }
-                                    if canAdd {
-                                        userData.append(comment.member)
-                                    }
-                                }
-                            }
-                            
-                            atTableView.originData = userData
-                        }
-                        
-                        atTableView.searchText = text
-                        atTableView.hidden = !atTableView.searchMember()
-                    } else {
-                        atTableView?.hidden = true
-                    }
-                }
-            }
-        }
+}
 
-    }
-    
-    // MARK: TTTAttributedLabelDelegate
+// MARK: TTTAttributedLabelDelegate
+extension PostDetailViewController: TTTAttributedLabelDelegate {
     func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
         if url != nil {
             if let urlStr = url.absoluteString {
                 if urlStr.hasPrefix("@") {
                     let username = (urlStr as NSString).substringFromIndex(1)
-
+                    
                     let profileViewController = ProfileViewController().allocWithRouterParams(nil)
                     profileViewController.isMine = false
                     profileViewController.username = username
@@ -419,13 +309,115 @@ class PostDetailViewController: BaseViewController, UITableViewDelegate, UITable
             }
         }
     }
-    
-    // MARK: AtUserTableViewDelegate
+}
+
+// MARK: AtUserTableViewDelegate
+extension PostDetailViewController: AtUserTableViewDelegate {
     func didSelectedUser(user: MemberModel) {
         
         getTextView().text = getTextView().text.stringByReplacingOccurrencesOfString("@" + atTableView.searchText, withString: "@" + user.username + " ", options: NSStringCompareOptions.BackwardsSearch)
         
         atTableView?.hidden = true
     }
+}
+
+// MARK: UITextViewDelegate
+extension PostDetailViewController: UITextViewDelegate {
+    func textViewDidChange(textView: UITextView) {
+        if !textView.text.isEmpty && dataSouce.count > 0 {
+            if last(textView.text) == " " {
+                atTableView?.hidden = true
+                return
+            }
+            let components = textView.text.componentsSeparatedByString(" ")
+            if components.count > 0 {
+                let atText = components.last!
+                let text = atText.stringByReplacingOccurrencesOfString("@", withString: "")
+                if atText.hasPrefix("@") && !text.isEmpty {
+                    if atTableView == nil {
+                        self.atTableView = AtUserTableView(frame: tableView.bounds, style: .Plain)
+                        atTableView.atDelegate = self
+                        view.insertSubview(atTableView, belowSubview: toolbarView)
+                        
+                        atTableView.snp_makeConstraints { (make) -> Void in
+                            make.top.equalTo(tableView.snp_top).offset(64)
+                            make.left.equalTo(tableView.snp_left)
+                            make.right.equalTo(tableView.snp_right)
+                            make.bottom.equalTo(tableView.snp_bottom)
+                        }
+                        let postDetail: PostDetailModel = dataSouce.first as! PostDetailModel
+                        var userData = [postDetail.member]
+                        for obj in dataSouce {
+                            if let comment = obj as? CommentModel where userData.count > 0 {
+                                var canAdd = true
+                                for user in userData {
+                                    if user.username == comment.member.username {
+                                        canAdd = false
+                                    }
+                                }
+                                if canAdd {
+                                    userData.append(comment.member)
+                                }
+                            }
+                        }
+                        atTableView.originData = userData
+                    }
+                    
+                    atTableView.searchText = text
+                    atTableView.hidden = !atTableView.searchMember()
+                } else {
+                    atTableView?.hidden = true
+                }
+            }
+        } else {
+            atTableView?.hidden = true
+        }
+        
+    }
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    // UITableViewDataSource
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        if indexPath.row == 0 {
+            let cell: PostContentCell = tableView.dequeueReusableCellWithIdentifier("postContentCellId") as! PostContentCell
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            
+            cell.contentLabel.delegate = self
+            cell.updateCell(postDetail)
+            
+            return cell;
+            
+        } else {
+            let cell: CommentCell = tableView.dequeueReusableCellWithIdentifier("commentCellId") as! CommentCell
+            cell.contentLabel.delegate = self
+            
+            let comment = dataSouce[indexPath.row] as! CommentModel
+            cell.updateCell(comment)
+            
+            cell.avatarButton.tag = indexPath.row
+            cell.usernameButton.tag = indexPath.row
+            
+            if !cell.isButtonAddTarget {
+                cell.avatarButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
+                cell.usernameButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
+                cell.isButtonAddTarget = true
+            }
+            
+            return cell
+        }
+        
+    }
     
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataSouce.count > 0 ? dataSouce.count : 0
+    }
+    
+    // UITableViewDelegate
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
 }

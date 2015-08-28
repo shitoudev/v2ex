@@ -62,31 +62,6 @@ class AccountViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: UITableViewDataSource
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let identifier = indexPath.row==2 ? "submitID" : "textFieldID";
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(identifier) as! UITableViewCell
-        cell.selectionStyle = .None
-        self.updateCellUI(cell, indexPath: indexPath)
-        
-        return cell
-    }
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sections
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows;
-    }
-    
-    // MARK: UITableViewDelegate
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row==2 ? 106 : 76
-    }
-    
     // MARK: Update cell ui
     /**
     更新cell ui
@@ -244,6 +219,30 @@ class AccountViewController: UITableViewController {
         let textField = cell!.viewWithTag(TEXT_FIELD_TAG) as! UITextField
         return textField
     }
+}
+
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension AccountViewController {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let identifier = indexPath.row==2 ? "submitID" : "textFieldID";
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(identifier) as! UITableViewCell
+        cell.selectionStyle = .None
+        self.updateCellUI(cell, indexPath: indexPath)
+        
+        return cell
+    }
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sections
+    }
     
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rows;
+    }
+    
+    // MARK: UITableViewDelegate
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return indexPath.row==2 ? 106 : 76
+    }
 }

@@ -41,15 +41,15 @@ class MemberReplyCell: UITableViewCell {
         
         let x = CGFloat(20), width = CGFloat(10), height = CGFloat(6), y = postTitleLabel.height-height
         let path = UIBezierPath()
-        path.moveToPoint(CGPointMake(CGFloat(width/2), 0))
-        path.addLineToPoint(CGPointMake(width, height))
-        path.addLineToPoint(CGPointMake(0, height))
+        path.moveToPoint(CGPoint(x: CGFloat(width/2), y: 0))
+        path.addLineToPoint(CGPoint(x: width, y: height))
+        path.addLineToPoint(CGPoint(x: 0, y: height))
         path.closePath()
         
         self.markLayer = CAShapeLayer()
         markLayer.path = path.CGPath
         markLayer.fillColor = UIColor.whiteColor().CGColor
-        markLayer.position = CGPointMake(x, postTitleLabel.height-height)
+        markLayer.position = CGPoint(x: x, y: postTitleLabel.height-height)
         markLayer.actions = ["fillColor":NSNull()]
         contentView.layer.addSublayer(markLayer)
     }

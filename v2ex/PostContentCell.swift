@@ -22,7 +22,7 @@ class PostContentCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        layoutMargins = UIEdgeInsetsMake(0, 8, 0, 0)
+        layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         separatorInset = UIEdgeInsetsZero
         titleLabel.font = kTitleFont
 

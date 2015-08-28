@@ -40,15 +40,15 @@ class NotificationCell: UITableViewCell {
         
         let x = CGFloat(20), width = CGFloat(10), height = CGFloat(6), y = postTitleLabel.height
         let path = UIBezierPath()
-        path.moveToPoint(CGPointMake(0, 0))
-        path.addLineToPoint(CGPointMake(width, 0))
-        path.addLineToPoint(CGPointMake(CGFloat(width/2), height))
+        path.moveToPoint(CGPointZero)
+        path.addLineToPoint(CGPoint(x: width, y: 0))
+        path.addLineToPoint(CGPoint(x: CGFloat(width/2), y: height))
         path.closePath()
         
         self.markLayer = CAShapeLayer()
         markLayer.path = path.CGPath
         markLayer.fillColor = postTitleLabel.backgroundColor!.CGColor
-        markLayer.position = CGPointMake(x, y)
+        markLayer.position = CGPoint(x: x, y: y)
         markLayer.actions = ["fillColor":NSNull()]
         contentView.layer.addSublayer(markLayer)
     }

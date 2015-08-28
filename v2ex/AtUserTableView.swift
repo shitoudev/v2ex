@@ -12,7 +12,7 @@ protocol AtUserTableViewDelegate {
     func didSelectedUser(user: MemberModel)
 }
 
-class AtUserTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
+class AtUserTableView: UITableView {
     
     var originData: [MemberModel]!
     var dataSouce: [MemberModel] = [MemberModel]() {
@@ -41,10 +41,22 @@ class AtUserTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: UITableViewDataSource
+    func searchMember() -> Bool {
+        let namePredicate = NSPredicate(format: "username contains[c] %@", self.searchText)
+        dataSouce = originData.filter({ (user: MemberModel) -> Bool in
+            return namePredicate.evaluateWithObject(user)
+        })
+        
+        return dataSouce.count > 0
+    }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+}
 
+// MARK: UITableViewDataSource & UITableViewDelegate
+extension AtUserTableView: UITableViewDelegate, UITableViewDataSource {
+    // UITableViewDataSource
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell: MemberCell = tableView.dequeueReusableCellWithIdentifier("memberCellId") as! MemberCell
         
         let member = dataSouce[indexPath.row]
@@ -57,21 +69,8 @@ class AtUserTableView: UITableView, UITableViewDelegate, UITableViewDataSource {
         return dataSouce.count;
     }
     
-    // MARK: UITableViewDelegate
-    
+    // UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         atDelegate?.didSelectedUser(dataSouce[indexPath.row])
     }
-    
-    func searchMember() -> Bool {
-        
-        let namePredicate = NSPredicate(format: "username contains[c] %@", self.searchText)
-        dataSouce = originData.filter({ (user: MemberModel) -> Bool in
-            return namePredicate.evaluateWithObject(user)
-        })
-        
-        return dataSouce.count > 0
-        
-    }
-    
 }

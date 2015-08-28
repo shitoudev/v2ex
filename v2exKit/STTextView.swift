@@ -62,10 +62,10 @@ public class STTextView: UITextView {
         self.layer.borderWidth = 0.5
         self.layer.borderColor = UIColor.lightGrayColor().CGColor
         self.layer.cornerRadius = cornerRadius
-        self.scrollIndicatorInsets = UIEdgeInsetsMake(cornerRadius, 0.0, cornerRadius, 0.0);
+        self.scrollIndicatorInsets = UIEdgeInsets(top: cornerRadius, left: 0, bottom: cornerRadius, right: 0)
         
-        self.textContainerInset = UIEdgeInsetsMake(3.0, 2.0, 3.0, 2.0);
-        self.contentInset = UIEdgeInsetsMake(3.0, 0.0, 3.0, 0.0);
+        self.textContainerInset = UIEdgeInsets(top: 3, left: 2, bottom: 3, right: 2)
+        self.contentInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 0)
         
         self.backgroundColor = UIColor.whiteColor()
         self.font = UIFont.systemFontOfSize(13)
