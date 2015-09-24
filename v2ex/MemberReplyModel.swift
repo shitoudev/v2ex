@@ -10,8 +10,9 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import v2exKit
+import Kanna
 
-class MemberReplyModel: JSONAble {
+class MemberReplyModel: NSObject {
     
     var post_title: String, reply_content: String, date_time: String
     var post_id: Int
@@ -27,13 +28,14 @@ class MemberReplyModel: JSONAble {
         let url = APIManage.Router.Member + username + "/replies"
         var result = [MemberReplyModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
             
-            if error == nil {
-                result = self.getMemberRepliesFromHtmlResponse(str!)
+            if str.isSuccess {
+                result = self.getMemberRepliesFromHtmlResponse(str.value!)
                 completionHandler(obj: result, nil)
             } else {
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
         })
     }
@@ -47,50 +49,47 @@ class MemberReplyModel: JSONAble {
     */
     private static func getMemberRepliesFromHtmlResponse(respStr: String) -> [MemberReplyModel] {
         var result = [MemberReplyModel]()
-        var err: NSError?
-        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
         
-        let bodyNode = parser.body
-        if let divs = bodyNode?.findChildTagsAttr("div", attrName: "class", attrValue: "dock_area") {
+        guard let doc = HTML(html: respStr, encoding: NSUTF8StringEncoding) else {
+            return result
+        }
+        
+        let body = doc.body!
+        let divs = body.css("div[class='dock_area']")
+        if divs.count > 0 {
             // 读取评论内容
             var contents = [String]()
-            if let contentsNode = bodyNode?.findChildTagsAttr("div", attrName: "class", attrValue: "reply_content") {
-                for contentNode in contentsNode {
-                    let rawContent = contentNode.rawContents
-                    let content = htmlRegularExpression.stringByReplacingMatchesInString(rawContent, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, count(rawContent)), withTemplate: "")
-                    contents.append(content)
-                }
+            for contentNode in body.css("div[class='reply_content']") {
+                let rawContent = contentNode.text!
+                let content = htmlRegularExpression.stringByReplacingMatchesInString(rawContent, options: .Anchored, range: NSMakeRange(0, rawContent.characters.count), withTemplate: "")
+                contents.append(content)
             }
             
-            for (index, value) in enumerate(divs) {
+            for (index, value) in divs.enumerate() {
                 var postId = 0, postTitle = "", dateTime = ""
-                // 主题ID、标题、时间
-                if let postNode = value.findChildTagAttr("span", attrName: "class", attrValue: "gray") {
-                    if let aNode = postNode.findChildTag("a") {
-                        postTitle = aNode.contents
-                        
-                        let href = aNode.getAttributeNamed("href")
-                        let components = href.componentsSeparatedByString("/")
-                        if let componentsId = components.last?.componentsSeparatedByString("#") {
-                            if let first = componentsId.first {
-                                postId = first.toInt()!
-                            }
+                if let postNode = value.at_css("span[class='gray']"), aNode = postNode.at_css("a") {
+                    postTitle = aNode.text!
+                    
+                    let href = aNode["href"]!
+                    let components = href.componentsSeparatedByString("/")
+                    if let componentsId = components.last?.componentsSeparatedByString("#") {
+                        if let first = componentsId.first {
+                            postId = (first as NSString).integerValue
                         }
                     }
-                    if let timeNode = value.findChildTagAttr("span", attrName: "class", attrValue: "fade") {
-                        dateTime = timeNode.contents
-                    }
                 }
-                
+                if let timeNode = value.at_css("span[class='fade']"), timeText = timeNode.text {
+                    dateTime = timeText
+                }
                 // 评论内容
                 let content = contents[index]
                 
                 let reply = ["post_id":postId, "post_title":postTitle, "reply_content":content, "date_time":dateTime]
-                var replyModel = MemberReplyModel(fromDictionary: reply)
+                let replyModel = MemberReplyModel(fromDictionary: reply)
                 result.append(replyModel)
             }
+
         }
-        
         return result
     }
 }

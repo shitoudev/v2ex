@@ -8,10 +8,11 @@
 
 import Foundation
 import v2exKit
+import Kanna
 
-let delFuncRegularExpression = NSRegularExpression(pattern: "[a-zA-z]+\\(([\\d]+),\\s*([\\d]+)\\)", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+let delFuncRegularExpression = try! NSRegularExpression(pattern: "[a-zA-z]+\\(([\\d]+),\\s*([\\d]+)\\)", options: NSRegularExpressionOptions.CaseInsensitive)
 
-class NotificationModel: JSONAble {
+class NotificationModel: NSObject {
     
     var content: String, title: String
     var n_id: Int, once_token: Int // 删除通知需要用到：$.post('/delete/notification/' + nId + '?once=' + token, function(data) { })
@@ -42,13 +43,14 @@ class NotificationModel: JSONAble {
         let url = APIManage.Router.Notification
         var result = [NotificationModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
             
-            if error == nil {
-                result = self.getPostsFromHtmlResponse(str!)
+            if str.isSuccess {
+                result = self.getPostsFromHtmlResponse(str.value!)
                 completionHandler(obj: result, nil)
             } else {
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
         })
     }
@@ -62,69 +64,57 @@ class NotificationModel: JSONAble {
     */
     static func getPostsFromHtmlResponse(respStr: String) -> [NotificationModel] {
         var result = [NotificationModel]()
-        var err: NSError?
-        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-        
-        let bodyNode = parser.body
-        if let tables = bodyNode?.findChildTags("table") where !tables.isEmpty {
-            
-            for oneNode: HTMLNode in tables {
-                
-                var title = "", content = "", smart_time = "", username = "", avatar = "", n_id = 0, once_token = 0, post_id = 0
-                if let payloadNode: HTMLNode = oneNode.findChildTagAttr("div", attrName: "class", attrValue: "payload") {
-                    // content
-                    let rawContent = payloadNode.rawContents
-                    content = htmlRegularExpression.stringByReplacingMatchesInString(rawContent, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, count(rawContent)), withTemplate: "")
-                    // time
-                    if let timeNode: HTMLNode = oneNode.findChildTagAttr("span", attrName: "class", attrValue: "snow") {
-                        smart_time = timeNode.contents
-                    }
-                    // username & title & post_id
-                    if let fadeNode: HTMLNode = oneNode.findChildTagAttr("span", attrName: "class", attrValue: "fade") {
-                        if let nameNode: HTMLNode = fadeNode.findChildTag("strong") {
-                            username = nameNode.contents
-                        }
-                        
-                        let aNode = fadeNode.findChildTags("a")
-                        if aNode.last != nil {
-                            let alast = aNode.last!
-                            title = alast.contents
-                            
-                            let href = alast.getAttributeNamed("href")
-                            let components = href.componentsSeparatedByString("/")
-                            if let componentsId = components.last?.componentsSeparatedByString("#") {
-                                if let first = componentsId.first {
-                                    post_id = first.toInt()!
-                                }
-                            }
-                        }
-                    }
-                    // avatar
-                    if let avatarNode: HTMLNode = oneNode.findChildTagAttr("img", attrName: "class", attrValue: "avatar") {
-                        avatar = avatarNode.getAttributeNamed("src")
-                    }
-                    // n_id & once_token
-                    if let delNode: HTMLNode = oneNode.findChildTagAttr("a", attrName: "class", attrValue: "node") {
-                        let onclickValue = delNode.getAttributeNamed("onclick")
-                        let range = NSMakeRange(0, count(onclickValue))
-                        let idString = delFuncRegularExpression.stringByReplacingMatchesInString(onclickValue, options: .allZeros, range: range, withTemplate: "$1-$2")
-                        let idArr = idString.componentsSeparatedByString("-")
-                        if (idArr.first != nil) {
-                            n_id = idArr.first!.toInt()!
-                        }
-                        if (idArr.last != nil) {
-                            once_token = idArr.last!.toInt()!
-                        }
-                    }
-                    
-                    let post = ["title":title, "content":content, "smart_time":smart_time, "n_id":n_id, "once_token":once_token, "post_id":post_id, "member":["username":username, "avatar_large":avatar]] as NSDictionary
-                    var model = NotificationModel(fromDictionary: post)
-                    result.append(model)
-                }
-            }
-            
+        guard let doc = HTML(html: respStr, encoding: NSUTF8StringEncoding) else {
+            return result
         }
         
+        for oneNode in doc.body!.css("table") {
+            var title = "", content = "", smart_time = "", username = "", avatar = "", n_id = 0, once_token = 0, post_id = 0
+            if let payloadNode = oneNode.at_css("div[class='payload']"), rawContent = payloadNode.text {
+                // content
+//                let rawContent = payloadNode.text
+                content = htmlRegularExpression.stringByReplacingMatchesInString(rawContent, options: [NSMatchingOptions.Anchored], range: NSMakeRange(0, rawContent.characters.count), withTemplate: "")
+                // time
+                if let timeNode = oneNode.at_css("span[class='snow']"), timeText = timeNode.text {
+                    smart_time = timeText
+                }
+                // username & title & post_id
+                if let fadeNode = oneNode.at_css("span[class='fade']") {
+                    if let nameNode = fadeNode.at_css("strong"), usernameText = nameNode.text {
+                        username = usernameText
+                    }
+                    
+                    if let alast = fadeNode.css("a").last, titleText = alast.text, href = alast["href"] {
+                        title = titleText
+                        
+                        let components = href.componentsSeparatedByString("/")
+                        if let componentsId = components.last?.componentsSeparatedByString("#"), first = componentsId.first {
+                            post_id = (first as NSString).integerValue
+                        }
+                    }
+                }
+                // avatar
+                if let avatarNode = oneNode.at_css("img[class='avatar']"), srcText = avatarNode["src"] {
+                    avatar = srcText
+                }
+                // n_id & once_token
+                if let delNode = oneNode.at_css("a[class='node']"), onclickValue = delNode["onclick"] {
+                    let range = NSMakeRange(0, onclickValue.characters.count)
+                    let idString = delFuncRegularExpression.stringByReplacingMatchesInString(onclickValue, options: .Anchored, range: range, withTemplate: "$1-$2")
+                    let idArr = idString.componentsSeparatedByString("-")
+                    if let first = idArr.first {
+                        n_id = (first as NSString).integerValue
+                    }
+                    if let last = idArr.last {
+                        once_token = (last as NSString).integerValue
+                    }
+                }
+                
+                let post = ["title":title, "content":content, "smart_time":smart_time, "n_id":n_id, "once_token":once_token, "post_id":post_id, "member":["username":username, "avatar_large":avatar]] as NSDictionary
+                let model = NotificationModel(fromDictionary: post)
+                result.append(model)
+            }
+        }
         return result
     }
 }

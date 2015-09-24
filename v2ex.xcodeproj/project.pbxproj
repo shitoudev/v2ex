@@ -16,10 +16,6 @@
 		972D99AF1B38352F0069C052 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D99AE1B38352F0069C052 /* TodayViewController.swift */; };
 		972D99B11B38352F0069C052 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 972D99B01B38352F0069C052 /* MainInterface.storyboard */; };
 		972D99B41B38352F0069C052 /* v2exTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 972D99A81B38352F0069C052 /* v2exTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9739A8011B3BBA85006D9259 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739A7FB1B3BBA85006D9259 /* FontAwesome.swift */; };
-		9739A8021B3BBA85006D9259 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9739A7FD1B3BBA85006D9259 /* FontAwesome.otf */; };
-		9739A8031B3BBA85006D9259 /* HTMLNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739A7FF1B3BBA85006D9259 /* HTMLNode.swift */; };
-		9739A8041B3BBA85006D9259 /* HTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9739A8001B3BBA85006D9259 /* HTMLParser.swift */; };
 		9739A8051B3BBB86006D9259 /* v2exKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97EA80471B3AAD87002C7C48 /* v2exKit.framework */; };
 		974205031B300E8800F07E5E /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205021B300E8800F07E5E /* PostViewController.swift */; };
 		974205051B30708300F07E5E /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205041B30708300F07E5E /* PostCell.swift */; };
@@ -149,10 +145,6 @@
 		9739A7E11B3AC240006D9259 /* v2ex.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = v2ex.entitlements; sourceTree = "<group>"; };
 		9739A7E21B3BA02C006D9259 /* v2exTodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = v2exTodayExtension.entitlements; sourceTree = "<group>"; };
 		9739A7F61B3BB9D8006D9259 /* v2ex-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "v2ex-Bridging-Header.h"; sourceTree = "<group>"; };
-		9739A7FB1B3BBA85006D9259 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAwesome.swift; sourceTree = "<group>"; };
-		9739A7FD1B3BBA85006D9259 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
-		9739A7FF1B3BBA85006D9259 /* HTMLNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLNode.swift; sourceTree = "<group>"; };
-		9739A8001B3BBA85006D9259 /* HTMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLParser.swift; sourceTree = "<group>"; };
 		974205021B300E8800F07E5E /* PostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		974205041B30708300F07E5E /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		974205061B3070BA00F07E5E /* PostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
@@ -328,44 +320,8 @@
 		9739A7F81B3BBA85006D9259 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				9739A7F91B3BBA85006D9259 /* FontAwesome */,
-				9739A7FE1B3BBA85006D9259 /* Swift-HTML-Parser */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		9739A7F91B3BBA85006D9259 /* FontAwesome */ = {
-			isa = PBXGroup;
-			children = (
-				9739A7FA1B3BBA85006D9259 /* Classes */,
-				9739A7FC1B3BBA85006D9259 /* Resources */,
-			);
-			path = FontAwesome;
-			sourceTree = "<group>";
-		};
-		9739A7FA1B3BBA85006D9259 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				9739A7FB1B3BBA85006D9259 /* FontAwesome.swift */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		9739A7FC1B3BBA85006D9259 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				9739A7FD1B3BBA85006D9259 /* FontAwesome.otf */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		9739A7FE1B3BBA85006D9259 /* Swift-HTML-Parser */ = {
-			isa = PBXGroup;
-			children = (
-				9739A7FF1B3BBA85006D9259 /* HTMLNode.swift */,
-				9739A8001B3BBA85006D9259 /* HTMLParser.swift */,
-			);
-			path = "Swift-HTML-Parser";
 			sourceTree = "<group>";
 		};
 		97A0679E1AF49B2600EB475C /* Model */ = {
@@ -630,6 +586,7 @@
 		97BA7CCE1AF47FBB00950A0C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = zhenwen;
 				TargetAttributes = {
@@ -701,7 +658,6 @@
 			files = (
 				97BA7CE31AF47FBB00950A0C /* Main.storyboard in Resources */,
 				974205071B3070BA00F07E5E /* PostCell.xib in Resources */,
-				9739A8021B3BBA85006D9259 /* FontAwesome.otf in Resources */,
 				97E76C6E1B24AE5700F38FB1 /* CommentCell.xib in Resources */,
 				97BA7CE81AF47FBB00950A0C /* LaunchScreen.xib in Resources */,
 				97BA7CE51AF47FBB00950A0C /* Images.xcassets in Resources */,
@@ -883,7 +839,6 @@
 			files = (
 				97BC194A1B5407A1007E9783 /* MemberReplyCell.swift in Sources */,
 				97BC19481B5401CB007E9783 /* MemberReplyViewController.swift in Sources */,
-				9739A8041B3BBA85006D9259 /* HTMLParser.swift in Sources */,
 				97BA7D001AF483B100950A0C /* HotViewController.swift in Sources */,
 				97E76C6A1B24AB3700F38FB1 /* PostDetailViewController.swift in Sources */,
 				97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */,
@@ -896,7 +851,6 @@
 				97D6B4991B457E450043499B /* PostContentCell.swift in Sources */,
 				97E76C701B25485C00F38FB1 /* PostDetailModel.swift in Sources */,
 				9727521D1B00998E001A1F41 /* BaseViewController.swift in Sources */,
-				9739A8031B3BBA85006D9259 /* HTMLNode.swift in Sources */,
 				97A067A41AF4B3C400EB475C /* JSONAble.swift in Sources */,
 				979D11921B84722600B113DB /* NotificationViewController.swift in Sources */,
 				97BB75411AFCC15D00872416 /* NodeModel.swift in Sources */,
@@ -911,7 +865,6 @@
 				974205031B300E8800F07E5E /* PostViewController.swift in Sources */,
 				9759730B1B44053400FCF28D /* MemberCell.swift in Sources */,
 				97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */,
-				9739A8011B3BBA85006D9259 /* FontAwesome.swift in Sources */,
 				97BB75431AFCEE7A00872416 /* LatestViewController.swift in Sources */,
 				97C0B5A31B43DA0700C74281 /* AtUserTableView.swift in Sources */,
 			);
@@ -1054,6 +1007,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1124,6 +1078,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1153,6 +1108,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1176,10 +1132,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1195,10 +1148,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = v2exTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1253,6 +1203,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Joysports Information Technology Co., Ltd.";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1276,10 +1227,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = v2exTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1307,6 +1255,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A14A1226E5E61D986B0669FF /* Pods.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1315,10 +1264,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_FRAMEWORK_BUILD_PATH\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1348,10 +1294,7 @@
 		97D3BEB91B73596D002DE710 /* InHouse */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = v2exKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1364,6 +1307,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 96FD8C32A3900DB4C0D61775 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1372,10 +1316,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_FRAMEWORK_BUILD_PATH\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1411,6 +1352,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A14A1226E5E61D986B0669FF /* Pods.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1420,10 +1362,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_FRAMEWORK_BUILD_PATH\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1454,10 +1393,7 @@
 		97EA80621B3AAD87002C7C48 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1473,10 +1409,7 @@
 		97EA80631B3AAD87002C7C48 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = v2exKitTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

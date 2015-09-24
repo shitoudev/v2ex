@@ -14,10 +14,11 @@ extension UIColor {
         var cString:String = hex.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
         
         if (cString.hasPrefix("#")) {
-            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+//            cString = cString.substringFromIndex(advance(cString.startIndex, 1))
+            cString = (cString as NSString).substringFromIndex(1)
         }
         
-        if (count(cString) != 6) {
+        if (cString.characters.count != 6) {
             return UIColor.grayColor()
         }
         

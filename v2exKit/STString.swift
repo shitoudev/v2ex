@@ -12,7 +12,11 @@ extension String {
     
     public static func strHeight (str: String, size: CGSize, font: UIFont) -> CGFloat {
 //        NSStringDrawingOptions.UsesFontLeading
-        let rect: CGRect = str.boundingRectWithSize(size, options: NSStringDrawingOptions.UsesLineFragmentOrigin|NSStringDrawingOptions.UsesFontLeading, attributes: [NSFontAttributeName:font], context: nil)
+        let rect: CGRect = str.boundingRectWithSize(size, options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: [NSFontAttributeName:font], context: nil)
         return rect.size.height
+    }
+    
+    public func trim() -> String {
+        return self.stringByTrimmingCharactersInSet(.whitespaceCharacterSet())
     }
 }

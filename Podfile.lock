@@ -1,45 +1,67 @@
 PODS:
-  - Alamofire (1.3.0)
-  - Crashlytics (3.1.0)
+  - Alamofire (2.0.1)
+  - Crashlytics (3.3.1)
   - DAKeyboardControl (2.4.0)
-  - Fabric (1.2.8):
-    - Fabric/Base (= 1.2.8)
-  - Fabric/Base (1.2.8)
+  - Fabric (1.5.1):
+    - Fabric/Base (= 1.5.1)
+  - Fabric/Base (1.5.1)
   - FlurrySDK (6.6.0):
     - FlurrySDK/FlurrySDK (= 6.6.0)
   - FlurrySDK/FlurrySDK (6.6.0)
+  - FontAwesome.swift (0.5.0)
   - JDStatusBarNotification (1.5.2)
-  - Kingfisher (1.4.3)
-  - SnapKit (0.13.0)
-  - SwiftyJSON (2.2.1)
+  - Kanna (1.0.0)
+  - Kingfisher (1.5.0)
+  - SnapKit (0.14.0)
+  - SwiftyJSON (2.3.0)
   - SwiftyUserDefaults (1.1.0)
   - TDBadgedCell (3.0)
   - TTTAttributedLabel (1.13.4)
 
 DEPENDENCIES:
-  - Alamofire (~> 1.2)
+  - Alamofire (~> 2.0)
   - Crashlytics
   - DAKeyboardControl (~> 2.4.0)
   - Fabric
   - FlurrySDK (~> 6.6.0)
+  - FontAwesome.swift (from `https://github.com/thii/FontAwesome.swift.git`, branch
+    `swift-2.0`)
   - JDStatusBarNotification (~> 1.5.2)
-  - Kingfisher (~> 1.4)
+  - Kanna (~> 1.0.0)
+  - Kingfisher (~> 1.5.0)
   - SnapKit (~> 0.12)
-  - SwiftyJSON (~> 2.2.0)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - SwiftyUserDefaults (~> 1.1.0)
   - TDBadgedCell (~> 3.0)
   - TTTAttributedLabel (~> 1.13.4)
 
+EXTERNAL SOURCES:
+  FontAwesome.swift:
+    :branch: swift-2.0
+    :git: https://github.com/thii/FontAwesome.swift.git
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  FontAwesome.swift:
+    :commit: 7271ec761f689f2fa7539974afe2f91af5a17080
+    :git: https://github.com/thii/FontAwesome.swift.git
+  SwiftyJSON:
+    :commit: 3b5d0d4e0c19173b1bf0dc823bde25ad870f70c0
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
 SPEC CHECKSUMS:
-  Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
-  Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
+  Alamofire: 1d8e208d616fbbfd2391b15eae766d07c96cdc49
+  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
   DAKeyboardControl: 9d9bca22a5cc3c1d3cc61e24fbd208c3e84a3d2d
-  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
-  FlurrySDK: 8478625434c06b323338f776758162756d92c3ed
+  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
+  FlurrySDK: b79d7125293904a572d7539e64cd9d887f46176b
+  FontAwesome.swift: 0b38f996bce5478b6d3f4f41b291b7991d97c42a
   JDStatusBarNotification: a36d09ccbb047217572b074a61e7ca10dddc5f0a
-  Kingfisher: 949bcfaebfd149c9a0306318ed6f2d2b743e5103
-  SnapKit: 69fe274c71511df89a5591c11437a8b826bfa9eb
-  SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
+  Kanna: 92799095ecb17b85ac2444bb5c8ce6394a137adb
+  Kingfisher: cbb280faba0e9ae0a73d2c51072f7dd94ccfe640
+  SnapKit: f42352ef34953866da0de1e1009c2ff82588a95e
+  SwiftyJSON: 8d6b61a70277ef2a5d710d372e06e7e2d87fb9e4
   SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
   TDBadgedCell: 8e5314066fd8c2d8b6e3fc5dec824f5ded78bdc5
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f

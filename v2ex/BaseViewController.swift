@@ -23,7 +23,8 @@ class BaseViewController: UIViewController {
         loadingView.hidesWhenStopped = true
         self.view.addSubview(loadingView)
         // 重新加载按钮
-        self.reloadView = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+        
+        self.reloadView = UIButton(type: .Custom)
         reloadView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 100, height: 40))
         reloadView.center = self.view.center
         reloadView.setTitle("点我重新加载", forState: UIControlState.Normal)

@@ -13,11 +13,11 @@ extension String {
     public static func smartDate (strtotime: NSTimeInterval) -> String {
         var smartStr = ""
 
-        var currentDate = NSDate().timeIntervalSince1970
-        var endDate = NSDate(timeIntervalSince1970: strtotime)
+        let currentDate = NSDate().timeIntervalSince1970
+        let endDate = NSDate(timeIntervalSince1970: strtotime)
 
-        var distanceTime = currentDate - strtotime
-        var dateFormatter = NSDateFormatter()
+        let distanceTime = currentDate - strtotime
+        let dateFormatter = NSDateFormatter()
         
 //        println("currentDate = \(currentDate), strtotime \(strtotime), distanceTime = \(distanceTime)")
         

@@ -39,7 +39,7 @@ class MemberReplyCell: UITableViewCell {
         dateTimeLabel.backgroundColor = postTitleLabel.backgroundColor
         dateTimeLabel.textColor = UIColor.grayColor()
         
-        let x = CGFloat(20), width = CGFloat(10), height = CGFloat(6), y = postTitleLabel.height-height
+        let x = CGFloat(20), width = CGFloat(10), height = CGFloat(6)
         let path = UIBezierPath()
         path.moveToPoint(CGPoint(x: CGFloat(width/2), y: 0))
         path.addLineToPoint(CGPoint(x: width, y: height))

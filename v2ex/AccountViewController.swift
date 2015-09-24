@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import JDStatusBarNotification
+import Kanna
 
 enum SwitchType: Int {
     case LOGIN
@@ -38,12 +39,10 @@ class AccountViewController: UITableViewController {
 
         tableView.separatorStyle = .None
 
-        if let pvc = parentViewController {
-            if pvc is UINavigationController {
-                navigationItem.title = "登录"
-                let item = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: "cancel:")
-                navigationItem.leftBarButtonItem = item
-            }
+        if let pvc = parentViewController where pvc is UINavigationController {
+            navigationItem.title = "登录"
+            let item = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: "cancel:")
+            navigationItem.leftBarButtonItem = item
         }
     }
     
@@ -99,7 +98,7 @@ class AccountViewController: UITableViewController {
         }else if indexPath.row==2 {
             let submit = cell.viewWithTag(SUBMIT_TAG) as! UIButton
             submit.addTarget(self, action: "loginSubmit:", forControlEvents: UIControlEvents.TouchUpInside)
-            var title = (type == .LOGIN) ? "登录" : "找回密码"
+            let title = (type == .LOGIN) ? "登录" : "找回密码"
             submit.setTitle(title, forState: UIControlState.Normal)
             let forgetPwd = cell.viewWithTag(FORGET_PWD) as! UIButton
             forgetPwd.hidden = true
@@ -113,81 +112,75 @@ class AccountViewController: UITableViewController {
 
     // login
     func loginSubmit(sender: UIButton) {
-        if logining {
+        guard let account = self.getAccountField().text, password = self.getSecondField().text where (!logining && type == .LOGIN  && !account.isEmpty && !password.isEmpty) else {
             return
         }
+
         logining = true
-        let account = self.getAccountField().text //"wordcup"
-        let password = self.getSecondField().text //"wordcup"
-        if type == .LOGIN  && !account.isEmpty && !password.isEmpty{
-
-            JDStatusBarNotification.showWithStatus("登录中...", styleName: JDStatusBarStyleDark)
-            JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: UIActivityIndicatorViewStyle.White)
-            
-            let signinUrl = APIManage.Router.Signin
-
-            let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-
-            mgr.request(.GET, signinUrl, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
-                
-                let once = APIManage.getOnceStringFromHtmlResponse(str!)
-                if !once.isEmpty {
-                    mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(signinUrl, forKey: "Referer")
-                    // 请求登录
-                    
-                    mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
-                        if (error == nil && str != nil) {
-                            var err: NSError?
-                            let parser = HTMLParser(html: str!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-                            let bodyNode = parser.body
-                            if let myNodes = bodyNode?.findChildTagAttr("a", attrName: "href", attrValue: "/my/nodes") {
-                                // 登录成功，查找 username
-                                var username = account
-                                let aNodes = bodyNode?.findChildTagsAttr("a", attrName: "class", attrValue: "top")
-                                for a in aNodes! {
-                                    let href = a.getAttributeNamed("href") as NSString
-                                    if href.hasPrefix("/member/") {
-                                        username = a.contents
-                                        break
-                                    }
-                                }
-                                // 获取用户信息
-                                MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
-                                    if error == nil {
-                                        JDStatusBarNotification.showWithStatus("登录成功:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
-                                        // 设置用户信息
-                                        MemberModel.sharedMember.username = obj!.username
-                                        MemberModel.sharedMember.uid = obj!.uid
-                                        MemberModel.sharedMember.avatar_large = obj!.avatar_large
-                                        MemberModel.sharedMember.saveUserData()
-                                        // 重新启动通知轮询
-                                        NotificationManage.sharedManager.timerRestart()
-                                        NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLoginSuccessNotification, object: nil, userInfo: ["user":obj!])
-                                        if let pvc = self.parentViewController {
-                                            if pvc is UINavigationController {
-                                                self.dismissViewControllerAnimated(false, completion: { () -> Void in })
-                                            }
-                                        }
-                                    } else {
-                                        JDStatusBarNotification.showWithStatus(error!.localizedDescription + "登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
-                                    }
-                                })
+        JDStatusBarNotification.showWithStatus("登录中...", styleName: JDStatusBarStyleDark)
+        JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: UIActivityIndicatorViewStyle.White)
+        
+        let signinUrl = APIManage.Router.Signin
+        let mgr = APIManage.sharedManager
+        mgr.request(.GET, signinUrl, parameters: nil).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (req, resp, str) -> Void in
+            if !str.isSuccess {
+                JDStatusBarNotification.showWithStatus("请求once失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                return
+            }
+            if let once = APIManage.getOnceStringFromHtmlResponse(str.value!) {
+                // 请求登录
+                mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"], encoding: .URL, headers: ["Referer": signinUrl]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (req, resp, str) -> Void in
+                    if str.isSuccess {
+                        guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+                            JDStatusBarNotification.showWithStatus("数据解析失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                            return
+                        }
+                        
+                        let body = doc.body!
+                        if let _ = body.at_css("a[class='balance_area']") {
+                            // 登录成功，查找 username
+                            var username = account
+                            if let spanNode = body.at_css("span[class='bigger']"), nameNode = spanNode.at_css("a"), nameText = nameNode.text {
+                                username = nameText
                             }
-                        }else{
+                            // 获取用户信息
+                            MemberModel.getUserInfo(username, completionHandler: { (obj, error) -> Void in
+                                if error == nil {
+                                    JDStatusBarNotification.showWithStatus("登录成功:]", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleSuccess)
+                                    // 设置用户信息
+                                    MemberModel.sharedMember.username = obj!.username
+                                    MemberModel.sharedMember.uid = obj!.uid
+                                    MemberModel.sharedMember.avatar_large = obj!.avatar_large
+                                    MemberModel.sharedMember.saveUserData()
+                                    // 重新启动通知轮询
+                                    NotificationManage.sharedManager.timerRestart()
+                                    NSNotificationCenter.defaultCenter().postNotificationName(v2exUserLoginSuccessNotification, object: nil, userInfo: ["user":obj!])
+                                    if let pvc = self.parentViewController {
+                                        if pvc is UINavigationController {
+                                            self.dismissViewControllerAnimated(false, completion: { () -> Void in })
+                                        }
+                                    }
+                                } else {
+                                    JDStatusBarNotification.showWithStatus(error!.localizedDescription + "登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                                }
+                            })
+                        } else if let divProblem = doc.at_css("div[class='problem']"), liNode = divProblem.at_css("li"), problem = liNode.text {
+                            // 登录出错
+                            JDStatusBarNotification.showWithStatus(problem, dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                        } else {
                             JDStatusBarNotification.showWithStatus("登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                         }
-                        //                        println("resp = \(resp), obj = \(str), error = \(error)")
-                        self.logining = false
-                    })
-                } else {
-                    // once 获取失败
+                    }else{
+                        JDStatusBarNotification.showWithStatus("请求登录失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                    }
                     self.logining = false
-                }
-                
-            })
-        } else {
-            self.logining = false
-        }
+                })
+            } else {
+                // once 获取失败
+                self.logining = false
+                JDStatusBarNotification.showWithStatus("once 获取失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+            }
+        })
     }
     // forget password
     func forgetPwd(sender: UIButton) {
@@ -225,7 +218,7 @@ class AccountViewController: UITableViewController {
 extension AccountViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = indexPath.row==2 ? "submitID" : "textFieldID";
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(identifier) as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(identifier)!
         cell.selectionStyle = .None
         self.updateCellUI(cell, indexPath: indexPath)
         

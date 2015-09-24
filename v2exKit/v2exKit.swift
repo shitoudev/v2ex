@@ -10,6 +10,7 @@ import UIKit
 
 public let kAppGroupIdentifier = "group.cc.yueti.v2ex"
 public let kAppSharedDefaultsTodayExtensionDataKey = "cc.yueti.today.extension"
+public let kAppPostScheme = "v2ex://post/?postId=%d"
 
 public let kLinkColor = "#778087"
 public let kAppNormalColor = UIColor.colorWithHexString("#333344")
@@ -17,7 +18,14 @@ public let kIsiPad = UIDevice.currentDevice().userInterfaceIdiom == UIUserInterf
 public let kContentFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 public let kTitleFont = kIsiPad ? UIFont.systemFontOfSize(16) : UIFont.systemFontOfSize(14)
 
-public let htmlRegularExpression = NSRegularExpression(pattern: "<[^>]+>", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+public let htmlRegularExpression = try! NSRegularExpression(pattern: "<[^>]+>", options: [.CaseInsensitive])
+
+public var defaultTableFooterView: UIView {
+    let footerView = UIView()
+    footerView.backgroundColor = UIColor.clearColor()
+    return footerView
+}
+
 
 /**
 修改链接的文字属性
@@ -27,10 +35,10 @@ public let htmlRegularExpression = NSRegularExpression(pattern: "<[^>]+>", optio
 
 :returns: 修改之后的内容
 */
-public func addLinkAttributed(attrStr: NSMutableAttributedString, #range: NSRange) -> NSMutableAttributedString {
+public func addLinkAttributed(attrStr: NSMutableAttributedString, range: NSRange) -> NSMutableAttributedString {
     
-    attrStr.removeAttribute(kCTForegroundColorAttributeName as! String, range: range)
-    attrStr.addAttribute(kCTForegroundColorAttributeName as! String, value: UIColor.colorWithHexString(kLinkColor).CGColor, range: range)
+    attrStr.removeAttribute(kCTForegroundColorAttributeName as String, range: range)
+    attrStr.addAttribute(kCTForegroundColorAttributeName as String, value: UIColor.colorWithHexString(kLinkColor).CGColor, range: range)
     
     return attrStr
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 protocol AtUserTableViewDelegate {
     func didSelectedUser(user: MemberModel)
@@ -29,12 +30,8 @@ class AtUserTableView: UITableView {
         dataSource = self
         delegate = self
         rowHeight = 44
-        
         registerNib(UINib(nibName: "MemberCell", bundle: nil), forCellReuseIdentifier: "memberCellId")
-        
-        let footerView = UIView.new()
-        footerView.backgroundColor = UIColor.clearColor()
-        tableFooterView = footerView
+        tableFooterView = defaultTableFooterView
     }
     
     required init(coder aDecoder: NSCoder) {

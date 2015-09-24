@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import Kanna
 
-class NodeModel {
+class NodeModel: NSObject {
     var name: String, title: String
     var node_id: Int?, header: String?, url: String?, topics: Int?, avatar_large: String?
     
@@ -32,74 +33,66 @@ class NodeModel {
         var result = [AnyObject]()
 
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, respStr, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, respStr) -> Void in
             
-            if error == nil {
+            if respStr.isSuccess {
+                guard let doc = HTML(html: respStr.value!, encoding: NSUTF8StringEncoding) else {
+                    completionHandler(obj: result, nil)
+                    return
+                }
                 
-                var err: NSError?
-                let parser = HTMLParser(html: respStr!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-                
-                let bodyNode = parser.body
+                let body = doc.body!
                 
                 // parsing navi
-                if let aNavi = bodyNode?.findChildTagsAttr("a", attrName: "class", attrValue: "tab") {
-                    var data = ["title":"导航", "node":[], "type":NSNumber(integer: 2)]
-                    var nodeArr = [NodeModel]()
-                    for aNode: HTMLNode in aNavi {
-                        let title = aNode.contents
-                        let href = aNode.getAttributeNamed("href").componentsSeparatedByString("=")
-                        let name = href.last!
-                        
-                        let nodeInfo = ["name":name, "title":title] as NSDictionary
-                        let nodeModel = NodeModel(fromDictionary: nodeInfo)
-                        nodeArr.append(nodeModel)
-                    }
-                    data["node"] = nodeArr
+                var data = ["title":"导航", "node":[], "type":NSNumber(integer: 2)]
+                var nodeArr = [NodeModel]()
+                for aNode in body.css("a[class='tab']") {
+                    let title = aNode.text!
+                    let href = aNode["href"]!.componentsSeparatedByString("=")
+                    let name = href.last!
+                    
+                    let nodeInfo = ["name":name, "title":title] as NSDictionary
+                    let nodeModel = NodeModel(fromDictionary: nodeInfo)
+                    nodeArr.append(nodeModel)
+                }
+                data["node"] = nodeArr
+                if nodeArr.count > 0 {
                     result.append(data)
                 }
                 
                 // parsing node
-                if let div = bodyNode?.findChildTagsAttr("div", attrName: "class", attrValue: "cell") {
-                    var titleArr = [String]()
-                    for divNode: HTMLNode in div {
-                        if let table: HTMLNode = divNode.findChildTag("table") {
-                            let td = table.findChildTags("td")
-                            if !td.isEmpty {
-                                if let span = td.first?.findChildTagAttr("span", attrName: "class", attrValue: "fade") {
-                                    if let a = td.last?.findChildTags("a") {
-                                        var canAdd = true
-                                        if titleArr.count > 0 {
-                                            for titleStr in titleArr {
-                                                if titleStr == span.contents {
-                                                    canAdd = false
-                                                }
-                                            }
-                                        }
-                                        if canAdd {
-                                            titleArr.append(span.contents)
-                                            var data = ["title":span.contents, "node":[], "type":NSNumber(integer: 1)]
-                                            var nodeArr = [NodeModel]()
-                                            for aNode in a {
-                                                let title = aNode.contents
-                                                let href = aNode.getAttributeNamed("href").componentsSeparatedByString("/")
-                                                let name = href.last!
-                                                let nodeInfo = ["name":name, "title":title] as NSDictionary
-                                                
-                                                let nodeModel = NodeModel(fromDictionary: nodeInfo)
-                                                nodeArr.append(nodeModel)
-                                            }
-                                            data["node"] = nodeArr
-                                            result.append(data)
-                                        }
-                                        
-                                    }
+                var titleArr = [String]()
+                for divNode in body.css("div[class='cell']") {
+                    if let table = divNode.at_css("table"), tdFirst = table.css("td").first, span = tdFirst.at_css("span[class='fade']") {
+                        let a = table.css("td").last!.css("a")
+                        if a.count > 0 {
+                            var canAdd = true
+                            for titleStr in titleArr {
+                                if titleStr == span.text {
+                                    canAdd = false
                                 }
+                            }
+                            if canAdd {
+                                titleArr.append(span.text!)
+                                var data = ["title":span.text!, "node":[], "type":NSNumber(integer: 1)]
+                                var nodeArr = [NodeModel]()
+                                for aNode in a {
+                                    let title = aNode.text!
+                                    let href = aNode["href"]!.componentsSeparatedByString("/")
+                                    let name = href.last!
+                                    let nodeInfo = ["name":name, "title":title] as NSDictionary
+                                    
+                                    let nodeModel = NodeModel(fromDictionary: nodeInfo)
+                                    nodeArr.append(nodeModel)
+                                }
+                                data["node"] = nodeArr
+                                result.append(data)
                             }
                         }
                     }
                 }
             }
-            completionHandler(obj: result, error)
+            completionHandler(obj: result, nil)
 
         })
         

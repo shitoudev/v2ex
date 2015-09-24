@@ -63,7 +63,7 @@ class MemberModel: NSObject {
         let cookiesStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         if let cookies = cookiesStorage.cookiesForURL(NSURL(string: APIManage.baseURLString)!) {
             for cookie in cookies {
-                cookiesStorage.deleteCookie(cookie as! NSHTTPCookie)
+                cookiesStorage.deleteCookie(cookie)
             }
         }
         // reset notification count
@@ -73,11 +73,11 @@ class MemberModel: NSObject {
     
     static func getUserInfo(account: AnyObject, completionHandler: (obj: MemberModel?, NSError?)->Void) {
         
-        var args = (account is Int) ? ["id":account] : ["username":account]
+        let args = (account is Int) ? ["id":account] : ["username":account]
         
-        APIManage.sharedManager.request(.GET, APIManage.Router.ApiMember, parameters: args).responseJSON(options: .AllowFragments) { (_, _, jsonObject, error) -> Void in
-            if error == nil {
-                let json = JSON(jsonObject!)
+        APIManage.sharedManager.request(.GET, APIManage.Router.ApiMember, parameters: args).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
+            if jsonObject.isSuccess {
+                let json = JSON(jsonObject.value!)
                 let status = json["status"]
                 if status == "found" {
                     let result = MemberModel(fromDictionary: json.dictionaryObject!)
@@ -88,7 +88,8 @@ class MemberModel: NSObject {
                 }
                 
             }else{
-                completionHandler(obj: nil, error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"用户获取失败"])
+                completionHandler(obj: nil, err)
             }
         }
     }

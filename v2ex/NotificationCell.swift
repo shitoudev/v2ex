@@ -57,7 +57,7 @@ class NotificationCell: UITableViewCell {
         contentLabel.text = dataModel.content
         dateTimeLabel.text = dataModel.smart_time
         let title = "    " + dataModel.member.username + " 在 " + dataModel.title + " 中提到了你" as NSString
-        var attributedStr = NSMutableAttributedString(string: title as String)
+        let attributedStr = NSMutableAttributedString(string: title as String)
         let range = title.rangeOfString(dataModel.member.username)
         attributedStr.addAttribute(NSFontAttributeName, value: UIFont.boldSystemFontOfSize(12), range: range)
         postTitleLabel.attributedText = attributedStr

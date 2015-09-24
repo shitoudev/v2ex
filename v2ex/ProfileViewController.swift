@@ -9,6 +9,7 @@
 import UIKit
 import v2exKit
 import TDBadgedCell
+import FontAwesome_swift
 
 class ProfileViewController: BaseViewController {
     
@@ -117,7 +118,7 @@ class ProfileViewController: BaseViewController {
             more.append(content)
         }
         if userInfo.btc != "" {
-            let content = ["text":(userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.Btc), "url":"http://blockexplorer.com/address/"+userInfo.btc!]
+            let content = ["text":(userInfo.btc)!, "font":String.fontAwesomeIconWithName(FontAwesome.BTC), "url":"http://blockexplorer.com/address/"+userInfo.btc!]
             more.append(content)
         }
         if userInfo.location != "" {
@@ -154,7 +155,8 @@ class ProfileViewController: BaseViewController {
     
     func containName(str: String) -> Bool {
         let name = [myTopicName, myReplyName, myNotiName]
-        return find(name, str) != nil
+        return name.contains(str)
+//        return find(name, str) != nil
     }
     
     // MARK: NSNotification
@@ -179,7 +181,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.section==0 && indexPath.row==0 {
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoID") as! UITableViewCell
+            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("userInfoID")!
             
             let avatarImageView = cell.viewWithTag(1) as! UIImageView
             avatarImageView.layer.cornerRadius = 5
@@ -234,8 +236,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.textLabel?.text = font + "  " + str
                 cell.textLabel?.font = UIFont.fontAwesomeOfSize(14)
             }
-            
-            
             return cell
         }else{
             return UITableViewCell()

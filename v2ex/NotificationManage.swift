@@ -8,6 +8,7 @@
 
 import Foundation
 import v2exKit
+import Kanna
 
 public class NotificationManage: NSObject {
 
@@ -45,16 +46,16 @@ public class NotificationManage: NSObject {
         }
 //        println("timerHandler")
         let url = APIManage.baseURLString
-        APIManage.sharedManager.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
-            if error == nil {
-                var err: NSError?
-                let parser = HTMLParser(html: str!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-                let bodyNode = parser.body
-                if let notificationNode: HTMLNode = bodyNode?.findChildTagAttr("a", attrName: "href", attrValue: "/notifications") where !notificationNode.contents.isEmpty {
-                    let components = notificationNode.contents.componentsSeparatedByString(" ")
+        APIManage.sharedManager.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+            if str.isSuccess {
+                guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+                    return
+                }
+                if let notificationNode = doc.at_css("a[href='/notifications']"), docText = notificationNode.text {
+                    let components = docText.componentsSeparatedByString(" ")
                     if components.first != nil {
-                        let unreadNum = components.first?.toInt()
-                        self.unreadCount = unreadNum!
+                        let unreadNum = (components.first! as NSString).integerValue //.toInt()
+                        self.unreadCount = unreadNum
                     }
                 }
             }
@@ -62,11 +63,11 @@ public class NotificationManage: NSObject {
     }
     
     func timerStop() {
-        notificationTimer.fireDate = NSDate.distantFuture() as! NSDate
+        notificationTimer.fireDate = NSDate.distantFuture()
     }
     
     func timerRestart() {
-        println(notificationTimer)
-        notificationTimer.fireDate = NSDate.distantPast() as! NSDate
+        print(notificationTimer)
+        notificationTimer.fireDate = NSDate.distantPast()
     }
 }

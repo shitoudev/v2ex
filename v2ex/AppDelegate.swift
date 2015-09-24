@@ -20,12 +20,14 @@ public let v2exUserLogoutSuccessNotification = "shitou.v2exUserLogoutSuccessNoti
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    /// 需要跳转的VC
     var openURLQueue: [UIViewController] = []
+    /// 应用是否处于活动中
+    var appActiveing = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        var navigationBar = UINavigationBar.appearance()
+        let navigationBar = UINavigationBar.appearance()
         navigationBar.barTintColor = kAppNormalColor
         navigationBar.tintColor = UIColor.whiteColor()
         navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
@@ -38,14 +40,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationManage.sharedManager
 
         if MemberModel.sharedMember.isLogin() {
-            println("登录中")
+            print("登录中")
         } else {
-            println("未登录")
+            print("未登录")
             NotificationManage.sharedManager.timerStop()
         }
 //        MemberModel.sharedMember.removeUserData()
-        
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Badge|UIUserNotificationType.Alert|UIUserNotificationType.Sound, categories: nil))
+        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Alert, .Sound], categories: nil))
         
         Fabric.with([Crashlytics()])
         Flurry.startSession("4PJF88FR8SBPJBV3R69V")
@@ -61,66 +62,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if MemberModel.sharedMember.isLogin() {
             NotificationManage.sharedManager.timerStop()
         }
-        println("applicationWillResignActive")
+        appActiveing = false
+        print("applicationWillResignActive")
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        println("applicationDidEnterBackground")
+        print("applicationDidEnterBackground")
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        println("applicationWillEnterForeground")
+        print("applicationWillEnterForeground")
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if openURLQueue.count > 0 {
-            let viewController = openURLQueue.first!
-            let tabbarController = application.keyWindow?.rootViewController as! UITabBarController
-            if let selectedViewController = tabbarController.selectedViewController as? UINavigationController {
-                selectedViewController.pushViewController(viewController, animated: true)
-                openURLQueue.removeAll(keepCapacity: true)
-            }
-        }
+        pushToViewController()
+        
         if MemberModel.sharedMember.isLogin() {
             NotificationManage.sharedManager.timerRestart()
         }
-        println("applicationDidBecomeActive")
+        appActiveing = true
+        print("applicationDidBecomeActive")
     }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        return handlerURL(url)
+    }
+    
+    func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        return userActivityType == "com.apple.corespotlightitem"
+    }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        print("continueUserActivity")
+        let identifier = userActivity.userInfo?["kCSSearchableItemActivityIdentifier"] as! String
+        let url = NSURL(string: identifier)!
+        return handlerURL(url)
+    }
+    
+    func handlerURL(url: NSURL) -> Bool {
+        print("url = \(url)")
         let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: true)!
-        if urlComponents.host == "post" {
-            if let queryItems = urlComponents.queryItems {
-                var postId = 0
-                for item in queryItems {
-                    if (item as! NSURLQueryItem).name == "postId" {
-                        if let val = (item as! NSURLQueryItem).value {
-                            postId = val.toInt()!
-                            break
-                        }
-                    }
-                }
-                if postId > 0 {
-                    openURLQueue.removeAll(keepCapacity: true)
-                    let viewController = PostDetailViewController().allocWithRouterParams(nil)
-                    viewController.postId = postId
-                    openURLQueue.append(viewController)
-                }
-                
+        guard let host = urlComponents.host, queryItems = urlComponents.queryItems where host == "post" else {
+            return false
+        }
+        var postId = 0
+        for item in queryItems {
+            if let val = item.value where item.name == "postId" {
+                postId = (val as NSString).integerValue
+                break
             }
+        }
+        guard postId > 0 else {
+            return false
+        }
+        openURLQueue.removeAll(keepCapacity: true)
+        let viewController = PostDetailViewController().allocWithRouterParams(nil)
+        viewController.postId = postId
+        openURLQueue.append(viewController)
+        if appActiveing {
+            pushToViewController()
         }
         return true
     }
-
-
+    
+    func pushToViewController() {
+        guard openURLQueue.count > 0 else {
+            return
+        }
+        let application = UIApplication.sharedApplication()
+        let viewController = openURLQueue.first!
+        let tabbarController = application.keyWindow?.rootViewController as! UITabBarController
+        if let selectedViewController = tabbarController.selectedViewController as? UINavigationController {
+            selectedViewController.pushViewController(viewController, animated: true)
+            openURLQueue.removeAll(keepCapacity: true)
+        }
+    }
 }
 

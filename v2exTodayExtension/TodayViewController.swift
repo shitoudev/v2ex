@@ -47,7 +47,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return UIEdgeInsets(top: 0, left: 8, bottom: 15, right: 0)
     }
     
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
 
         // If an error is encountered, use NCUpdateResult.Failed
@@ -63,7 +63,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.reloadTableViewData(isPull: true)
     }
     
-    func reloadTableViewData(#isPull: Bool) {
+    func reloadTableViewData(isPull pull: Bool) {
         
     }
     
@@ -73,7 +73,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
     // UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("todayPostCellId") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("todayPostCellId")!
         
         let post = dataSouce[indexPath.row] as! NSDictionary
         cell.textLabel?.text = post["title"] as? String
@@ -91,8 +91,9 @@ extension TodayViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let post = dataSouce[indexPath.row] as! NSDictionary
-        let postId: AnyObject = post["id"]!
-        self.extensionContext?.openURL(NSURL(string: "v2ex://post/?postId=\(postId)")!, completionHandler: { (succ) -> Void in
+        let postId = post["id"]! as! Int
+        let url = String(format: kAppPostScheme, arguments: [postId])
+        self.extensionContext?.openURL(NSURL(string: url)!, completionHandler: { (succ) -> Void in
             
         })
     }

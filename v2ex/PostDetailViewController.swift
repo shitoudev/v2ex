@@ -12,6 +12,7 @@ import JDStatusBarNotification
 import TTTAttributedLabel
 import v2exKit
 import SnapKit
+import Kanna
 
 class PostDetailViewController: BaseViewController {
     
@@ -52,10 +53,7 @@ class PostDetailViewController: BaseViewController {
         tableView.registerNib(UINib(nibName: "CommentCell", bundle: nil), forCellReuseIdentifier: "commentCellId")
         tableView.estimatedRowHeight = 90
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        let footerView = UIView.new()
-        footerView.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = footerView
+        tableView.tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -97,7 +95,7 @@ class PostDetailViewController: BaseViewController {
         reloadTableViewData(isPull: true)
     }
     
-    func reloadTableViewData(#isPull: Bool) {
+    func reloadTableViewData(isPull pull: Bool) {
 //        self.postId = 199762
         PostDetailModel.getPostDetail(postId, completionHandler: { (detail, error) -> Void in
             if error == nil {
@@ -129,7 +127,7 @@ class PostDetailViewController: BaseViewController {
                 CommentModel.getComments(self.postId, salt:salt, completionHandler: { (obj, error) -> Void in
                     if error == nil {
                         self.tableView.beginUpdates()
-                        for (index, val) in enumerate(obj) {
+                        for (index, val) in obj.enumerate() {
                             self.dataSouce.append(val)
                             
                             let row = self.tableView.numberOfRowsInSection(0)+index
@@ -138,12 +136,12 @@ class PostDetailViewController: BaseViewController {
                         }
                         self.tableView.endUpdates()
                     }
-                    if isPull {
+                    if pull {
                         self.refreshControl.endRefreshing()
                     }
                 })
             }else{
-                if isPull {
+                if pull {
                     self.refreshControl.endRefreshing()
                 }
             }
@@ -179,9 +177,7 @@ class PostDetailViewController: BaseViewController {
     func sendButtonTapped(sender: UIButton) {
         if !MemberModel.sharedMember.isLogin() {
             let accountViewController = AccountViewController().allocWithRouterParams(nil)
-            presentViewController(UINavigationController(rootViewController: accountViewController), animated: true, completion: { () -> Void in
-                
-            })
+            presentViewController(UINavigationController(rootViewController: accountViewController), animated: true, completion: nil)
             return
         }
         if getTextView().text.isEmpty {
@@ -190,47 +186,34 @@ class PostDetailViewController: BaseViewController {
         JDStatusBarNotification.showWithStatus("提交中...", styleName: JDStatusBarStyleDark)
         JDStatusBarNotification.showActivityIndicator(true, indicatorStyle: UIActivityIndicatorViewStyle.White)
         // get once code
-        let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
+        let mgr = APIManage.sharedManager
         let url = APIManage.Router.Post + String(postId) // String(199762)
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil) { (req, resp, str, error) -> Void in
-            
-            if error == nil {
-                let once = APIManage.getOnceStringFromHtmlResponse(str!)
-                if !once.isEmpty {
-                    // submit comment
-                    mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(url, forKey: "Referer")
-                    mgr.request(.POST, url, parameters: ["content":self.getTextView().text, "once":once]).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
-                        //                        println("args = \(self.getTextView().text + once), str = \(str)")
-                        if (error == nil && str != nil) {
-                            var err: NSError?
-                            let parser = HTMLParser(html: str!, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-                            let bodyNode = parser.body
-                            let headNode = parser.head
-                            
-                            if let canonical = headNode?.findChildTagAttr("link", attrName: "rel", attrValue: "canonical") {
-                                // success
-                                self.submitSuccessData()
-                            } else {
-                                var errorStr = "提交失败，错误未捕捉到:["
-                                if let divNode: HTMLNode = bodyNode?.findChildTagAttr("div", attrName: "class", attrValue: "problem") {
-                                    if let liNode = divNode.findChildTag("li") {
-                                        errorStr = liNode.contents
-                                    }
-                                }
-                                JDStatusBarNotification.showWithStatus(errorStr, dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
-                            }
-                        }else{
-                            JDStatusBarNotification.showWithStatus("提交失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil) { (req, resp, str) -> Void in
+            if str.isSuccess, let once = APIManage.getOnceStringFromHtmlResponse(str.value!) {
+                // submit comment
+                mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(url, forKey: "Referer")
+                mgr.request(.POST, url, parameters: ["content":self.getTextView().text, "once":once]).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+                    //                        println("args = \(self.getTextView().text + once), str = \(str)")
+                    if str.isSuccess {
+                        guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+                            JDStatusBarNotification.showWithStatus("数据解析失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                            return
                         }
-                        //                        println("cookies___ = \(mgr.session.configuration.HTTPCookieStorage?.cookies)")
-                    })
-                } else {
-                    JDStatusBarNotification.showWithStatus("once 获取失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
-                }
+                        if let divProblem = doc.at_css("div[class='problem']"), liNode = divProblem.at_css("li"), problem = liNode.text {
+                            let errorStr = problem
+                            JDStatusBarNotification.showWithStatus(errorStr, dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                        } else {
+                            // success
+                            self.submitSuccessData()
+                        }
+                    }else{
+                        JDStatusBarNotification.showWithStatus("提交失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                    }
+                    //                        println("cookies___ = \(mgr.session.configuration.HTTPCookieStorage?.cookies)")
+                })
             } else {
-                JDStatusBarNotification.showWithStatus(error!.localizedDescription + "提交失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
+                JDStatusBarNotification.showWithStatus("once 获取失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
             }
-            
         }
     }
     
@@ -260,23 +243,22 @@ class PostDetailViewController: BaseViewController {
     }
     
     // MARK: Key-value observing
-    
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        
-        let oldContentSize = change[NSKeyValueChangeOldKey]!.CGSizeValue()
-        let newContentSize = change[NSKeyValueChangeNewKey]!.CGSizeValue()
-        
-        let dy = newContentSize.height - oldContentSize.height
-        
-        toolbarHeightConstraint.constant = toolbarHeightConstraint.constant + dy
-        view.setNeedsUpdateConstraints()
-        view.layoutIfNeeded()
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if let newContentSize = change?[NSKeyValueChangeNewKey]!.CGSizeValue() {
+            var dy = newContentSize.height
+            if let oldContentSize = change?[NSKeyValueChangeOldKey]!.CGSizeValue() {
+                dy -= oldContentSize.height
+            }
+            toolbarHeightConstraint.constant = toolbarHeightConstraint.constant + dy
+            view.setNeedsUpdateConstraints()
+            view.layoutIfNeeded()
+        }
     }
     
     // MARK: Utilities
     
     func addObservers() {
-        getTextView().addObserver(self, forKeyPath: "contentSize", options: .Old | .New, context: nil)
+        getTextView().addObserver(self, forKeyPath: "contentSize", options: [.Old, .New], context: nil)
     }
     
     func removeObservers() {
@@ -293,21 +275,21 @@ class PostDetailViewController: BaseViewController {
 extension PostDetailViewController: TTTAttributedLabelDelegate {
     func attributedLabel(label: TTTAttributedLabel!, didSelectLinkWithURL url: NSURL!) {
         if url != nil {
-            if let urlStr = url.absoluteString {
-                if urlStr.hasPrefix("@") {
-                    let username = (urlStr as NSString).substringFromIndex(1)
-                    
-                    let profileViewController = ProfileViewController().allocWithRouterParams(nil)
-                    profileViewController.isMine = false
-                    profileViewController.username = username
-                    navigationController?.pushViewController(profileViewController, animated: true)
-                } else {
-                    let webViewController = WebViewController()
-                    webViewController.loadURLWithString(url.absoluteString!)
-                    navigationController?.pushViewController(webViewController, animated: true)
+            if let urlStr: String = url.absoluteString {
+                    if urlStr.hasPrefix("@") {
+                        let username = (urlStr as NSString).substringFromIndex(1)
+                        
+                        let profileViewController = ProfileViewController().allocWithRouterParams(nil)
+                        profileViewController.isMine = false
+                        profileViewController.username = username
+                        navigationController?.pushViewController(profileViewController, animated: true)
+                    } else {
+                        let webViewController = WebViewController()
+                        webViewController.loadURLWithString(url.absoluteString)
+                        navigationController?.pushViewController(webViewController, animated: true)
+                    }
                 }
             }
-        }
     }
 }
 
@@ -325,7 +307,7 @@ extension PostDetailViewController: AtUserTableViewDelegate {
 extension PostDetailViewController: UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         if !textView.text.isEmpty && dataSouce.count > 0 {
-            if last(textView.text) == " " {
+            if textView.text.characters.last == " " {
                 atTableView?.hidden = true
                 return
             }

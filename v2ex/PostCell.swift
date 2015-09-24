@@ -9,6 +9,7 @@
 import UIKit
 import v2exKit
 import SnapKit
+import FontAwesome_swift
 
 class PostCell: UITableViewCell {
     

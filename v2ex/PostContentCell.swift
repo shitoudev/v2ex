@@ -34,7 +34,7 @@ class PostContentCell: UITableViewCell {
         
         contentLabel.font = UIFont.systemFontOfSize(14)
         var linkAttributes = Dictionary<String, AnyObject>()
-        linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
+        linkAttributes[kCTForegroundColorAttributeName as String] = UIColor.colorWithHexString(kLinkColor).CGColor
         contentLabel.linkAttributes = linkAttributes
         contentLabel.extendsLinkTouchArea = false
         contentLabel.font = kContentFont
@@ -56,17 +56,17 @@ class PostContentCell: UITableViewCell {
             // username
             usernameRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
                 
-                if result != nil {
-                    addLinkAttributed(mutableAttributedString, range: result.range)
-                    linkRange.append(result.range)
+                if let resultVal = result {
+                    addLinkAttributed(mutableAttributedString, range: resultVal.range)
+                    linkRange.append(resultVal.range)
                 }
             })
             // http link
             httpRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
                 
-                if result != nil {
-                    addLinkAttributed(mutableAttributedString, range: result.range)
-                    linkRange.append(result.range)
+                if let resultVal = result {
+                    addLinkAttributed(mutableAttributedString, range: resultVal.range)
+                    linkRange.append(resultVal.range)
                 }
             })
             

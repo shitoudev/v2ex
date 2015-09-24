@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 class PostTableView: UITableView {
     
@@ -33,10 +34,7 @@ class PostTableView: UITableView {
         rowHeight = 56
         layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         registerNib(UINib(nibName: "PostCell", bundle: nil), forCellReuseIdentifier: "postCellId")
-        
-        let footerView = UIView.new()
-        footerView.backgroundColor = UIColor.clearColor()
-        tableFooterView = footerView
+        tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -51,7 +49,7 @@ class PostTableView: UITableView {
         self.reloadTableViewData(isPull: true)
     }
     
-    func reloadTableViewData(#isPull: Bool) {        
+    func reloadTableViewData(isPull pull: Bool) {
         PostModel.getPostList(self.dataType, target: self.target, completionHandler: { (obj, error) -> Void in
             if error == nil {
                 self.dataSouce = obj
@@ -59,7 +57,7 @@ class PostTableView: UITableView {
                 
             }
             
-            if isPull {
+            if pull {
                 self.refreshControl.endRefreshing()
             }
         })

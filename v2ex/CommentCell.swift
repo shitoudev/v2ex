@@ -10,8 +10,8 @@ import UIKit
 import TTTAttributedLabel
 import v2exKit
 
-let usernameRegularExpression = NSRegularExpression(pattern: "@[^.\"?]((?!\\.)\\w){2,}", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
-let httpRegularExpression = NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w+?&#/%=~\\-|@$?!:,.]*", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
+let usernameRegularExpression = try! NSRegularExpression(pattern: "@[^.\"?]((?!\\.)\\w){2,}", options: NSRegularExpressionOptions.CaseInsensitive)
+let httpRegularExpression = try!  NSRegularExpression(pattern: "(?:https?|ftp|file)://[\\w+?&#/%=~\\-|@$?!:,.]*", options: NSRegularExpressionOptions.CaseInsensitive)
 
 //let httpRegularExpression = NSRegularExpression(pattern: "(?<![.*\">])\\b(?:(?:https?|ftp|file)://|[a-z]\\.)[-A-Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]", options: NSRegularExpressionOptions.CaseInsensitive, error: nil)!
 
@@ -37,7 +37,7 @@ class CommentCell: UITableViewCell {
         usernameButton.setTitleColor(UIColor.colorWithHexString(kLinkColor), forState: .Normal)
         
         var linkAttributes = Dictionary<String, AnyObject>()
-        linkAttributes[kCTForegroundColorAttributeName as! String] = UIColor.colorWithHexString(kLinkColor).CGColor
+        linkAttributes[kCTForegroundColorAttributeName as String] = UIColor.colorWithHexString(kLinkColor).CGColor
         contentLabel.linkAttributes = linkAttributes
         contentLabel.extendsLinkTouchArea = false
         contentLabel.font = kContentFont
@@ -66,18 +66,18 @@ class CommentCell: UITableViewCell {
                 let stringRange = NSMakeRange(0, mutableAttributedString.length)
                 // username
                 usernameRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
-                    
-                    if result != nil {
-                        addLinkAttributed(mutableAttributedString, range: result.range)
-                        linkRange.append(result.range)
+
+                    if let resultVal = result {
+                        addLinkAttributed(mutableAttributedString, range: resultVal.range)
+                        linkRange.append(resultVal.range)
                     }
                 })
                 // http link
                 httpRegularExpression.enumerateMatchesInString(mutableAttributedString.string, options: NSMatchingOptions.ReportCompletion, range: stringRange, usingBlock: { (result, flags, stop) -> Void in
                     
-                    if result != nil {
-                        addLinkAttributed(mutableAttributedString, range: result.range)
-                        linkRange.append(result.range)
+                    if let resultVal = result {
+                        addLinkAttributed(mutableAttributedString, range: resultVal.range)
+                        linkRange.append(resultVal.range)
                     }
 //                    println("result = \(result), flags = \(flags)")
                 })

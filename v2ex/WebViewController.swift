@@ -28,7 +28,7 @@ class WebViewController: BaseViewController {
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         self.commonInit()
     }
     
@@ -101,7 +101,7 @@ class WebViewController: BaseViewController {
     
     func loadURLWithString(urlString: String) {
         if let URL = NSURL(string: urlString) {
-            if (URL.scheme != nil) && (URL.host != nil) {
+            if (!URL.scheme.isEmpty) && (URL.host != nil) {
                 self.urlString = urlString
                 loadURL(URL)
                 return
@@ -117,15 +117,18 @@ class WebViewController: BaseViewController {
     }
     
     // MARK: KVO
-    
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        switch keyPath {
-        case "estimatedProgress":
-            if let newValue = change[NSKeyValueChangeNewKey] as? NSNumber {
-                progressChanged(newValue)
-            }
-        default:
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        guard let key = keyPath else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+
+        switch key {
+            case "estimatedProgress":
+                if let newValue = change?[NSKeyValueChangeNewKey] as? NSNumber {
+                    progressChanged(newValue)
+                }
+            default: break
         }
     }
     
@@ -162,7 +165,7 @@ class WebViewController: BaseViewController {
             updateToolbarItems()
             title = "加载取消"
         } else {
-            if let url = webView.URL {
+            if let _ = webView.URL {
                 webView.reload()
             } else {
                 if urlString != nil {
@@ -203,7 +206,7 @@ class WebViewController: BaseViewController {
                 
                 // Proceed only if a valid Google Chrome URI Scheme is available.
                 if !chromeScheme.isEmpty {
-                    let absoluteString = inputURL.absoluteString!
+                    let absoluteString = inputURL.absoluteString
                     let rangeForScheme = absoluteString.rangeOfString(":")!
                     
                     let urlNoScheme = absoluteString.substringFromIndex(rangeForScheme.startIndex)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 class NodeViewController: BaseViewController{
     
@@ -30,10 +31,7 @@ class NodeViewController: BaseViewController{
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 48
-        
-        let footerView = UIView.new()
-        footerView.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = footerView
+        tableView.tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -59,22 +57,22 @@ class NodeViewController: BaseViewController{
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "userStatusChanged:", object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "userStatusChanged:", object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: v2exUserLogoutSuccessNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: v2exUserLoginSuccessNotification, object: nil)
     }
     
     func refresh() {
         self.reloadTableViewData(isPull: true)
     }
     
-    func reloadTableViewData(#isPull: Bool) {
+    func reloadTableViewData(isPull pull: Bool) {
         
         NodeModel.getNodeList({ (obj, error) -> Void in
             if error == nil {
                 self.dataSouce = obj
             }
             
-            if isPull {
+            if pull {
                 self.refreshControl.endRefreshing()
             }
         })
@@ -97,7 +95,7 @@ class NodeViewController: BaseViewController{
 extension NodeViewController: UITableViewDelegate, UITableViewDataSource {
     // UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("nodeCellId") as! UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("nodeCellId")!
         cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         let node = getNodesBySection(indexPath.section)[indexPath.row]

@@ -9,8 +9,9 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import Kanna
 
-class CommentModel: JSONAble {
+class CommentModel: NSObject {
     
     var comment_id: Int
     var content: String
@@ -58,19 +59,18 @@ class CommentModel: JSONAble {
         let url = APIManage.Router.ApiComment + String(postId) + salt
         
         var result = [CommentModel]()
-        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (_, _, jsonObject, error) -> Void in
+        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
             
-            if error == nil {
-                let json = JSON(jsonObject!).arrayValue
-                
+            if jsonObject.isSuccess {
+                let json = JSON(jsonObject.value!).arrayValue
                 for item in json {
-                    var comment = CommentModel(fromDictionary: item.dictionaryObject!)
+                    let comment = CommentModel(fromDictionary: item.dictionaryObject!)
                     result.append(comment)
                 }
-                
                 completionHandler(obj: result, nil)
             }else{
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
             
         }
@@ -88,13 +88,14 @@ class CommentModel: JSONAble {
         let url = APIManage.Router.Post + String(postId) + "?p=\(page)"
         var result = [CommentModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
             
-            if error == nil {
-                result = self.getCommentsFromHtmlResponse(str!)
+            if str.isSuccess {
+                result = self.getCommentsFromHtmlResponse(str.value!)
                 completionHandler(obj: result, nil)
             } else {
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
         })
     }
@@ -108,47 +109,37 @@ class CommentModel: JSONAble {
     */
     private static func getCommentsFromHtmlResponse(respStr: String) -> [CommentModel] {
         var result = [CommentModel]()
-        var err: NSError?
-        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
-        
-        let bodyNode = parser.body
-        if let divs = bodyNode?.findChildTagsAttr("div", attrName: "class", attrValue: "cell") {
-            for div in divs {
-                if let table = div.findChildTag("table") {
-                    var comment_id = 0, avatar = "", content = "", username = "", smart_time = ""
-                    let divId = div.getAttributeNamed("id")
-                    if !divId.isEmpty {
-                        // avatar
-                        if let avatarNode: HTMLNode = table.findChildTagAttr("img", attrName: "class", attrValue: "avatar") {
-                            avatar = avatarNode.getAttributeNamed("src")
-                            // comment id
-                            let divId = div.getAttributeNamed("id")
-                            let components = divId.componentsSeparatedByString("_")
-                            if let lastStr = components.last {
-                                comment_id = lastStr.toInt()!
-                            }
-                            // username
-                            if let usernameNode = table.findChildTagAttr("a", attrName: "class", attrValue: "dark") {
-                                username = usernameNode.contents
-                            }
-                            // content
-                            if let contentNode = table.findChildTagAttr("div", attrName: "class", attrValue: "reply_content") {
-                                content = contentNode.rawContents
-                            }
-                            // smart time
-                            if let timeNode = table.findChildTagAttr("span", attrName: "class", attrValue: "fade small") {
-                                smart_time = timeNode.contents
-                            }
-                            let comment = ["id":comment_id, "content":content, "smart_time":smart_time, "member":["username":username, "avatar_large":avatar]]
-                            var commentModel = CommentModel(fromDictionary: comment)
-                            commentModel.apiData = false
-                            result.append(commentModel)
-                        }
-                    }
-                }
-            }
+        guard let doc = HTML(html: respStr, encoding: NSUTF8StringEncoding) else {
+            return result
         }
         
+        for div in doc.body!.css("div[class='cell']") {
+            if let table = div.at_css("table"), divId = div["id"], avatarNode = table.at_css("img[class='avatar']") {
+                var comment_id = 0, avatar = "", content = "", username = "", smart_time = ""
+                avatar = avatarNode["src"]!
+                // comment id
+                let components = divId.componentsSeparatedByString("_")
+                if let lastStr = components.last {
+                    comment_id = (lastStr as NSString).integerValue
+                }
+                // username
+                if let usernameNode = table.at_css("a[class='dark']"), nameText = usernameNode.text {
+                    username = nameText
+                }
+                // content
+                if let contentNode = table.at_css("div[class='reply_content']"), text = contentNode.text {
+                    content = text
+                }
+                // smart time
+                if let timeNode = table.at_css("span[class='fade small']"), timeText = timeNode.text {
+                    smart_time = timeText
+                }
+                let comment = ["id":comment_id, "content":content, "smart_time":smart_time, "member":["username":username, "avatar_large":avatar]]
+                let commentModel = CommentModel(fromDictionary: comment)
+                commentModel.apiData = false
+                result.append(commentModel)
+            }
+        }
         return result
     }
     

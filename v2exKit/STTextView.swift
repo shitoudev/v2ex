@@ -28,7 +28,7 @@ public class STTextView: UITextView {
     }
 
     required public init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         self.configureTextView()
     }
     
@@ -45,7 +45,7 @@ public class STTextView: UITextView {
     override public func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
-        if count(self.text) == 0 && self.placeHolder != nil {
+        if text.characters.count == 0 && self.placeHolder != nil {
             self.placeHolderTextColor.set()
             
             self.placeHolder.drawInRect(CGRectInset(rect, 7.0, 6.0), withAttributes: self.placeholderTextAttributes())
@@ -76,12 +76,12 @@ public class STTextView: UITextView {
         
     }
     
-    func placeholderTextAttributes() -> [NSObject : AnyObject] {
+    func placeholderTextAttributes() -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         paragraphStyle.alignment = self.textAlignment;
-        
-        let attr = [NSFontAttributeName:self.font, NSForegroundColorAttributeName: placeHolderTextColor, NSParagraphStyleAttributeName: paragraphStyle]
+
+        let attr = [NSFontAttributeName: font!, NSForegroundColorAttributeName: placeHolderTextColor, NSParagraphStyleAttributeName: paragraphStyle]
         
         return attr
     }

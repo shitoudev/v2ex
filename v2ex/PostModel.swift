@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import v2exKit
+import Kanna
 
 enum PostType: Int {
     case Api
@@ -18,7 +19,7 @@ enum PostType: Int {
     case User
 }
 
-class PostModel: JSONAble {
+class PostModel: NSObject {
 
     var postId: Int, replies: Int
     var title: String, node: String, latestReplyTime: String
@@ -51,10 +52,10 @@ class PostModel: JSONAble {
             let url = APIManage.Router.Navi + target
             var result = [PostModel]()
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
                 
-                if error == nil {
-                    result = self.getPostsFromHtmlResponse(str!)
+                if str.isSuccess {
+                    result = self.getPostsFromHtmlResponse(str.value!)
                     if target == "hot" {
                         // 保存3条数据，供 today extension 使用
                         self.saveDataForTodayExtension(result)
@@ -62,7 +63,8 @@ class PostModel: JSONAble {
                     
                     completionHandler(obj: result, nil)
                 } else {
-                    completionHandler(obj: [], error)
+                    let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                    completionHandler(obj: [], err)
                 }
             })
             
@@ -71,13 +73,14 @@ class PostModel: JSONAble {
             let url = (postType == .Node) ?  (APIManage.Router.Node + target) : (APIManage.Router.Member + target + "/topics")
             var result = [PostModel]()
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
                 
-                if error == nil {
-                    result = self.getPostsFromHtmlResponse(str!)
+                if str.isSuccess {
+                    result = self.getPostsFromHtmlResponse(str.value!)
                     completionHandler(obj: result, nil)
                 } else {
-                    completionHandler(obj: [], error)
+                    let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                    completionHandler(obj: [], err)
                 }
             })
             
@@ -92,10 +95,10 @@ class PostModel: JSONAble {
     */
     static func getLatestPosts(completionHandler:(obj: [PostModel], NSError?) -> Void) {
         var result = [PostModel]()
-        Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (_, _, jsonObject, error) -> Void in
+        Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
             
-            if error == nil {
-                let json = JSON(jsonObject!).arrayValue
+            if jsonObject.isSuccess {
+                let json = JSON(jsonObject.value!).arrayValue
                 
                 for item in json {
                     let itemObj = item.dictionaryObject!
@@ -108,13 +111,14 @@ class PostModel: JSONAble {
                     let latestReplyTime = ""
                     let replies = itemObj["replies"] as! Int
                     let post = ["postId":postId, "replies":replies, "avatar":avatar, "title":title, "node":node, "username":username, "latestReplyTime":latestReplyTime, "member":["username":username, "avatar_large":avatar]] as NSDictionary
-                    var postModel = PostModel(fromDictionary: post)
+                    let postModel = PostModel(fromDictionary: post)
                     result.append(postModel)
                 }
                 
                 completionHandler(obj: result, nil)
             }else{
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
             
         }
@@ -130,13 +134,14 @@ class PostModel: JSONAble {
         let url = APIManage.Router.Member + username
         var result = [PostModel]()
         let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str, error) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
             
-            if error == nil {
-                result = self.getPostsFromHtmlResponse(str!)
+            if str.isSuccess {
+                result = self.getPostsFromHtmlResponse(str.value!)
                 completionHandler(obj: result, nil)
             } else {
-                completionHandler(obj: [], error)
+                let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
+                completionHandler(obj: [], err)
             }
         })
     }
@@ -150,51 +155,43 @@ class PostModel: JSONAble {
     */
     static func getPostsFromHtmlResponse(respStr: String) -> [PostModel] {
         var result = [PostModel]()
-        var err: NSError?
-        let parser = HTMLParser(html: respStr, encoding: NSUTF8StringEncoding, option: CInt(HTML_PARSE_NOERROR.value | HTML_PARSE_RECOVER.value), error: &err)
         
-        let bodyNode = parser.body
-        if let tables = bodyNode?.findChildTags("table") {
-            if !tables.isEmpty {
-                for oneNode: HTMLNode in tables {
-                    var postId = 0, avatar = "", title = "", node = "", username = "", latestReplyTime = "", replies = 0
-                    // id & title
-                    if let titleObj: HTMLNode = oneNode.findChildTagAttr("span", attrName: "class", attrValue: "item_title") {
-                        if let titleNode = titleObj.findChildTag("a") {
-                            title = titleNode.contents
-                            let href = titleNode.getAttributeNamed("href")
-                            let components = href.componentsSeparatedByString("/")
-                            if let componentsId = components.last?.componentsSeparatedByString("#") {
-                                if let first = componentsId.first {
-                                    postId = first.toInt()!
-                                }
-                            }
-                        }
-                        // avatar
-                        if let avatarNode: HTMLNode = oneNode.findChildTagAttr("img", attrName: "class", attrValue: "avatar") {
-                            avatar = avatarNode.getAttributeNamed("src")
-                        }
-                        // node
-                        if let nodeObj: HTMLNode = oneNode.findChildTagAttr("a", attrName: "class", attrValue: "node") {
-                            node = nodeObj.contents
-                        }
-                        // username
-                        if let strongObj: HTMLNode =  oneNode.findChildTag("strong") {
-                            if let usernameNode = strongObj.findChildTag("a") {
-                                username = usernameNode.contents
-                            }
-                        }
-                        // replies
-                        if let repliesNode: HTMLNode = oneNode.findChildTagAttr("a", attrName: "class", attrValue: "count_livid") {
-                            replies = repliesNode.contents.toInt()!
-                        }
-                        let post = ["postId":postId, "replies":replies, "title":title, "node":node, "latestReplyTime":latestReplyTime, "member":["username":username, "avatar_large":avatar]] as NSDictionary
-                        //                    println("post = \(post)")
-                        var postModel = PostModel(fromDictionary: post)
-                        result.append(postModel)
+        guard let doc = HTML(html: respStr, encoding: NSUTF8StringEncoding) else {
+            return result
+        }
+        
+        for oneNode in doc.body!.css("table") {
+            var postId = 0, avatar = "", title = "", node = "", username = "", latestReplyTime = "", replies = 0
+            if let titleObj = oneNode.at_css("span[class='item_title']"), titleNode = titleObj.at_css("a"), titleText = titleNode.text {
+                title = titleText
+                let href = titleNode["href"]!
+                let components = href.componentsSeparatedByString("/")
+                if let componentsId = components.last?.componentsSeparatedByString("#") {
+                    if let first = componentsId.first {
+                        postId = (first as NSString).integerValue
                     }
                 }
                 
+                // avatar
+                if let avatarNode = oneNode.at_css("img[class='avatar']") {
+                    avatar = avatarNode["src"]!
+                }
+                // node
+                if let nodeObj = oneNode.at_css("a[class='node']"), nodeText = nodeObj.text {
+                    node = nodeText
+                }
+                // username
+                if let strongObj =  oneNode.at_css("strong"), usernameNode = strongObj.at_css("a"), usernameText = usernameNode.text {
+                    username = usernameText
+                }
+                // replies
+                if let repliesNode = oneNode.at_css("a[class='count_livid']"), repliesText = repliesNode.text {
+                    replies = (repliesText as NSString).integerValue
+                }
+                let post = ["postId":postId, "replies":replies, "title":title, "node":node, "latestReplyTime":latestReplyTime, "member":["username":username, "avatar_large":avatar]] as NSDictionary
+                //                    println("post = \(post)")
+                let postModel = PostModel(fromDictionary: post)
+                result.append(postModel)
             }
         }
         
@@ -204,7 +201,7 @@ class PostModel: JSONAble {
     static func saveDataForTodayExtension (post: [PostModel]) -> Void {
         // 保存3条数据，供 today extension 使用
         var dataSouce = [NSDictionary]()
-        for (idx, val) in enumerate(post) {
+        for (idx, val) in post.enumerate() {
             if idx == 3 {
                 break
             }

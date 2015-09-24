@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 class NotificationViewController: UITableViewController {
     
@@ -32,10 +33,7 @@ class NotificationViewController: UITableViewController {
         tableView.layoutMargins = UIEdgeInsetsZero
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableViewAutomaticDimension
-        
-        let footerView = UIView.new()
-        footerView.backgroundColor = UIColor.clearColor()
-        tableView.tableFooterView = footerView
+        tableView.tableFooterView = defaultTableFooterView
         
         reloadTableViewData(isPull: false)
     }
@@ -45,7 +43,7 @@ class NotificationViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func reloadTableViewData(#isPull: Bool) {
+    func reloadTableViewData(isPull pull: Bool) {
         NotificationModel.getUserNotifications { (obj, error) -> Void in
             if error == nil {
                 self.dataSouce = obj
