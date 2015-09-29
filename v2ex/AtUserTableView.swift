@@ -9,7 +9,7 @@
 import UIKit
 import v2exKit
 
-protocol AtUserTableViewDelegate {
+protocol AtUserTableViewDelegate: NSObjectProtocol {
     func didSelectedUser(user: MemberModel)
 }
 
@@ -22,7 +22,7 @@ class AtUserTableView: UITableView {
         }
     }
     var searchText: String!
-    var atDelegate: AtUserTableViewDelegate?
+    weak var atDelegate: AtUserTableViewDelegate?
     
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame: frame, style: style)
