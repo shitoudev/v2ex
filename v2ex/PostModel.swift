@@ -52,10 +52,10 @@ class PostModel: NSObject {
             let url = APIManage.Router.Navi + target
             var result = [PostModel]()
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
-                
-                if str.isSuccess {
-                    result = self.getPostsFromHtmlResponse(str.value!)
+            mgr.request(.GET, url).responseString(completionHandler: { (response) -> Void in
+            
+                if response.result.isSuccess {
+                    result = self.getPostsFromHtmlResponse(response.result.value!)
                     if target == "hot" {
                         // 保存3条数据，供 today extension 使用
                         self.saveDataForTodayExtension(result)
@@ -73,10 +73,10 @@ class PostModel: NSObject {
             let url = (postType == .Node) ?  (APIManage.Router.Node + target) : (APIManage.Router.Member + target + "/topics")
             var result = [PostModel]()
             let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+            mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
                 
-                if str.isSuccess {
-                    result = self.getPostsFromHtmlResponse(str.value!)
+                if response.result.isSuccess {
+                    result = self.getPostsFromHtmlResponse(response.result.value!)
                     completionHandler(obj: result, nil)
                 } else {
                     let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])
@@ -95,10 +95,10 @@ class PostModel: NSObject {
     */
     static func getLatestPosts(completionHandler:(obj: [PostModel], NSError?) -> Void) {
         var result = [PostModel]()
-        Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
+        Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (response) -> Void in
             
-            if jsonObject.isSuccess {
-                let json = JSON(jsonObject.value!).arrayValue
+            if response.result.isSuccess {
+                let json = JSON(response.result.value!).arrayValue
                 
                 for item in json {
                     let itemObj = item.dictionaryObject!
@@ -134,10 +134,10 @@ class PostModel: NSObject {
         let url = APIManage.Router.Member + username
         var result = [PostModel]()
         let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
             
-            if str.isSuccess {
-                result = self.getPostsFromHtmlResponse(str.value!)
+            if response.result.isSuccess {
+                result = self.getPostsFromHtmlResponse(response.result.value!)
                 completionHandler(obj: result, nil)
             } else {
                 let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])

@@ -59,10 +59,10 @@ class CommentModel: NSObject {
         let url = APIManage.Router.ApiComment + String(postId) + salt
         
         var result = [CommentModel]()
-        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
+        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (response) -> Void in
             
-            if jsonObject.isSuccess {
-                let json = JSON(jsonObject.value!).arrayValue
+            if response.result.isSuccess {
+                let json = JSON(response.result.value!).arrayValue
                 for item in json {
                     let comment = CommentModel(fromDictionary: item.dictionaryObject!)
                     result.append(comment)
@@ -88,10 +88,10 @@ class CommentModel: NSObject {
         let url = APIManage.Router.Post + String(postId) + "?p=\(page)"
         var result = [CommentModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
             
-            if str.isSuccess {
-                result = self.getCommentsFromHtmlResponse(str.value!)
+            if response.result.isSuccess {
+                result = self.getCommentsFromHtmlResponse(response.result.value!)
                 completionHandler(obj: result, nil)
             } else {
                 let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])

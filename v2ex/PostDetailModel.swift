@@ -44,10 +44,10 @@ class PostDetailModel: NSObject {
         
         let url = APIManage.Router.ApiTopic + String(postId)
         
-        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
+        Alamofire.request(.GET, url).responseJSON(options: .AllowFragments) { (response) -> Void in
             
-            if jsonObject.isSuccess {
-                let json = JSON(jsonObject.value!).arrayValue
+            if response.result.isSuccess {
+                let json = JSON(response.result.value!).arrayValue
                 let first = json.first?.dictionaryObject
                 let data = PostDetailModel(fromDictionary: first!)
                 completionHandler(detail: data, nil)

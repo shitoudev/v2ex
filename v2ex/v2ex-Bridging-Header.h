@@ -12,10 +12,10 @@
 #import <libxml/HTMLtree.h>
 #import <libxml/xpath.h>
 
-#import <DAKeyboardControl/DAKeyboardControl.h>
-#import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
-#import <FlurrySDK/Flurry.h>
-#import <TDBadgedCell/TDBadgedCell.h>
+#import "Flurry.h"
+#import "JDStatusBarNotification.h"
+#import "TDBadgedCell.h"
+#import "DAKeyboardControl.h"
 
 #endif

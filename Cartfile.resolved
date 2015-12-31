@@ -1,0 +1,8 @@
+github "Alamofire/Alamofire" "3.1.4"
+github "thii/FontAwesome.swift" "0.7.0"
+github "tid-kijyun/Kanna" "1.0.4"
+github "onevcat/Kingfisher" "1.9.0"
+github "SnapKit/SnapKit" "0.18.0"
+github "SwiftyJSON/SwiftyJSON" "2.3.3"
+github "radex/SwiftyUserDefaults" "2.0.0"
+github "TTTAttributedLabel/TTTAttributedLabel" "1.13.4"

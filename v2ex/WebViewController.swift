@@ -184,7 +184,7 @@ class WebViewController: BaseViewController {
             pasteboard.string = self.webView.URL?.absoluteString
         })
         let safariAction = UIAlertAction(title: "在Safari中浏览", style: .Default) { (action) -> Void in
-            UIApplication.sharedApplication().openURL(webView.URL!)
+            UIApplication.sharedApplication().openURL(self.webView.URL!)
         }
         alertViewController.addAction(cancelAction)
         alertViewController.addAction(copyAction)
