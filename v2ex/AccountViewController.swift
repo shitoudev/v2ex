@@ -8,7 +8,6 @@
 
 import UIKit
 import Alamofire
-import JDStatusBarNotification
 import Kanna
 
 enum SwitchType: Int {
@@ -122,16 +121,16 @@ class AccountViewController: UITableViewController {
         
         let signinUrl = APIManage.Router.Signin
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, signinUrl, parameters: nil).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (req, resp, str) -> Void in
-            if !str.isSuccess {
+        mgr.request(.GET, signinUrl, parameters: nil).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (response) -> Void in
+            if !response.result.isSuccess {
                 JDStatusBarNotification.showWithStatus("请求once失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                 return
             }
-            if let once = APIManage.getOnceStringFromHtmlResponse(str.value!) {
+            if let once = APIManage.getOnceStringFromHtmlResponse(response.result.value!) {
                 // 请求登录
-                mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"], encoding: .URL, headers: ["Referer": signinUrl]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (req, resp, str) -> Void in
-                    if str.isSuccess {
-                        guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+                mgr.request(.POST, signinUrl, parameters: ["u":account, "p":password, "once":once, "next":"/"], encoding: .URL, headers: ["Referer": signinUrl]).responseString(encoding: NSUTF8StringEncoding, completionHandler: { (response) -> Void in
+                    if response.result.isSuccess {
+                        guard let doc = HTML(html: response.result.value!, encoding: NSUTF8StringEncoding) else {
                             JDStatusBarNotification.showWithStatus("数据解析失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                             return
                         }

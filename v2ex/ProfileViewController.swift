@@ -8,8 +8,7 @@
 
 import UIKit
 import v2exKit
-import TDBadgedCell
-import FontAwesome_swift
+import FontAwesome
 
 class ProfileViewController: BaseViewController {
     

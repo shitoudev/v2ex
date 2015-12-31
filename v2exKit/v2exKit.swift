@@ -8,7 +8,7 @@
 
 import UIKit
 
-public let kAppGroupIdentifier = "group.cc.yueti.v2ex"
+public let kAppGroupIdentifier = "group.ccc.shitoudev.v2ex"
 public let kAppSharedDefaultsTodayExtensionDataKey = "cc.yueti.today.extension"
 public let kAppPostScheme = "v2ex://post/?postId=%d"
 

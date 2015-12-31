@@ -46,9 +46,9 @@ public class NotificationManage: NSObject {
         }
 //        println("timerHandler")
         let url = APIManage.baseURLString
-        APIManage.sharedManager.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
-            if str.isSuccess {
-                guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+        APIManage.sharedManager.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
+            if response.result.isSuccess {
+                guard let doc = HTML(html: response.result.value!, encoding: NSUTF8StringEncoding) else {
                     return
                 }
                 if let notificationNode = doc.at_css("a[href='/notifications']"), docText = notificationNode.text {

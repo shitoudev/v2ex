@@ -28,10 +28,10 @@ class MemberReplyModel: NSObject {
         let url = APIManage.Router.Member + username + "/replies"
         var result = [MemberReplyModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
             
-            if str.isSuccess {
-                result = self.getMemberRepliesFromHtmlResponse(str.value!)
+            if response.result.isSuccess {
+                result = self.getMemberRepliesFromHtmlResponse(response.result.value!)
                 completionHandler(obj: result, nil)
             } else {
                 let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])

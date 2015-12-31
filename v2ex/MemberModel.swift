@@ -75,9 +75,9 @@ class MemberModel: NSObject {
         
         let args = (account is Int) ? ["id":account] : ["username":account]
         
-        APIManage.sharedManager.request(.GET, APIManage.Router.ApiMember, parameters: args).responseJSON(options: .AllowFragments) { (_, _, jsonObject) -> Void in
-            if jsonObject.isSuccess {
-                let json = JSON(jsonObject.value!)
+        APIManage.sharedManager.request(.GET, APIManage.Router.ApiMember, parameters: args).responseJSON(options: .AllowFragments) { (response) -> Void in
+            if response.result.isSuccess {
+                let json = JSON(response.result.value!)
                 let status = json["status"]
                 if status == "found" {
                     let result = MemberModel(fromDictionary: json.dictionaryObject!)

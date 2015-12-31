@@ -25,7 +25,7 @@ class NodeModel: NSObject {
             self.header = header
         }
     }
-    
+
     static func getNodeList(completionHandler:(obj: [AnyObject]?, NSError?)->Void) {
         
         let url = APIManage.baseURLString
@@ -33,10 +33,10 @@ class NodeModel: NSObject {
         var result = [AnyObject]()
 
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, respStr) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
             
-            if respStr.isSuccess {
-                guard let doc = HTML(html: respStr.value!, encoding: NSUTF8StringEncoding) else {
+            if response.result.isSuccess {
+                guard let doc = HTML(html: response.result.value!, encoding: NSUTF8StringEncoding) else {
                     completionHandler(obj: result, nil)
                     return
                 }

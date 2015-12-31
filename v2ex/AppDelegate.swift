@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        MemberModel.sharedMember.removeUserData()
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Badge, .Alert, .Sound], categories: nil))
         
-        Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics.self])
         Flurry.startSession("4PJF88FR8SBPJBV3R69V")
         
         // Override point for customization after application launch.

@@ -43,10 +43,10 @@ class NotificationModel: NSObject {
         let url = APIManage.Router.Notification
         var result = [NotificationModel]()
         let mgr = APIManage.sharedManager
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil, completionHandler: { (response) -> Void in
             
-            if str.isSuccess {
-                result = self.getPostsFromHtmlResponse(str.value!)
+            if response.result.isSuccess {
+                result = self.getPostsFromHtmlResponse(response.result.value!)
                 completionHandler(obj: result, nil)
             } else {
                 let err = NSError(domain: APIManage.domain, code: 202, userInfo: [NSLocalizedDescriptionKey:"数据获取失败"])

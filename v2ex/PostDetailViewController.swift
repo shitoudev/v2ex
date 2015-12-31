@@ -8,7 +8,6 @@
 
 import UIKit
 import SnapKit
-import JDStatusBarNotification
 import TTTAttributedLabel
 import v2exKit
 import SnapKit
@@ -188,14 +187,14 @@ class PostDetailViewController: BaseViewController {
         // get once code
         let mgr = APIManage.sharedManager
         let url = APIManage.Router.Post + String(postId) // String(199762)
-        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil) { (req, resp, str) -> Void in
-            if str.isSuccess, let once = APIManage.getOnceStringFromHtmlResponse(str.value!) {
+        mgr.request(.GET, url, parameters: nil).responseString(encoding: nil) { (response) -> Void in
+            if response.result.isSuccess, let once = APIManage.getOnceStringFromHtmlResponse(response.result.value!) {
                 // submit comment
                 mgr.session.configuration.HTTPAdditionalHeaders?.updateValue(url, forKey: "Referer")
-                mgr.request(.POST, url, parameters: ["content":self.getTextView().text, "once":once]).responseString(encoding: nil, completionHandler: { (req, resp, str) -> Void in
+                mgr.request(.POST, url, parameters: ["content":self.getTextView().text, "once":once]).responseString(encoding: nil, completionHandler: { (response) -> Void in
                     //                        println("args = \(self.getTextView().text + once), str = \(str)")
-                    if str.isSuccess {
-                        guard let doc = HTML(html: str.value!, encoding: NSUTF8StringEncoding) else {
+                    if response.result.isSuccess {
+                        guard let doc = HTML(html: response.result.value!, encoding: NSUTF8StringEncoding) else {
                             JDStatusBarNotification.showWithStatus("数据解析失败:[", dismissAfter: _dismissAfter, styleName: JDStatusBarStyleWarning)
                             return
                         }
