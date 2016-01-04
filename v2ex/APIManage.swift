@@ -57,6 +57,12 @@ class APIManage: Manager {
         static var Notification: String {
             return APIManage.baseURLString + "notifications"
         }
+        static var FindPwd: String {
+            return APIManage.baseURLString + "forgot"
+        }
+        static var Captcha: String {
+            return APIManage.baseURLString + "_captcha"
+        }
         
     }
     
