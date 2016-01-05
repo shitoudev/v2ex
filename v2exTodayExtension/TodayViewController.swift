@@ -13,7 +13,7 @@ import v2exKit
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var tableView: UITableView!
-    var dataSouce: NSArray! {
+    var dataSouce = []  {
         didSet {
             tableView.reloadData()
         }
@@ -27,9 +27,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         tableView.dataSource = self
         tableView.rowHeight = 44
         
-        let userDefaults = NSUserDefaults(suiteName: kAppGroupIdentifier)
-        let data = userDefaults?.objectForKey(kAppSharedDefaultsTodayExtensionDataKey) as? NSArray
-        self.dataSouce = data?.count > 0 ? data : []
+        reloadTableViewData(nil)
+        refresh(nil)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -54,17 +53,28 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
         
-        //TODO: 从网络获取数据
-
-        completionHandler(NCUpdateResult.NewData)
+        // 从网络获取数据
+        refresh(completionHandler)
     }
     
-    func refresh() {
-        self.reloadTableViewData(isPull: true)
+    func refresh(completionHandler: ((NCUpdateResult) -> Void)?) {
+        PostModel.getPostList(PostType.Navi, target: "hot") { (obj, error) -> Void in
+            self.reloadTableViewData(completionHandler)
+        }
     }
     
-    func reloadTableViewData(isPull pull: Bool) {
-        
+    func reloadTableViewData(completionHandler: ((NCUpdateResult) -> Void)?) {
+        var result = NCUpdateResult.NoData
+        let userDefaults = NSUserDefaults(suiteName: kAppGroupIdentifier)
+        let data = userDefaults?.objectForKey(kAppSharedDefaultsTodayExtensionDataKey) as? NSArray
+        if data?.count > 0, let souceFirst = dataSouce.firstObject{
+            let first = data!.firstObject
+            if souceFirst["id"] as! Int != first!["id"] as! Int {
+                result = .NewData
+            }
+        }
+        self.dataSouce = data?.count > 0 ? data! : []
+        completionHandler?(result)
     }
     
 }

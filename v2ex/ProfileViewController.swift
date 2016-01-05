@@ -273,6 +273,9 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 let okAction = UIAlertAction(title: "退出登录", style: .Default, handler: { (action) -> Void in
                     self.userInfo = nil
                     MemberModel.sharedMember.removeUserData()
+                    // reset notification count
+                    NotificationManage.sharedManager.unreadCount = 0
+                    NotificationManage.sharedManager.timerStop()
                     self.addAccountViewController()
                     self.datasource.removeAll(keepCapacity: false)
                     self.tableView.reloadData();
