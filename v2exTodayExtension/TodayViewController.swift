@@ -16,6 +16,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     var dataSouce = []  {
         didSet {
             tableView.reloadData()
+            let height = Int(tableView.rowHeight) * dataSouce.count
+            preferredContentSize = CGSize(width: view.width, height: CGFloat(height))
         }
     }
     
@@ -29,12 +31,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         reloadTableViewData(nil)
         refresh(nil)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        let height = Int(tableView.rowHeight) * dataSouce.count
-        preferredContentSize = CGSize(width: view.width, height: CGFloat(height))
     }
     
     override func didReceiveMemoryWarning() {
