@@ -9,21 +9,20 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
-import v2exKit
 import Kanna
 
-enum PostType: Int {
+public enum PostType: Int {
     case Api
     case Node
     case Navi
     case User
 }
 
-class PostModel: NSObject {
+public class PostModel: NSObject {
 
-    var postId: Int, replies: Int
-    var title: String, node: String, latestReplyTime: String
-    var member: MemberModel
+    public var postId: Int, replies: Int
+    public var title: String, node: String, latestReplyTime: String
+    public var member: MemberModel
     
     init(fromDictionary dictionary: NSDictionary) {
         
@@ -41,7 +40,7 @@ class PostModel: NSObject {
     :param: target            主题类型目标
     :param: completionHandler
     */
-    static func getPostList(postType:PostType, target:String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
+    public static func getPostList(postType:PostType, target:String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
 
         if postType == .Api {
             PostModel.getLatestPosts({ (obj, errer) -> Void in
@@ -93,7 +92,7 @@ class PostModel: NSObject {
     
     :param: completionHandler
     */
-    static func getLatestPosts(completionHandler:(obj: [PostModel], NSError?) -> Void) {
+    public static func getLatestPosts(completionHandler:(obj: [PostModel], NSError?) -> Void) {
         var result = [PostModel]()
         Alamofire.request(.GET, APIManage.Router.ApiLatest).responseJSON(options: .AllowFragments) { (response) -> Void in
             
@@ -130,7 +129,7 @@ class PostModel: NSObject {
     :param: username
     :param: completionHandler
     */
-    static func getUserPosts(username: String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
+    public static func getUserPosts(username: String, completionHandler:(obj: [PostModel], NSError?) -> Void) {
         let url = APIManage.Router.Member + username
         var result = [PostModel]()
         let mgr = APIManage.sharedManager //Alamofire.Manager(configuration: cfg)
@@ -153,7 +152,7 @@ class PostModel: NSObject {
     
     :returns: post 数组
     */
-    static func getPostsFromHtmlResponse(respStr: String) -> [PostModel] {
+    public static func getPostsFromHtmlResponse(respStr: String) -> [PostModel] {
         var result = [PostModel]()
         
         guard let doc = HTML(html: respStr, encoding: NSUTF8StringEncoding) else {

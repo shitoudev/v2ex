@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Kanna
+import v2exKit
 
 enum SwitchType: Int {
     case LOGIN

@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import Kanna
+import v2exKit
 
 class CommentModel: NSObject {
     
