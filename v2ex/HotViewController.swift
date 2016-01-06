@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import v2exKit
 
 class HotViewController: BaseViewController {
     

@@ -9,9 +9,6 @@
 #ifndef v2ex_v2ex_Bridging_Header_h
 #define v2ex_v2ex_Bridging_Header_h
 
-#import <libxml/HTMLtree.h>
-#import <libxml/xpath.h>
-
 #import <TTTAttributedLabel/TTTAttributedLabel.h>
 #import "Flurry.h"
 #import "JDStatusBarNotification.h"

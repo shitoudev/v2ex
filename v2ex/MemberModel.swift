@@ -12,11 +12,11 @@ import SwiftyJSON
 private let dict = NSUserDefaults.standardUserDefaults().objectForKey(APIManage.domain) as? NSDictionary
 private let sharedInstance = dict==nil ? MemberModel(fromDictionary: ["id":0, "username":"", "avatar_large":""]) : MemberModel(fromDictionary: dict!)
 
-class MemberModel: NSObject {
-    var username: String, avatar_large: String
-    var uid: Int?, website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
+public class MemberModel: NSObject {
+    public var username: String, avatar_large: String
+    public var uid: Int?, website: String?, twitter: String?, psn: String?, github: String?, btc: String?, location: String?, tagline: String?, bio: String?, created: Int?
     
-    init(fromDictionary dictionary: NSDictionary) {
+    public init(fromDictionary dictionary: NSDictionary) {
 
         self.username = dictionary["username"] as! String
         self.avatar_large = dictionary["avatar_large"] as! String
@@ -38,21 +38,21 @@ class MemberModel: NSObject {
 
     }
 
-    class var sharedMember: MemberModel {
+    public class var sharedMember: MemberModel {
         return sharedInstance
     }
     
-    func isLogin() -> Bool {
+    public func isLogin() -> Bool {
         return (uid != 0) && !username.isEmpty
     }
     
-    func saveUserData() {
+    public func saveUserData() {
         let defaults = NSUserDefaults.standardUserDefaults()
         defaults.setObject(["id":uid!, "username":username, "avatar_large":avatar_large], forKey: APIManage.domain)
         defaults.synchronize()
     }
     
-    func removeUserData() {
+    public func removeUserData() {
         self.uid = 0
         self.username = ""
         self.avatar_large = ""
@@ -66,12 +66,9 @@ class MemberModel: NSObject {
                 cookiesStorage.deleteCookie(cookie)
             }
         }
-        // reset notification count
-        NotificationManage.sharedManager.unreadCount = 0
-        NotificationManage.sharedManager.timerStop()
     }
     
-    static func getUserInfo(account: AnyObject, completionHandler: (obj: MemberModel?, NSError?)->Void) {
+    public static func getUserInfo(account: AnyObject, completionHandler: (obj: MemberModel?, NSError?)->Void) {
         
         let args = (account is Int) ? ["id":account] : ["username":account]
         

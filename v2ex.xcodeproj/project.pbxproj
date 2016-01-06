@@ -19,6 +19,12 @@
 		972D99AF1B38352F0069C052 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972D99AE1B38352F0069C052 /* TodayViewController.swift */; };
 		972D99B11B38352F0069C052 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 972D99B01B38352F0069C052 /* MainInterface.storyboard */; };
 		972D99B41B38352F0069C052 /* v2exTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 972D99A81B38352F0069C052 /* v2exTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9737B7681C3B750600720ED5 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C5F1B218E5700F38FB1 /* PostModel.swift */; };
+		9737B7691C3B752100720ED5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97667C191C3510D600810222 /* Alamofire.framework */; };
+		9737B76A1C3B755100720ED5 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97667C1B1C3510D600810222 /* SwiftyJSON.framework */; };
+		9737B76B1C3B755500720ED5 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97667C071C34EA0200810222 /* Kanna.framework */; };
+		9737B76C1C3B75A200720ED5 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB753E1AFCAF0900872416 /* MemberModel.swift */; };
+		9737B76D1C3B75BB00720ED5 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
 		974205031B300E8800F07E5E /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205021B300E8800F07E5E /* PostViewController.swift */; };
 		974205051B30708300F07E5E /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974205041B30708300F07E5E /* PostCell.swift */; };
 		974205071B3070BA00F07E5E /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 974205061B3070BA00F07E5E /* PostCell.xib */; };
@@ -56,7 +62,6 @@
 		97BA7CE81AF47FBB00950A0C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97BA7CE61AF47FBB00950A0C /* LaunchScreen.xib */; };
 		97BA7CF41AF47FBB00950A0C /* v2exTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BA7CF31AF47FBB00950A0C /* v2exTests.swift */; };
 		97BA7D001AF483B100950A0C /* HotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BA7CFF1AF483B100950A0C /* HotViewController.swift */; };
-		97BB753F1AFCAF0900872416 /* MemberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB753E1AFCAF0900872416 /* MemberModel.swift */; };
 		97BB75411AFCC15D00872416 /* NodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75401AFCC15D00872416 /* NodeModel.swift */; };
 		97BB75431AFCEE7A00872416 /* LatestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75421AFCEE7A00872416 /* LatestViewController.swift */; };
 		97BB75451AFCF8AA00872416 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BB75441AFCF8AA00872416 /* NodeViewController.swift */; };
@@ -68,7 +73,6 @@
 		97D645271B3C4936005B4485 /* v2exKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D645261B3C4936005B4485 /* v2exKit.swift */; };
 		97D6B4991B457E450043499B /* PostContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B4981B457E450043499B /* PostContentCell.swift */; };
 		97E62EBE1B11CD5E00589989 /* APIManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E62EBD1B11CD5E00589989 /* APIManage.swift */; };
-		97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C5F1B218E5700F38FB1 /* PostModel.swift */; };
 		97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C631B21AC5700F38FB1 /* PostTableView.swift */; };
 		97E76C6A1B24AB3700F38FB1 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C691B24AB3700F38FB1 /* PostDetailViewController.swift */; };
 		97E76C6C1B24AE3600F38FB1 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E76C6B1B24AE3600F38FB1 /* CommentCell.swift */; };
@@ -78,6 +82,8 @@
 		97EA80521B3AAD87002C7C48 /* v2exKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97EA80471B3AAD87002C7C48 /* v2exKit.framework */; };
 		97EA805B1B3AAD87002C7C48 /* v2exKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EA805A1B3AAD87002C7C48 /* v2exKitTests.swift */; };
 		97EA805F1B3AAD87002C7C48 /* v2exKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 97EA80471B3AAD87002C7C48 /* v2exKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		97EEC5631C3BA79E0056613B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97667C191C3510D600810222 /* Alamofire.framework */; };
+		97EEC5641C3BA7A80056613B /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97667C071C34EA0200810222 /* Kanna.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,7 +214,7 @@
 		97BA7CF31AF47FBB00950A0C /* v2exTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = v2exTests.swift; sourceTree = "<group>"; };
 		97BA7CFF1AF483B100950A0C /* HotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotViewController.swift; sourceTree = "<group>"; };
 		97BB753B1AFBB08200872416 /* v2ex.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = v2ex.playground; sourceTree = "<group>"; };
-		97BB753E1AFCAF0900872416 /* MemberModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberModel.swift; sourceTree = "<group>"; };
+		97BB753E1AFCAF0900872416 /* MemberModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MemberModel.swift; path = ../v2ex/MemberModel.swift; sourceTree = "<group>"; };
 		97BB75401AFCC15D00872416 /* NodeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeModel.swift; sourceTree = "<group>"; };
 		97BB75421AFCEE7A00872416 /* LatestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestViewController.swift; sourceTree = "<group>"; };
 		97BB75441AFCF8AA00872416 /* NodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
@@ -220,7 +226,7 @@
 		97D645261B3C4936005B4485 /* v2exKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = v2exKit.swift; sourceTree = "<group>"; };
 		97D6B4981B457E450043499B /* PostContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContentCell.swift; sourceTree = "<group>"; };
 		97E62EBD1B11CD5E00589989 /* APIManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManage.swift; sourceTree = "<group>"; };
-		97E76C5F1B218E5700F38FB1 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		97E76C5F1B218E5700F38FB1 /* PostModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PostModel.swift; path = ../v2ex/PostModel.swift; sourceTree = "<group>"; };
 		97E76C631B21AC5700F38FB1 /* PostTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostTableView.swift; sourceTree = "<group>"; };
 		97E76C691B24AB3700F38FB1 /* PostDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		97E76C6B1B24AE3600F38FB1 /* CommentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
@@ -239,7 +245,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97EEC5641C3BA7A80056613B /* Kanna.framework in Frameworks */,
 				97667BFB1C34E74900810222 /* v2exKit.framework in Frameworks */,
+				97EEC5631C3BA79E0056613B /* Alamofire.framework in Frameworks */,
 				972D99AA1B38352F0069C052 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +282,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9737B76A1C3B755100720ED5 /* SwiftyJSON.framework in Frameworks */,
+				9737B7691C3B752100720ED5 /* Alamofire.framework in Frameworks */,
+				9737B76B1C3B755500720ED5 /* Kanna.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,9 +418,7 @@
 			isa = PBXGroup;
 			children = (
 				97A067A31AF4B3C400EB475C /* JSONAble.swift */,
-				97BB753E1AFCAF0900872416 /* MemberModel.swift */,
 				97BB75401AFCC15D00872416 /* NodeModel.swift */,
-				97E76C5F1B218E5700F38FB1 /* PostModel.swift */,
 				97E76C6F1B25485C00F38FB1 /* PostDetailModel.swift */,
 				97213D0C1B25739500F99FBC /* CommentModel.swift */,
 				976418491B58B8A4003986EE /* MemberReplyModel.swift */,
@@ -494,6 +503,8 @@
 			isa = PBXGroup;
 			children = (
 				97EA804B1B3AAD87002C7C48 /* v2exKit.h */,
+				97BB753E1AFCAF0900872416 /* MemberModel.swift */,
+				97E76C5F1B218E5700F38FB1 /* PostModel.swift */,
 				97EA80491B3AAD87002C7C48 /* Supporting Files */,
 				97D645261B3C4936005B4485 /* v2exKit.swift */,
 				974F65191B3FF66300927B37 /* STColor.swift */,
@@ -843,7 +854,6 @@
 				97667C041C34E84B00810222 /* JDStatusBarStyle.m in Sources */,
 				97E76C641B21AC5700F38FB1 /* PostTableView.swift in Sources */,
 				97667C121C3509A800810222 /* TDBadgedCell.m in Sources */,
-				97E76C601B218E5700F38FB1 /* PostModel.swift in Sources */,
 				97BA7CDC1AF47FBB00950A0C /* AppDelegate.swift in Sources */,
 				979D11961B858AD900B113DB /* NotificationManage.swift in Sources */,
 				97667C181C350E8900810222 /* DAKeyboardControl.m in Sources */,
@@ -861,7 +871,6 @@
 				97213D0D1B25739500F99FBC /* CommentModel.swift in Sources */,
 				97BB75471AFCFA0100872416 /* WebViewController.swift in Sources */,
 				9764184A1B58B8A4003986EE /* MemberReplyModel.swift in Sources */,
-				97BB753F1AFCAF0900872416 /* MemberModel.swift in Sources */,
 				979D11941B84792600B113DB /* NotificationCell.swift in Sources */,
 				972752161AFFA078001A1F41 /* ProfileViewController.swift in Sources */,
 				974205031B300E8800F07E5E /* PostViewController.swift in Sources */,
@@ -886,8 +895,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				974F65201B3FF66300927B37 /* STDate.swift in Sources */,
+				9737B7681C3B750600720ED5 /* PostModel.swift in Sources */,
 				974F651F1B3FF66300927B37 /* STColor.swift in Sources */,
 				974F65221B3FF66300927B37 /* STTextView.swift in Sources */,
+				9737B76C1C3B75A200720ED5 /* MemberModel.swift in Sources */,
+				9737B76D1C3B75BB00720ED5 /* APIManage.swift in Sources */,
 				974F65231B3FF66300927B37 /* STView.swift in Sources */,
 				97D645271B3C4936005B4485 /* v2exKit.swift in Sources */,
 				974F65211B3FF66300927B37 /* STString.swift in Sources */,
@@ -960,7 +972,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -982,7 +997,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = v2exTodayExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
@@ -1189,12 +1207,18 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = v2exKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1226,8 +1250,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = v2exKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
