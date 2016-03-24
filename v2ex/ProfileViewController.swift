@@ -44,6 +44,7 @@ class ProfileViewController: BaseViewController {
     var indexPath: NSIndexPath?
 
     var datasource: [AnyObject]! {
+//    var datasource: [[String:AnyObject]]! {
         didSet {
             self.tableView.reloadData()
         }
@@ -75,7 +76,7 @@ class ProfileViewController: BaseViewController {
                 addAccountViewController()
             }
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLoginSuccess:", name: v2exUserLoginSuccessNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userLoginSuccess(_:)), name: v2exUserLoginSuccessNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -212,7 +213,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textLabel?.font = UIFont.systemFontOfSize(13)
             cell.accessoryType = UITableViewCellAccessoryType.None
             
-            let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
+            let dict = datasource[indexPath.section].objectAtIndex(indexPath.row)
             let str = dict["text"] as! String
             if str == "退出登录" {
                 cell.textLabel?.text = str
@@ -263,7 +264,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section==1 || indexPath.section==2  || indexPath.section==3{
             self.indexPath = indexPath
             
-            let dict = datasource[indexPath.section][indexPath.row] as! NSDictionary
+            let dict = datasource[indexPath.section].objectAtIndex(indexPath.row)
             let str = dict["text"] as! String
             if str == "退出登录" {
                 self.indexPath = nil

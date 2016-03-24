@@ -40,10 +40,10 @@ class WebViewController: BaseViewController {
         webView.navigationDelegate = self
         view.addSubview(webView)
         
-        self.backButtonItem = UIBarButtonItem(image: UIImage(named: "webBack"), style: UIBarButtonItemStyle.Plain, target: self, action: "backTapped:")
-        self.forwardButtonItem = UIBarButtonItem(image: UIImage(named: "webForward"), style: UIBarButtonItemStyle.Plain, target: self, action: "forwardTapped:")
-        self.refreshButtonItem = UIBarButtonItem(image: UIImage(named: "webRefresh"), style: UIBarButtonItemStyle.Plain, target: self, action: "refreshTapped:")
-        self.moreButtonItem = UIBarButtonItem(image: UIImage(named: "webMore"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreTapped:")
+        self.backButtonItem = UIBarButtonItem(image: UIImage(named: "webBack"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(backTapped(_:)))
+        self.forwardButtonItem = UIBarButtonItem(image: UIImage(named: "webForward"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(forwardTapped(_:)))
+        self.refreshButtonItem = UIBarButtonItem(image: UIImage(named: "webRefresh"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(refreshTapped(_:)))
+        self.moreButtonItem = UIBarButtonItem(image: UIImage(named: "webMore"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(moreTapped(_:)))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let flexibleSpace2 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         let flexibleSpace3 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)

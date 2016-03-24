@@ -34,13 +34,13 @@ class NodeViewController: BaseViewController{
         tableView.tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(self.refreshControl)
         
         reloadTableViewData(isPull: false)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLogoutSuccessNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userStatusChanged:", name: v2exUserLoginSuccessNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userStatusChanged(_:)), name: v2exUserLogoutSuccessNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(userStatusChanged(_:)), name: v2exUserLoginSuccessNotification, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
