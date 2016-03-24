@@ -31,7 +31,7 @@ public class NotificationManage: NSObject {
     override init() {
         super.init()
         
-        self.notificationTimer = NSTimer(timeInterval: 60, target: self, selector: Selector("timerHandler:"), userInfo: nil, repeats: true)
+        self.notificationTimer = NSTimer(timeInterval: 60, target: self, selector: #selector(timerHandler(_:)), userInfo: nil, repeats: true)
         NSRunLoop.mainRunLoop().addTimer(notificationTimer, forMode: NSRunLoopCommonModes)
     }
     

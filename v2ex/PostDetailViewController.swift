@@ -55,7 +55,7 @@ class PostDetailViewController: BaseViewController {
         tableView.tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.tableView.bounds)
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(self.refreshControl)
         
         reloadTableViewData(isPull: false)
@@ -66,7 +66,7 @@ class PostDetailViewController: BaseViewController {
         toolbarView.layer.addSublayer(topLayer)
 
         let sendButton = toolbarView.viewWithTag(11) as! UIButton
-        sendButton.addTarget(self, action: "sendButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        sendButton.addTarget(self, action: #selector(sendButtonTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         getTextView().delegate = self
         getTextView().placeHolder = "添加评论 输入@自动匹配用户..."
@@ -382,8 +382,8 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             cell.usernameButton.tag = indexPath.row
             
             if !cell.isButtonAddTarget {
-                cell.avatarButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
-                cell.usernameButton.addTarget(self, action: "commentUserTapped:", forControlEvents: .TouchUpInside)
+                cell.avatarButton.addTarget(self, action: #selector(commentUserTapped(_:)), forControlEvents: .TouchUpInside)
+                cell.usernameButton.addTarget(self, action: #selector(commentUserTapped(_:)), forControlEvents: .TouchUpInside)
                 cell.isButtonAddTarget = true
             }
             

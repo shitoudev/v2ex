@@ -51,7 +51,7 @@ class AccountViewController: UITableViewController {
 
         if let pvc = parentViewController where pvc is UINavigationController {
             navigationItem.title = "登录"
-            let item = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: "cancel:")
+            let item = UIBarButtonItem(title: "取消", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(cancel(_:)))
             navigationItem.leftBarButtonItem = item
         }
     }
@@ -109,11 +109,11 @@ class AccountViewController: UITableViewController {
         }else if indexPath.row==3 {
             let imageView = cell.viewWithTag(ViewTag.captchaView) as! UIImageView
             if let captchaOnce = once {
-                APIManage.sharedManager.request(.GET, APIManage.Router.Captcha + "?once=" + captchaOnce).responseData({ (response) -> Void in
+                APIManage.sharedManager.request(.GET, APIManage.Router.Captcha + "?once=" + captchaOnce).responseData { (response) -> Void in
                     if response.result.isSuccess {
                         imageView.image = UIImage(data: response.result.value!)
                     }
-                })
+                }
             }
         }else if indexPath.row==4 {
             updateSubmitButton(cell)
@@ -130,13 +130,13 @@ class AccountViewController: UITableViewController {
     
     func updateSubmitButton(cell: UITableViewCell) {
         let submit = cell.viewWithTag(ViewTag.submitButton) as! UIButton
-        submit.addTarget(self, action: "loginSubmit:", forControlEvents: UIControlEvents.TouchUpInside)
+        submit.addTarget(self, action: #selector(loginSubmit(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         var title = (type == .LOGIN) ? "登录" : "找回密码"
         submit.setTitle(title, forState: UIControlState.Normal)
-        let forgotPwd = cell.viewWithTag(ViewTag.forgotButton) as! UIButton
-        forgotPwd.addTarget(self, action: "forgotPwd:", forControlEvents: UIControlEvents.TouchUpInside)
+        let forgotPwdButton = cell.viewWithTag(ViewTag.forgotButton) as! UIButton
+        forgotPwdButton.addTarget(self, action: #selector(forgotPwd(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         title = (type == .LOGIN) ? "忘记密码？" : "我要登录"
-        forgotPwd.setTitle(title, forState: UIControlState.Normal)
+        forgotPwdButton.setTitle(title, forState: UIControlState.Normal)
     }
     
     // MARK: button tapped

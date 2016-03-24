@@ -37,7 +37,7 @@ class PostTableView: UITableView {
         tableFooterView = defaultTableFooterView
         
         self.refreshControl = UIRefreshControl(frame: self.bounds)
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), forControlEvents: UIControlEvents.ValueChanged)
         self.addSubview(self.refreshControl)
     }
 

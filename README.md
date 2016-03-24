@@ -1,6 +1,9 @@
 ### v2ex
 v2ex iOS 客户端
 
+### 运行条件
+Swift 2.2 & Xcode 7.3
+
 ### 应用程序截图
 ![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot/s_1.jpg)
 ![ScreenShot](https://raw.githubusercontent.com/shitoudev/v2ex/master/ScreenShot/s_2.jpg)

@@ -87,9 +87,9 @@ public class STTextView: UITextView {
     }
     
     func addTextViewNotificationObservers() -> Void {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveTextViewNotification:", name: UITextViewTextDidChangeNotification, object: self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveTextViewNotification:", name: UITextViewTextDidBeginEditingNotification, object: self)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveTextViewNotification:", name: UITextViewTextDidEndEditingNotification, object: self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveTextViewNotification(_:)), name: UITextViewTextDidChangeNotification, object: self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveTextViewNotification(_:)), name: UITextViewTextDidBeginEditingNotification, object: self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didReceiveTextViewNotification(_:)), name: UITextViewTextDidEndEditingNotification, object: self)
     }
     
     func removeTextViewNotificationObservers() -> Void {

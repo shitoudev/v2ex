@@ -31,7 +31,7 @@ class BaseViewController: UIViewController {
         reloadView.setTitleColor(UIColor.colorWithHexString("#333344"), forState: UIControlState.Normal)
         reloadView.titleLabel?.font = UIFont.systemFontOfSize(13.0)
         reloadView.hidden = true
-        reloadView.addTarget(self, action: "reloadViewTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        reloadView.addTarget(self, action: #selector(reloadViewTapped(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(reloadView)
     }
     

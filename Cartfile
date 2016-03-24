@@ -3,6 +3,6 @@ github "onevcat/Kingfisher" ~> 1.9
 github "SnapKit/SnapKit"
 github "radex/SwiftyUserDefaults"
 github "TTTAttributedLabel/TTTAttributedLabel"
-github "thii/FontAwesome.swift" >= 0.4.1
+github "thii/FontAwesome.swift" "0.7.0"
 github "SwiftyJSON/SwiftyJSON"
 github "Alamofire/Alamofire" ~> 3.0
